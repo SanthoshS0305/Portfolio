@@ -1,6 +1,5 @@
-title: Minimal theme
-logo: 1698102808224.jpg
-description: Minimal is a theme for GitHub Pages.
-show_downloads: true
-google_analytics:
-theme: jekyll-theme-minimal
+remote_theme: pages-themes/minimal@v0.2.0
+plugins:
+- jekyll-remote-theme
+title: Santhosh Senthil's Portfolio
+description: Coding Portfolio for Santhosh Senthil, a sophmore Computer Science Major at Stony Brook University, in Stony Brook, New York.
