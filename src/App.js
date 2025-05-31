@@ -206,14 +206,18 @@ function App() {
                   <p>Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
                   <div className="project-details">
                     <div className="project-text">
-                      <p>
-                        Developed a responsive web-based drum kit that allows users to play drums using keyboard controls. 
-                        Implemented real-time audio processing with the Web Audio API, featuring a custom sound library 
-                        management system and dynamic visual feedback for user interactions.
-                      </p>
+                      <li>Implemented <span className="highlight">Web Audio API</span> for real-time sound processing and playback</li>
+                      <li>Created <span className="highlight">event-driven architecture</span> for keyboard and mouse interactions</li>
+                      <li>Built <span className="highlight">custom audio manager</span> for sound library and playback control</li>
+                      <li>Utilized <span className="highlight">AudioContext</span> for precise timing and sound manipulation</li>
+                      <li>Implemented <span className="highlight">responsive design</span> with CSS Grid</li>
+                      <li>Added <span className="highlight">visual feedback system</span> for user interactions</li>
+                      <li>Created <span className="highlight">modular component structure</span> for easy maintenance</li>
+                      <li>Implemented <span className="highlight">keyboard event listeners</span> for drum triggers</li>
+                      <li>Added <span className="highlight">sound preloading</span> for seamless playback</li>
                     </div>
                     <div className="project-image">
-                      <img src="/assets/drum_kit.jpg" alt="Drum Kit Screenshot" />
+                      <img src="/assets/drum_kit.png" alt="Drum Kit Screenshot" />
                     </div>
                   </div>
                   <div className="tech-stack">
@@ -224,6 +228,14 @@ function App() {
                     <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       GitHub
+                    </a>
+                    <a href="https://web-drummer.netlify.app" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                      Live Demo
                     </a>
                   </div>
                 </div>
@@ -239,6 +251,14 @@ function App() {
                     <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       GitHub
+                    </a>
+                    <a href="https://web-drummer.netlify.app" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                      Live Demo
                     </a>
                   </div>
                 </>
