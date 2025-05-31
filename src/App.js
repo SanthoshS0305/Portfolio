@@ -67,11 +67,19 @@ function App() {
                   <h3>Discord Scam Detection Bot</h3>
                   <p>An intelligent Discord bot that automatically detects and filters spam messages using regex patterns, fuzzy string matching, and semantic similarity analysis.</p>
                   <div className="project-details">
-                    <p>
-                      This Discord bot leverages advanced natural language processing techniques to identify and filter out potential scam messages. 
-                      The implementation includes custom regex patterns for spam detection and fuzzy string matching to catch similar messages. 
-                      The bot's sophisticated analysis system helps maintain a safe environment by automatically identifying and removing malicious content.
-                    </p>
+                    <div className="project-text">
+                      <ul>
+                        <li><span className="highlight">Multi-layered spam detection:</span> Pattern matching (regex), Fuzzy string comparison, Semantic similarity (SentenceTransformer)</li>
+                        <li><span className="highlight">Adaptive learning system:</span> Persistent dataset storage, Dynamic threshold calculation, Pattern recognition from deleted messages</li>
+                        <li><span className="highlight">Server-specific configuration:</span> JSON-based persistence, Environment variable secrets, Configurable admin channels</li>
+                        <li><span className="highlight">Administrative controls:</span> Permission-gated operations, Approval workflow system, Comprehensive logging</li>
+                        <li><span className="highlight">Modular architecture:</span> Separated concerns (filtering, config, admin), Independent component scaling, Extensible detection methods</li>
+                        <li><span className="highlight">User-based weighting:</span> Join time consideration, Configurable time thresholds, Weighted scoring system</li>
+                      </ul>
+                    </div>
+                    <div className="project-image">
+                      <img src="/assets/discord_bot.png" alt="Discord Bot Screenshot" />
+                    </div>
                   </div>
                   <div className="tech-stack">
                     <span>Python</span>
@@ -113,9 +121,21 @@ function App() {
                   <h3>And Then I Woke Up Game</h3>
                   <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
                   <div className="project-details">
-                    <p>• Created immersive gameplay mechanics</p>
-                    <p>• Implemented dynamic level design</p>
-                    <p>• Developed custom game physics</p>
+                    <div className="project-text">
+                      <li>Built in <span className="highlight">Godot</span> using node-based architecture</li>
+                      <li>Core entities (player, enemies, projectiles) implemented as <span className="highlight">CharacterBody2D nodes</span></li>
+                      <li><span className="highlight">Global singleton</span> manages game state and level progression</li>
+                      <li>Enemy AI uses <span className="highlight">behavior trees</span> with inheritance for different types</li>
+                      <li>Combat system implements <span className="highlight">pool pattern</span> for projectile management</li>
+                      <li>Scene-based structure with dedicated level management nodes</li>
+                      <li><span className="highlight">Signal-based interaction</span> and dialogue systems</li>
+                      <li><span className="highlight">State machine pattern</span> for gameplay state transitions</li>
+                      <li><span className="highlight">Modular design</span> with clear separation of concerns</li>
+
+                    </div>
+                    <div className="project-image">
+                      <img src="/assets/And_then_I_woke_up.png" alt="Game Screenshot" />
+                    </div>
                   </div>
                   <div className="tech-stack">
                     <span>GDScript</span>
@@ -125,6 +145,21 @@ function App() {
                     <a href="https://github.com/SanthoshS0305/GDDC-Game-Jam-25" target="_blank" rel="noopener noreferrer">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       GitHub
+                    </a>
+                    <a href="https://bellatorrex.itch.io/and-then-i-woke-up" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                        <path d="M8 7h.01"></path>
+                        <path d="M12 7h.01"></path>
+                        <path d="M16 7h.01"></path>
+                        <path d="M8 11h.01"></path>
+                        <path d="M12 11h.01"></path>
+                        <path d="M16 11h.01"></path>
+                        <path d="M8 15h.01"></path>
+                        <path d="M12 15h.01"></path>
+                        <path d="M16 15h.01"></path>
+                      </svg>
+                      itch.io
                     </a>
                   </div>
                 </div>
@@ -141,6 +176,21 @@ function App() {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       GitHub
                     </a>
+                    <a href="https://bellatorrex.itch.io/and-then-i-woke-up" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                        <path d="M8 7h.01"></path>
+                        <path d="M12 7h.01"></path>
+                        <path d="M16 7h.01"></path>
+                        <path d="M8 11h.01"></path>
+                        <path d="M12 11h.01"></path>
+                        <path d="M16 11h.01"></path>
+                        <path d="M8 15h.01"></path>
+                        <path d="M12 15h.01"></path>
+                        <path d="M16 15h.01"></path>
+                      </svg>
+                      itch.io
+                    </a>
                   </div>
                 </>
               )}
@@ -155,9 +205,16 @@ function App() {
                   <h3>JavaScript Drum Kit</h3>
                   <p>Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
                   <div className="project-details">
-                    <p>• Implemented real-time audio processing</p>
-                    <p>• Created responsive UI with keyboard controls</p>
-                    <p>• Added custom sound library management</p>
+                    <div className="project-text">
+                      <p>
+                        Developed a responsive web-based drum kit that allows users to play drums using keyboard controls. 
+                        Implemented real-time audio processing with the Web Audio API, featuring a custom sound library 
+                        management system and dynamic visual feedback for user interactions.
+                      </p>
+                    </div>
+                    <div className="project-image">
+                      <img src="/assets/drum_kit.jpg" alt="Drum Kit Screenshot" />
+                    </div>
                   </div>
                   <div className="tech-stack">
                     <span>JavaScript</span>
@@ -197,9 +254,16 @@ function App() {
                   <h3>Broomstick Chase Game</h3>
                   <p>Developed a minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
                   <div className="project-details">
-                    <p>• Created dynamic obstacle generation</p>
-                    <p>• Implemented multiplayer functionality</p>
-                    <p>• Developed custom physics for broomstick movement</p>
+                    <div className="project-text">
+                      <p>
+                        Created an engaging multiplayer game with dynamic obstacle generation and custom physics for broomstick movement. 
+                        Implemented smooth player controls and collision detection, while maintaining an immersive gaming experience 
+                        with responsive gameplay mechanics and visual effects.
+                      </p>
+                    </div>
+                    <div className="project-image">
+                      <img src="/assets/project_img_4.jpg" alt="Broomstick Game Screenshot" />
+                    </div>
                   </div>
                   <div className="tech-stack">
                     <span>ASP.NET</span>
@@ -239,9 +303,16 @@ function App() {
                   <h3>Playfair Encryption Cipher</h3>
                   <p>Implemented a Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
                   <div className="project-details">
-                    <p>• Developed custom encryption algorithm</p>
-                    <p>• Created user-friendly interface</p>
-                    <p>• Implemented secure key management</p>
+                    <div className="project-text">
+                      <p>
+                        Developed a secure encryption system using the Playfair cipher algorithm, featuring a user-friendly interface 
+                        and robust key management. The implementation includes comprehensive input validation and error handling, 
+                        ensuring reliable encryption and decryption of messages while maintaining data security.
+                      </p>
+                    </div>
+                    <div className="project-image">
+                      <img src="/assets/project_img_5.jpg" alt="Encryption App Screenshot" />
+                    </div>
                   </div>
                   <div className="tech-stack">
                     <span>Java</span>
