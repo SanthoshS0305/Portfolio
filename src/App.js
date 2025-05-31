@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [expandedProject, setExpandedProject] = useState(null);
+
+  const handleProjectClick = (index) => {
+    setExpandedProject(index);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleClose = () => {
+    setExpandedProject(null);
+    document.body.style.overflow = 'auto';
+  };
+
+  const projectImages = {
+    0: "/assets/project_img_1.jpg",
+    1: "/assets/project_img_2.jpg",
+    2: "/assets/project_img_3.jpg",
+    3: "/assets/project_img_4.jpg",
+    4: "/assets/project_img_5.jpg",
+    5: "/assets/project_img_6.jpg"
+  };
+
   return (
     <div className="App">
+      <div className={`overlay ${expandedProject !== null ? 'active' : ''}`} onClick={handleClose} />
       <header className="header">
         <nav>
           <div className="profile-header">
@@ -33,101 +55,221 @@ function App() {
 
         <section id="projects" className="projects">
           <h2>Projects</h2>
+          <h3>Click on the project to view more details</h3>
           <div className="project-grid">
-            <div className="project-card">
-              <h3>
-                <a href="https://github.com/SanthoshS0305/Discord-Scam-Detection-Bot" target="_blank" rel="noopener noreferrer">
-                  Discord Scam Detection Bot
-                </a>
-              </h3>
-              <p>An intelligent Discord bot that automatically detects and filters spam messages using regex patterns, fuzzy string matching, and semantic similarity analysis.</p>
-              <div className="tech-stack">
-                <span>Python</span>
-                <span>NLP</span>
-                <span>Machine Learning</span>
-              </div>
-              <div className="project-links">
-                <a href="https://github.com/SanthoshS0305/Discord-Scam-Detection-Bot" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                  GitHub
-                </a>
-              </div>
+            <div 
+              className={`project-card ${expandedProject === 0 ? 'expanded' : ''}`}
+              onClick={() => expandedProject === null && handleProjectClick(0)}
+            >
+              <button className="close-button" onClick={handleClose}>×</button>
+              {expandedProject === 0 ? (
+                <div className="expanded-content">
+                  <h3>Discord Scam Detection Bot</h3>
+                  <p>An intelligent Discord bot that automatically detects and filters spam messages using regex patterns, fuzzy string matching, and semantic similarity analysis.</p>
+                  <div className="project-details">
+                    <p>
+                      This Discord bot leverages advanced natural language processing techniques to identify and filter out potential scam messages. 
+                      The implementation includes custom regex patterns for spam detection and fuzzy string matching to catch similar messages. 
+                      The bot's sophisticated analysis system helps maintain a safe environment by automatically identifying and removing malicious content.
+                    </p>
+                  </div>
+                  <div className="tech-stack">
+                    <span>Python</span>
+                    <span>NLP</span>
+                    <span>Machine Learning</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Discord-Scam-Detection-Bot" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>Discord Scam Detection Bot</h3>
+                  <p>An intelligent Discord bot that automatically detects and filters spam messages using regex patterns, fuzzy string matching, and semantic similarity analysis.</p>
+                  <div className="tech-stack">
+                    <span>Python</span>
+                    <span>NLP</span>
+                    <span>Machine Learning</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Discord-Scam-Detection-Bot" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="project-card">
-              <h3>
-                <a href="https://github.com/SanthoshS0305/GDDC-Game-Jam-25" target="_blank" rel="noopener noreferrer">
-                  And Then I Woke Up Game
-                </a>
-              </h3>
-              <p>A game on the stages of grief for the GDDC Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
-              <div className="tech-stack">
-                <span>Godot Engine</span>
-                <span>Game Development</span>
-              </div>
-              <div className="project-links">
-                <a href="https://github.com/SanthoshS0305/GDDC-Game-Jam-25" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                  GitHub
-                </a>
-              </div>
+            <div 
+              className={`project-card ${expandedProject === 1 ? 'expanded' : ''}`}
+              onClick={() => expandedProject === null && handleProjectClick(1)}
+            >
+              <button className="close-button" onClick={handleClose}>×</button>
+              {expandedProject === 1 ? (
+                <div className="expanded-content">
+                  <h3>And Then I Woke Up Game</h3>
+                  <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
+                  <div className="project-details">
+                    <p>• Created immersive gameplay mechanics</p>
+                    <p>• Implemented dynamic level design</p>
+                    <p>• Developed custom game physics</p>
+                  </div>
+                  <div className="tech-stack">
+                    <span>GDScript</span>
+                    <span>Game Development</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/GDDC-Game-Jam-25" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>And Then I Woke Up Game</h3>
+                  <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
+                  <div className="tech-stack">
+                    <span>GDScript</span>
+                    <span>Game Development</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/GDDC-Game-Jam-25" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="project-card">
-              <h3>
-                <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
-                  JavaScript Drum Kit
-                </a>
-              </h3>
-              <p>An interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
-              <div className="tech-stack">
-                <span>JavaScript</span>
-                <span>Web Audio API</span>
-              </div>
-              <div className="project-links">
-                <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                  GitHub
-                </a>
-                <a href="https://web-drummer.netlify.app" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                  Live Demo
-                </a>
-              </div>
+            <div 
+              className={`project-card ${expandedProject === 2 ? 'expanded' : ''}`}
+              onClick={() => expandedProject === null && handleProjectClick(2)}
+            >
+              <button className="close-button" onClick={handleClose}>×</button>
+              {expandedProject === 2 ? (
+                <div className="expanded-content">
+                  <h3>JavaScript Drum Kit</h3>
+                  <p>Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
+                  <div className="project-details">
+                    <p>• Implemented real-time audio processing</p>
+                    <p>• Created responsive UI with keyboard controls</p>
+                    <p>• Added custom sound library management</p>
+                  </div>
+                  <div className="tech-stack">
+                    <span>JavaScript</span>
+                    <span>Web Audio API</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>JavaScript Drum Kit</h3>
+                  <p>Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
+                  <div className="tech-stack">
+                    <span>JavaScript</span>
+                    <span>Web Audio API</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Javascript-Drum-Kit" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="project-card">
-              <h3>
-                <a href="https://github.com/SanthoshS0305/Broomstick-Chase-Game" target="_blank" rel="noopener noreferrer">
-                  Broomstick Chase Game
-                </a>
-              </h3>
-              <p>A minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
-              <div className="tech-stack">
-                <span>Unity Engine</span>
-                <span>Game Development</span>
-              </div>
-              <div className="project-links">
-                <a href="https://github.com/SanthoshS0305/Broomstick-Chase-Game" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                  GitHub
-                </a>
-              </div>
+            <div 
+              className={`project-card ${expandedProject === 3 ? 'expanded' : ''}`}
+              onClick={() => expandedProject === null && handleProjectClick(3)}
+            >
+              <button className="close-button" onClick={handleClose}>×</button>
+              {expandedProject === 3 ? (
+                <div className="expanded-content">
+                  <h3>Broomstick Chase Game</h3>
+                  <p>Developed a minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
+                  <div className="project-details">
+                    <p>• Created dynamic obstacle generation</p>
+                    <p>• Implemented multiplayer functionality</p>
+                    <p>• Developed custom physics for broomstick movement</p>
+                  </div>
+                  <div className="tech-stack">
+                    <span>ASP.NET</span>
+                    <span>Game Development</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Broomstick-Chase-Game" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>Broomstick Chase Game</h3>
+                  <p>Developed a minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
+                  <div className="tech-stack">
+                    <span>ASP.NET</span>
+                    <span>Game Development</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Broomstick-Chase-Game" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="project-card">
-              <h3>
-                <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
-                  Playfair Encryption Cipher
-                </a>
-              </h3>
-              <p>A Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
-              <div className="tech-stack">
-                <span>Java</span>
-                <span>Cryptography</span>
-              </div>
-              <div className="project-links">
-                <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                  GitHub
-                </a>
-              </div>
+            <div 
+              className={`project-card ${expandedProject === 4 ? 'expanded' : ''}`}
+              onClick={() => expandedProject === null && handleProjectClick(4)}
+            >
+              <button className="close-button" onClick={handleClose}>×</button>
+              {expandedProject === 4 ? (
+                <div className="expanded-content">
+                  <h3>Playfair Encryption Cipher</h3>
+                  <p>Implemented a Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
+                  <div className="project-details">
+                    <p>• Developed custom encryption algorithm</p>
+                    <p>• Created user-friendly interface</p>
+                    <p>• Implemented secure key management</p>
+                  </div>
+                  <div className="tech-stack">
+                    <span>Java</span>
+                    <span>Cryptography</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>Playfair Encryption Cipher</h3>
+                  <p>Implemented a Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
+                  <div className="tech-stack">
+                    <span>Java</span>
+                    <span>Cryptography</span>
+                  </div>
+                  <div className="project-links">
+                    <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                      GitHub
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -184,7 +326,7 @@ function App() {
       </main>
 
       <footer>
-        <p>&copy; 2024 Santhosh Senthil. All rights reserved.</p>
+        <p>&copy; 2025 Santhosh Senthil. All rights reserved.</p>
       </footer>
     </div>
   );
