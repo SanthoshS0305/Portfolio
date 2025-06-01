@@ -117,7 +117,7 @@ function App() {
               {expandedProject === 1 ? (
                 <div className="expanded-content">
                   <h3>And Then I Woke Up Game</h3>
-                  <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
+                  <p>A game exploring the five stages of grief that won the GDDC Game Jam 2025. Uses GDScript, showcasing game development skills and creative problem-solving.</p>
                   <div className="project-details">
                     <div className="project-text">
                       <ul>
@@ -165,7 +165,7 @@ function App() {
               ) : (
                 <>
                   <h3>And Then I Woke Up Game</h3>
-                  <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
+                  <p>A game exploring the five stages of grief that won the GDDC Game Jam 2025. Uses GDScript, showcasing game development skills and creative problem-solving.</p>
                   <div className="tech-stack">
                     <span>GDScript</span>
                     <span>Game Development</span>
@@ -353,8 +353,8 @@ function App() {
               <ul>
                 <li>Game Development</li>
                 <li>Web Development</li>
-                <li>Machine Learning</li>
-                <li>NLP (Spacy)</li>
+                <li>Machine Learning (Spacy)</li>
+                <li>NLP (Sentence Transformers)</li>
                 <li>Full Stack Development</li>
               </ul>
             </div>
