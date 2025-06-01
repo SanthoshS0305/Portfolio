@@ -14,13 +14,6 @@ function App() {
     document.body.style.overflow = 'auto';
   };
 
-  const projectImages = {
-    0: "/assets/project_img_1.jpg",
-    1: "/assets/project_img_2.jpg",
-    2: "/assets/project_img_3.jpg",
-    3: "/assets/project_img_4.jpg"
-  };
-
   return (
     <div className="App">
       <div className={`overlay ${expandedProject !== null ? 'active' : ''}`} onClick={handleClose} />
