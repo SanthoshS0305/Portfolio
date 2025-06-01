@@ -18,9 +18,7 @@ function App() {
     0: "/assets/project_img_1.jpg",
     1: "/assets/project_img_2.jpg",
     2: "/assets/project_img_3.jpg",
-    3: "/assets/project_img_4.jpg",
-    4: "/assets/project_img_5.jpg",
-    5: "/assets/project_img_6.jpg"
+    3: "/assets/project_img_4.jpg"
   };
 
   return (
@@ -122,16 +120,17 @@ function App() {
                   <p>Developed a grief game for the Game Jam using GDScript, showcasing game development skills and creative problem-solving.</p>
                   <div className="project-details">
                     <div className="project-text">
-                      <li>Built in <span className="highlight">Godot</span> using node-based architecture</li>
-                      <li>Core entities (player, enemies, projectiles) implemented as <span className="highlight">CharacterBody2D nodes</span></li>
-                      <li><span className="highlight">Global singleton</span> manages game state and level progression</li>
-                      <li>Enemy AI uses <span className="highlight">behavior trees</span> with inheritance for different types</li>
-                      <li>Combat system implements <span className="highlight">pool pattern</span> for projectile management</li>
-                      <li>Scene-based structure with dedicated level management nodes</li>
-                      <li><span className="highlight">Signal-based interaction</span> and dialogue systems</li>
-                      <li><span className="highlight">State machine pattern</span> for gameplay state transitions</li>
-                      <li><span className="highlight">Modular design</span> with clear separation of concerns</li>
-
+                      <ul>
+                        <li>Built in <span className="highlight">Godot</span> using node-based architecture</li>
+                        <li>Core entities (player, enemies, projectiles) implemented as <span className="highlight">CharacterBody2D nodes</span></li>
+                        <li><span className="highlight">Global singleton</span> manages game state and level progression</li>
+                        <li>Enemy AI uses <span className="highlight">behavior trees</span> with inheritance for different types</li>
+                        <li>Combat system implements <span className="highlight">pool pattern</span> for projectile management</li>
+                        <li>Scene-based structure with dedicated level management nodes</li>
+                        <li><span className="highlight">Signal-based interaction</span> and dialogue systems</li>
+                        <li><span className="highlight">State machine pattern</span> for gameplay state transitions</li>
+                        <li><span className="highlight">Modular design</span> with clear separation of concerns</li>
+                      </ul>
                     </div>
                     <div className="project-image">
                       <img src="/assets/And_then_I_woke_up.png" alt="Game Screenshot" />
@@ -206,15 +205,17 @@ function App() {
                   <p>Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.</p>
                   <div className="project-details">
                     <div className="project-text">
-                      <li>Implemented <span className="highlight">Web Audio API</span> for real-time sound processing and playback</li>
-                      <li>Created <span className="highlight">event-driven architecture</span> for keyboard and mouse interactions</li>
-                      <li>Built <span className="highlight">custom audio manager</span> for sound library and playback control</li>
-                      <li>Utilized <span className="highlight">AudioContext</span> for precise timing and sound manipulation</li>
-                      <li>Implemented <span className="highlight">responsive design</span> with CSS Grid</li>
-                      <li>Added <span className="highlight">visual feedback system</span> for user interactions</li>
-                      <li>Created <span className="highlight">modular component structure</span> for easy maintenance</li>
-                      <li>Implemented <span className="highlight">keyboard event listeners</span> for drum triggers</li>
-                      <li>Added <span className="highlight">sound preloading</span> for seamless playback</li>
+                      <ul>
+                        <li>Implemented <span className="highlight">Web Audio API</span> for real-time sound processing and playback</li>
+                        <li>Created <span className="highlight">event-driven architecture</span> for keyboard and mouse interactions</li>
+                        <li>Built <span className="highlight">custom audio manager</span> for sound library and playback control</li>
+                        <li>Utilized <span className="highlight">AudioContext</span> for precise timing and sound manipulation</li>
+                        <li>Implemented <span className="highlight">responsive design</span> with CSS Grid</li>
+                        <li>Added <span className="highlight">visual feedback system</span> for user interactions</li>
+                        <li>Created <span className="highlight">modular component structure</span> for easy maintenance</li>
+                        <li>Implemented <span className="highlight">keyboard event listeners</span> for drum triggers</li>
+                        <li>Added <span className="highlight">sound preloading</span> for seamless playback</li>
+                      </ul>
                     </div>
                     <div className="project-image">
                       <img src="/assets/drum_kit.png" alt="Drum Kit Screenshot" />
@@ -272,17 +273,34 @@ function App() {
               {expandedProject === 3 ? (
                 <div className="expanded-content">
                   <h3>Broomstick Chase Game</h3>
-                  <p>Developed a minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
+                  <p>Unity minigame scripted in C# where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
                   <div className="project-details">
                     <div className="project-text">
-                      <p>
-                        Created an engaging multiplayer game with dynamic obstacle generation and custom physics for broomstick movement. 
-                        Implemented smooth player controls and collision detection, while maintaining an immersive gaming experience 
-                        with responsive gameplay mechanics and visual effects.
-                      </p>
+                      <ul>                        
+                        <li>Key Interactions:
+                          <ul>
+                            <li>Player collides with Bludgers/Chasers → knockback and score reset</li>
+                            <li>Player reaches End Trigger/Snitch → win condition</li>
+                            <li>Spawners instantiate obstacles at random vertical positions</li>
+                          </ul>
+                        </li>
+                        <li>Game Flow:
+                          <ul>
+                            <li>Player avoids obstacles while moving toward End Trigger/Snitch</li>
+                            <li>Game ends on win (reaching End Trigger) or loss (knockback too far)</li>
+                          </ul>
+                        </li>
+                        <li>Technical Implementation:
+                          <ul>
+                            <li>Unity physics for collision detection and movement</li>
+                            <li>Random number generation for obstacle spawning and movement offsets</li>
+                            <li>Scene management for game restart</li>
+                          </ul>
+                        </li>
+                      </ul>
                     </div>
                     <div className="project-image">
-                      <img src="/assets/project_img_4.jpg" alt="Broomstick Game Screenshot" />
+                      <img src="/assets/broom.png" alt="Broomstick Game Screenshot" />
                     </div>
                   </div>
                   <div className="tech-stack">
@@ -299,62 +317,14 @@ function App() {
               ) : (
                 <>
                   <h3>Broomstick Chase Game</h3>
-                  <p>Developed a minigame where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
+                  <p>Unity minigame scripted in C# where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.</p>
                   <div className="tech-stack">
-                    <span>ASP.NET</span>
+                    <span>Unity</span>
+                    <span>C#</span>
                     <span>Game Development</span>
                   </div>
                   <div className="project-links">
                     <a href="https://github.com/SanthoshS0305/Broomstick-Chase-Game" target="_blank" rel="noopener noreferrer">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                      GitHub
-                    </a>
-                  </div>
-                </>
-              )}
-            </div>
-            <div 
-              className={`project-card ${expandedProject === 4 ? 'expanded' : ''}`}
-              onClick={() => expandedProject === null && handleProjectClick(4)}
-            >
-              <button className="close-button" onClick={handleClose}>×</button>
-              {expandedProject === 4 ? (
-                <div className="expanded-content">
-                  <h3>Playfair Encryption Cipher</h3>
-                  <p>Implemented a Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
-                  <div className="project-details">
-                    <div className="project-text">
-                      <p>
-                        Developed a secure encryption system using the Playfair cipher algorithm, featuring a user-friendly interface 
-                        and robust key management. The implementation includes comprehensive input validation and error handling, 
-                        ensuring reliable encryption and decryption of messages while maintaining data security.
-                      </p>
-                    </div>
-                    <div className="project-image">
-                      <img src="/assets/project_img_5.jpg" alt="Encryption App Screenshot" />
-                    </div>
-                  </div>
-                  <div className="tech-stack">
-                    <span>Java</span>
-                    <span>Cryptography</span>
-                  </div>
-                  <div className="project-links">
-                    <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                      GitHub
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <h3>Playfair Encryption Cipher</h3>
-                  <p>Implemented a Playfair encryption/decryption application that processes phrases and keys to generate encrypted strings.</p>
-                  <div className="tech-stack">
-                    <span>Java</span>
-                    <span>Cryptography</span>
-                  </div>
-                  <div className="project-links">
-                    <a href="https://github.com/SanthoshS0305/Playfair-Encryption-Cipher" target="_blank" rel="noopener noreferrer">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       GitHub
                     </a>
