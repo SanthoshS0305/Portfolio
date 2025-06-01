@@ -8,6 +8,11 @@ function App() {
   const handleProjectClick = (index) => {
     setExpandedProject(index);
     setCurrentSection('project');
+    // Scroll left panel to top
+    const leftPanel = document.querySelector('.left-panel');
+    if (leftPanel) {
+      leftPanel.scrollTop = 0;
+    }
   };
 
   const handleClose = (e) => {
