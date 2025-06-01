@@ -34,8 +34,8 @@ function App() {
             <h1>Santhosh Senthil</h1>
           </div>
           <ul>
-            <li><a href="#" onClick={() => handleNavClick('hero')}>Home</a></li>
-            <li><a href="#" onClick={() => handleNavClick('about')}>About</a></li>
+            <li><a href="#" onClick={() => handleNavClick('hero')}>Home and Projects</a></li>
+            <li><a href="#" onClick={() => handleNavClick('about')}>Skills and Contact</a></li>
           </ul>
         </nav>
       </header>
@@ -54,8 +54,9 @@ function App() {
                     <img src="/profile.jpg" alt="Santhosh Senthil" className="hero-profile-image" />
                   </div>
                   <div className="hero-about">
-                    <p>I'm passionate about creating innovative solutions that combine cutting-edge technology with practical applications. My expertise spans from machine learning and natural language processing to game development and web applications.</p>
-                    <p>Currently pursuing my degree in Computer Science, I focus on developing intelligent systems and interactive experiences that make a real impact.</p>
+                    <p>A passionate Computer Science Student double-majoring in Applied Math and Statistics and Minoring in Writing and Rhetoric at Stony Brook University in New York.</p>
+                    <br />
+                    <p>I am passionate about computers and people. That is why I am Vice President of the Game Development and Design Club at Stony Brook University and the Public Relations Officer of the Stony Brook Computing Society.</p>
                   </div>
                 </div>
               </section>
@@ -277,6 +278,7 @@ function App() {
 
           {currentSection !== 'about' && (
             <div className="right-panel">
+              <h2 className="project-list-header">Projects</h2>
               <div className="project-tiles">
                 <div className="project-tile" onClick={() => handleProjectClick(0)}>
                   <h3>Discord Scam Detection Bot</h3>
