@@ -39,8 +39,8 @@ function App() {
             <h1>Santhosh Senthil</h1>
           </div>
           <ul>
-            <li><a href="/" onClick={() => handleNavClick('hero')}>Home and Projects</a></li>
-            <li><a href="/about" onClick={() => handleNavClick('about')}>Skills and Contact</a></li>
+            <li><a href="/" onClick={(e) => { e.preventDefault(); handleNavClick('hero'); }}>Home and Projects</a></li>
+            <li><a href="/about" onClick={(e) => { e.preventDefault(); handleNavClick('about'); }}>Skills and Contact</a></li>
           </ul>
         </nav>
       </header>
@@ -227,6 +227,9 @@ function App() {
 
             {currentSection === 'about' && (
               <section className="about">
+                <div className="about-header">
+                  <h1>Skills and Contact</h1>
+                </div>
                 <div className="about-content">
                   <div className="skills-section">
                     <h2>Skills</h2>
