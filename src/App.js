@@ -39,8 +39,8 @@ function App() {
             <h1>Santhosh Senthil</h1>
           </div>
           <ul>
-            <li><a href="#" onClick={() => handleNavClick('hero')}>Home and Projects</a></li>
-            <li><a href="#" onClick={() => handleNavClick('about')}>Skills and Contact</a></li>
+            <li><a href="/" onClick={() => handleNavClick('hero')}>Home and Projects</a></li>
+            <li><a href="/about" onClick={() => handleNavClick('about')}>Skills and Contact</a></li>
           </ul>
         </nav>
       </header>
