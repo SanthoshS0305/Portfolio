@@ -68,7 +68,7 @@ function App() {
             )}
 
             {currentSection === 'project' && expandedProject !== null && (
-              <section className="project-detail">
+              <section className="project-detail" onClick={handleClose}>
                 <div className="project-detail-content">
                   {expandedProject === 0 && (
                     <div className="expanded-content">
