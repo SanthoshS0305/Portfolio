@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga4';
 import './App.css';
 
 function App() {
   const [expandedProject, setExpandedProject] = useState(null);
   const [currentSection, setCurrentSection] = useState('hero');
+
+  // Initialize Google Analytics
+  useEffect(() => {
+    // Replace 'G-XXXXXXXXXX' with your actual Google Analytics measurement ID
+    ReactGA.initialize('G-66EPWTT7Q7');
+    
+    // Track initial page view
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, []);
+
+  // Track page views when section changes
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: `/${currentSection}` });
+  }, [currentSection]);
+
+  // Track project views
+  useEffect(() => {
+    if (expandedProject !== null) {
+      ReactGA.event({
+        category: 'Project',
+        action: 'View',
+        label: `Project ${expandedProject + 1}`
+      });
+    }
+  }, [expandedProject]);
 
   const handleProjectClick = (index) => {
     setExpandedProject(index);
