@@ -257,6 +257,48 @@ function App() {
                       </div>
                     </div>
                   )}
+                  {expandedProject === 4 && (
+                    <div className="expanded-content">
+                      <h3>GDDC Example Game</h3>
+                      <p>A 2D platformer game created for the Game Development and Design Club to demonstrate various game development concepts and techniques.</p>
+                      <div className="project-details">
+                        <div className="project-text">
+                          <ul>
+                            <li><span className="highlight">Educational Purpose:</span> Designed as a learning resource for club members</li>
+                            <li><span className="highlight">Game Development Concepts:</span> Demonstrates core game development principles</li>
+                            <li><span className="highlight">GDScript Implementation:</span> Built using Godot's scripting language GDScript</li>
+                            <li><span className="highlight">Modular Design:</span> Showcases clean code organization and structure</li>
+                            <li><span className="highlight">Interactive Elements:</span> Includes various gameplay mechanics and interactions</li>
+                            <li><span className="highlight">Documentation:</span> Well-commented code for educational purposes</li>
+                          </ul>
+                        </div>
+                        <div className="project-image">
+                          <img src="/assets/wolfiemenu.png" alt="GDDC Example Game Screenshot" />
+                        </div>
+                      </div>
+                      <div className="project-links">
+                        <a href="https://github.com/Brian0706/GDDC_Example_Game" target="_blank" rel="noopener noreferrer">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                          GitHub
+                        </a>
+                        <a href="https://bellatorrex.itch.io/gddc-example-game" target="_blank" rel="noopener noreferrer">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                            <path d="M8 7h.01"></path>
+                            <path d="M12 7h.01"></path>
+                            <path d="M16 7h.01"></path>
+                            <path d="M8 11h.01"></path>
+                            <path d="M12 11h.01"></path>
+                            <path d="M16 11h.01"></path>
+                            <path d="M8 15h.01"></path>
+                            <path d="M12 15h.01"></path>
+                            <path d="M16 15h.01"></path>
+                          </svg>
+                          itch.io
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </section>
             )}
@@ -356,6 +398,14 @@ function App() {
                     <span>Unity</span>
                     <span>C#</span>
                     <span>Game Development</span>
+                  </div>
+                </div>
+                <div className="project-tile" onClick={() => handleProjectClick(4)}>
+                  <h3>GDDC example game</h3>
+                  <p>An example game project for the Game Development and Design Club.</p>
+                  <div className="tech-stack">
+                    <span>Game Development</span>
+                    <span>GDScript</span>
                   </div>
                 </div>
               </div>
