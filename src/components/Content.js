@@ -169,6 +169,7 @@ const Content = () => {
             allowTransparency="true" 
             frameBorder="0" 
             sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+            title="Discord embed"
             style={{ 
               borderRadius: '8px',
               border: 'none',
