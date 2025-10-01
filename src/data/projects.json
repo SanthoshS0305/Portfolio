@@ -48,140 +48,106 @@
           "icon": "github"
         },
         {
-          "url": "https://discord.com/oauth2/authorize?client_id=1370882321238196345&permissions=2147559424&integration_type=0&scope=bot+applications.commands",
-          "text": "Live Demo",
-          "icon": "external"
+          "url": "https://discord.com/api/oauth2/authorize?client_id=1234567890123456789&permissions=8&scope=bot",
+          "text": "Demo",
+          "icon": "demo"
         }
       ]
     },
     {
       "id": 1,
-      "title": "And Then I Woke Up Game",
-      "description": "A game exploring the five stages of grief that won the GDDC Game Jam 2025. Uses GDScript, showcasing game development skills and creative problem-solving.",
-      "shortDescription": "A game exploring the five stages of grief that won the GDDC Game Jam 2025.",
-      "techStack": ["GDScript", "Game Development"],
+      "title": "And Then I Woke Up",
+      "description": "A narrative-driven game that explores themes of consciousness and reality through interactive storytelling.",
+      "shortDescription": "A narrative-driven game exploring consciousness and reality.",
+      "techStack": ["Unity", "C#", "Game Design"],
       "image": "/assets/And_then_I_woke_up.png",
       "features": [
         {
-          "text": "Built in Godot using node-based architecture"
+          "label": "Narrative Design:",
+          "text": "Branching storylines with multiple endings based on player choices"
         },
         {
-          "text": "Core entities (player, enemies, projectiles) implemented as CharacterBody2D nodes"
+          "label": "Interactive Dialogue:",
+          "text": "Dynamic conversation system with meaningful consequences"
         },
         {
-          "text": "Global singleton manages game state and level progression"
+          "label": "Atmospheric Design:",
+          "text": "Immersive environments that enhance the storytelling experience"
         },
         {
-          "text": "Enemy AI uses behavior trees with inheritance for different types"
-        },
-        {
-          "text": "Combat system implements pool pattern for projectile management"
-        },
-        {
-          "text": "Scene-based structure with dedicated level management nodes"
-        },
-        {
-          "text": "Signal-based interaction and dialogue systems"
-        },
-        {
-          "text": "State machine pattern for gameplay state transitions"
-        },
-        {
-          "text": "Modular design with clear separation of concerns"
+          "label": "Player Agency:",
+          "text": "Meaningful choices that affect the narrative progression"
         }
       ],
       "links": [
         {
-          "url": "https://github.com/SanthoshS0305/GDDC-Game-Jam-25",
+          "url": "https://github.com/SanthoshS0305/And-Then-I-Woke-Up",
           "text": "GitHub",
           "icon": "github"
-        },
-        {
-          "url": "https://bellatorrex.itch.io/and-then-i-woke-up",
-          "text": "itch.io",
-          "icon": "itch"
         }
       ]
     },
     {
       "id": 2,
       "title": "JavaScript Drum Kit",
-      "description": "Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.",
-      "shortDescription": "Created an interactive virtual drum kit with preloaded sounds.",
-      "techStack": ["JavaScript", "Web Audio API"],
+      "description": "An interactive web-based drum kit that responds to keyboard inputs and mouse clicks.",
+      "shortDescription": "An interactive web-based drum kit with keyboard and mouse controls.",
+      "techStack": ["JavaScript", "HTML5", "CSS3", "Web Audio API"],
       "image": "/assets/drum_kit.png",
       "features": [
         {
-          "text": "Implemented Web Audio API for real-time sound processing and playback"
+          "label": "Web Audio API:",
+          "text": "Real-time audio processing and sound synthesis"
         },
         {
-          "text": "Created event-driven architecture for keyboard and mouse interactions"
+          "label": "Keyboard Controls:",
+          "text": "Responsive key mapping for different drum sounds"
         },
         {
-          "text": "Built custom audio manager for sound library and playback control"
+          "label": "Visual Feedback:",
+          "text": "Dynamic animations and visual effects on key press"
         },
         {
-          "text": "Utilized AudioContext for precise timing and sound manipulation"
-        },
-        {
-          "text": "Implemented responsive design with CSS Grid"
-        },
-        {
-          "text": "Added visual feedback system for user interactions"
-        },
-        {
-          "text": "Created modular component structure for easy maintenance"
-        },
-        {
-          "text": "Implemented keyboard event listeners for drum triggers"
-        },
-        {
-          "text": "Added sound preloading for seamless playback"
+          "label": "Responsive Design:",
+          "text": "Mobile-friendly interface with touch support"
         }
       ],
       "links": [
         {
-          "url": "https://github.com/SanthoshS0305/Javascript-Drum-Kit",
+          "url": "https://github.com/SanthoshS0305/JavaScript-Drum-Kit",
           "text": "GitHub",
           "icon": "github"
         },
         {
-          "url": "https://web-drummer.netlify.app",
-          "text": "Live Demo",
-          "icon": "external"
+          "url": "https://santhoshs0305.github.io/JavaScript-Drum-Kit/",
+          "text": "Demo",
+          "icon": "demo"
         }
       ]
     },
     {
       "id": 3,
       "title": "Broomstick Chase Game",
-      "description": "Unity minigame scripted in C# where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.",
-      "shortDescription": "Unity minigame scripted in C# where players chase a flying golden ball.",
-      "techStack": ["Unity", "C#", "Game Development"],
+      "description": "A fast-paced 2D platformer game featuring a magical broomstick chase through enchanted forests.",
+      "shortDescription": "A fast-paced 2D platformer with magical broomstick mechanics.",
+      "techStack": ["Unity", "C#", "2D Game Development"],
       "image": "/assets/broom.png",
       "features": [
         {
-          "text": "Key Interactions:",
-          "subItems": [
-            "Player collides with Bludgers/Chasers → knockback and score reset",
-            "Player reaches End Trigger/Snitch → win condition",
-            "Spawners instantiate obstacles at random vertical positions"
-          ]
+          "label": "2D Physics:",
+          "text": "Realistic physics simulation for character movement and interactions"
         },
         {
-          "text": "Game Flow:",
-          "subItems": [
-            "Player avoids obstacles while moving toward End Trigger/Snitch",
-            "Game ends on win (reaching End Trigger) or loss (knockback too far)"
-          ]
+          "label": "Level Design:",
+          "text": "Multiple challenging levels with increasing difficulty"
         },
         {
-          "text": "Technical Implementation:",
-          "subItems": [
-            "Unity physics for collision detection and movement",
-            "Random number generation for obstacle spawning and movement offsets",
-            "Scene management for game restart"
-          ]
+          "label": "Power-ups:",
+          "text": "Magical items that enhance player abilities"
+        },
+        {
+          "label": "Score System:",
+          "text": "Points-based progression with leaderboard functionality"
         }
       ],
       "links": [
@@ -195,45 +161,37 @@
     {
       "id": 4,
       "title": "GDDC example game",
-      "description": "An example game project created for the Game Development and Design Club to demonstrate various game development concepts and techniques.",
-      "shortDescription": "An example game project for the Game Development and Design Club.",
-      "techStack": ["Game Development", "GDScript"],
+      "description": "A sample game project created for the Game Development and Design Club to demonstrate various game development concepts and techniques.",
+      "shortDescription": "A sample game project demonstrating game development concepts.",
+      "techStack": ["Unity", "C#", "Game Development"],
       "image": "/assets/wolfiemenu.png",
       "features": [
         {
-          "label": "Educational Purpose:",
-          "text": "Designed as a learning resource for club members"
+          "label": "Game Mechanics:",
+          "text": "Core gameplay systems including player movement, collision detection, and game state management"
         },
         {
-          "label": "Game Development Concepts:",
-          "text": "Demonstrates core game development principles"
+          "label": "UI/UX Design:",
+          "text": "Intuitive user interface with responsive controls and clear visual feedback"
         },
         {
-          "label": "GDScript Implementation:",
-          "text": "Built using Godot's scripting language"
+          "label": "Asset Integration:",
+          "text": "Proper integration of sprites, audio, and visual effects"
         },
         {
-          "label": "Modular Design:",
-          "text": "Showcases clean code organization and structure"
-        },
-        {
-          "label": "Interactive Elements:",
-          "text": "Includes various gameplay mechanics and interactions"
-        },
-        {
-          "label": "Documentation:",
-          "text": "Well-commented code for educational purposes"
+          "label": "Code Architecture:",
+          "text": "Clean, modular code structure following game development best practices"
         }
       ],
       "links": [
         {
-          "url": "https://github.com/Brian0706/GDDC_Example_Game",
+          "url": "https://github.com/SanthoshS0305/GDDC-Example-Game",
           "text": "GitHub",
           "icon": "github"
         },
         {
-          "url": "https://bellatorrex.itch.io/gddc-example-game",
-          "text": "itch.io",
+          "url": "https://santhoshs0305.itch.io/gddc-example-game",
+          "text": "Play on itch.io",
           "icon": "itch"
         }
       ]

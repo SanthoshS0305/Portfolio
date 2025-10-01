@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import ProjectDetail from './components/ProjectDetail';
 import About from './components/About';
+import Content from './components/Content';
 import ProjectTiles from './components/ProjectTiles';
 import Footer from './components/Footer';
 
@@ -20,6 +21,7 @@ function App() {
     // Track initial page view
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
   }, []);
+
 
   // Track page views when section changes
   useEffect(() => {
@@ -76,10 +78,11 @@ function App() {
                 onClose={handleClose} 
               />
             )}
+            {currentSection === 'content' && <Content />}
             {currentSection === 'about' && <About />}
           </div>
 
-          {currentSection !== 'about' && (
+          {currentSection !== 'about' && currentSection !== 'content' && (
             <ProjectTiles onProjectClick={handleProjectClick} />
           )}
         </div>

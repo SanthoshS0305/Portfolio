@@ -10,6 +10,7 @@ const Header = ({ onNavClick }) => {
         </div>
         <ul>
           <li><a href="/" onClick={(e) => { e.preventDefault(); onNavClick('hero'); }}>Home and Projects</a></li>
+          <li><a href="/content" onClick={(e) => { e.preventDefault(); onNavClick('content'); }}>Content</a></li>
           <li><a href="/about" onClick={(e) => { e.preventDefault(); onNavClick('about'); }}>Skills and Contact</a></li>
         </ul>
       </nav>

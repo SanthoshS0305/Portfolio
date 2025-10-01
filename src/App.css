@@ -150,6 +150,7 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 2rem;
 }
 
@@ -542,4 +543,342 @@ footer {
 .contact-section a[href^="mailto:"]:hover {
   color: #3A8EFF;
   text-decoration: underline;
+}
+
+/* Content Section Styles */
+.content {
+  min-height: 100%;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.content-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.content-header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+.content-header p {
+  font-size: 1.1rem;
+  color: #b0b0b0;
+}
+
+.content-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  background: #2d2d2d;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-control {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #3d3d3d;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4A9EFF;
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+.filter-controls, .sort-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-select, .sort-select {
+  padding: 0.75rem 1rem;
+  background: #3d3d3d;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.filter-select:focus, .sort-select:focus {
+  outline: none;
+  border-color: #4A9EFF;
+}
+
+.content-stats {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+.content-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #3d3d3d;
+  border-radius: 12px;
+  border: 1px solid #505050;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-controls label {
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.sort-select {
+  padding: 0.5rem 1rem;
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border: 1px solid #505050;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+  border-color: #4A9EFF;
+  outline: none;
+}
+
+.content-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.platform-count {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 400px);
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  justify-items: center;
+}
+
+.content-item {
+  position: relative;
+  background: #3d3d3d;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 400px;
+  max-width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.content-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.content-item-header {
+  padding: 1rem 1rem 0.5rem 1rem;
+  border-bottom: 1px solid #555;
+  flex-shrink: 0;
+}
+
+.content-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.content-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #b0b0b0;
+}
+
+.content-platform {
+  background: #4A9EFF;
+  color: #ffffff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.content-date {
+  color: #888;
+}
+
+.content-item-footer {
+  padding: 1rem;
+  flex-shrink: 0;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.content-description {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+.content-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: #2d2d2d;
+  color: #4A9EFF;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+
+
+
+.embed-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
+  flex: 1;
+  min-height: 200px;
+}
+
+.content-embed {
+  width: auto;
+  height: auto;
+  border: none;
+}
+
+/* Instagram and TikTok embed styling - maintain original aspect ratio */
+.instagram-media {
+  background: #FFF !important;
+  border: 0 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15) !important;
+  margin: 0 auto !important;
+  /* Let Instagram determine its own size */
+  width: auto !important;
+  max-width: none !important;
+}
+
+.tiktok-embed {
+  margin: 0 auto !important;
+  /* Let TikTok determine its own size */
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+}
+
+/* Hide TikTok promotional text and captions */
+.tiktok-embed [data-e2e="video-desc"],
+.tiktok-embed [data-e2e="video-desc-text"],
+.tiktok-embed .tiktok-embed-footer,
+.tiktok-embed .tiktok-embed-caption {
+  display: none !important;
+}
+
+/* Hide "Watch more exciting videos on TikTok" text */
+.tiktok-embed::after,
+.tiktok-embed .tiktok-embed-promotion {
+  display: none !important;
+}
+
+/* Allow Instagram and TikTok embeds to display naturally */
+.instagram-media {
+  background: #FFF !important;
+  border: 0 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15) !important;
+  margin: 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+.tiktok-embed {
+  margin: 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+}
+
+
+/* Mute button removed - native embeds handle their own audio controls */
+
+/* Responsive design for content */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .content-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .content-stats {
+    justify-content: center;
+  }
+  
+  .sort-controls {
+    justify-content: center;
+  }
 }
