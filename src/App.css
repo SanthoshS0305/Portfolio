@@ -8,8 +8,8 @@
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
+  color: #e0e0e0;
+  background-color: #1a1a1a;
   height: 100vh;
   overflow: hidden;
 }
@@ -22,8 +22,8 @@ body {
 
 /* Header Styles */
 .header {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
   left: 0;
@@ -68,13 +68,13 @@ body {
 
 .header a {
   text-decoration: none;
-  color: #333;
+  color: #e0e0e0;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .header a:hover {
-  color: #007bff;
+  color: #4A9EFF;
 }
 
 /* Main Content Styles */
@@ -96,7 +96,7 @@ body {
   height: 100%;
   overflow-y: auto;
   padding: 2rem;
-  background: white;
+  background: #2d2d2d;
 }
 
 .right-panel {
@@ -104,21 +104,21 @@ body {
   height: 100%;
   overflow-y: auto;
   padding: 0;
-  border-left: 1px solid #e0e0e0;
-  background: white;
+  border-left: 1px solid #404040;
+  background: #2d2d2d;
   display: flex;
   flex-direction: column;
 }
 
 .project-list-header {
   font-size: 1.75rem;
-  color: #333;
+  color: #e0e0e0;
   margin: 0;
   padding: 1rem 2rem 0.5rem 2rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #404040;
   position: sticky;
   top: 0;
-  background: white;
+  background: #2d2d2d;
   z-index: 1;
 }
 
@@ -130,19 +130,19 @@ body {
 
 .left-panel::-webkit-scrollbar-track,
 .right-panel::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #404040;
   border-radius: 4px;
 }
 
 .left-panel::-webkit-scrollbar-thumb,
 .right-panel::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #666;
   border-radius: 4px;
 }
 
 .left-panel::-webkit-scrollbar-thumb:hover,
 .right-panel::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #888;
 }
 
 /* Hero Section */
@@ -167,7 +167,7 @@ body {
 
 .hero-header p {
   font-size: 1.25rem;
-  color: #666;
+  color: #b0b0b0;
   white-space: nowrap;
 }
 
@@ -198,7 +198,7 @@ body {
 .hero-about {
   flex: 1;
   font-size: 1.1rem;
-  color: #666;
+  color: #b0b0b0;
   line-height: 1.6;
 }
 
@@ -212,30 +212,30 @@ body {
 }
 
 .project-tile {
-  background: white;
+  background: #3d3d3d;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #505050;
 }
 
 .project-tile:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-color: #4A9EFF;
 }
 
 .project-tile h3 {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #e0e0e0;
 }
 
 .project-tile p {
   font-size: 0.9rem;
-  color: #666;
+  color: #b0b0b0;
   margin-bottom: 1rem;
 }
 
@@ -246,11 +246,11 @@ body {
 }
 
 .project-detail-content {
-  background: white;
+  background: #3d3d3d;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid #4A9EFF;
 }
 
 .expanded-content {
@@ -261,9 +261,9 @@ body {
 
 .expanded-content h3 {
   font-size: 2rem;
-  color: #333;
+  color: #e0e0e0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #505050;
 }
 
 .project-details {
@@ -271,9 +271,9 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   padding: 1rem;
-  background: #f8f9fa;
+  background: #4d4d4d;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #505050;
 }
 
 .project-text {
@@ -327,10 +327,10 @@ body {
 }
 
 .skills-section {
-  background: white;
+  background: #3d3d3d;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .skills-section h2 {
@@ -346,14 +346,14 @@ body {
 }
 
 .skill-category {
-  background: #f8f9fa;
+  background: #4d4d4d;
   padding: 1.5rem;
   border-radius: 12px;
 }
 
 .skill-category h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: #e0e0e0;
 }
 
 .skill-category ul {
@@ -362,14 +362,14 @@ body {
 
 .skill-category li {
   margin-bottom: 0.5rem;
-  color: #666;
+  color: #b0b0b0;
 }
 
 .contact-section {
-  background: white;
+  background: #3d3d3d;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -382,7 +382,7 @@ body {
 
 .contact-section p {
   font-size: 1.1rem;
-  color: #666;
+  color: #b0b0b0;
 }
 
 .social-links {
@@ -396,7 +396,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #007bff;
+  background: #4A9EFF;
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -404,13 +404,13 @@ body {
 }
 
 .social-links a:hover {
-  background: #0056b3;
+  background: #3A8EFF;
 }
 
 /* Footer */
 footer {
   background: transparent;
-  color: #333;
+  color: #b0b0b0;
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
@@ -418,7 +418,7 @@ footer {
 
 /* Utility Classes */
 .highlight {
-  color: #007bff;
+  color: #4A9EFF;
   font-weight: 600;
 }
 
@@ -429,11 +429,11 @@ footer {
 }
 
 .tech-stack span {
-  background: #f0f0f0;
+  background: #4d4d4d;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.8rem;
-  color: #666;
+  color: #b0b0b0;
 }
 
 .project-links {
@@ -447,7 +447,7 @@ footer {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #007bff;
+  background: #4A9EFF;
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -455,7 +455,7 @@ footer {
 }
 
 .project-links a:hover {
-  background: #0056b3;
+  background: #3A8EFF;
 }
 
 /* Responsive Design */
@@ -525,9 +525,21 @@ footer {
 .about-header h1 {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #333;
+  color: #e0e0e0;
 }
 
 .about-header h1 .highlight {
-  color: #007bff;
+  color: #4A9EFF;
+}
+
+/* Email link styling */
+.contact-section a[href^="mailto:"] {
+  color: #4A9EFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-section a[href^="mailto:"]:hover {
+  color: #3A8EFF;
+  text-decoration: underline;
 }

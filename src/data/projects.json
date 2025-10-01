@@ -1,0 +1,242 @@
+{
+  "projects": [
+    {
+      "id": 0,
+      "title": "Discord Scam Detection Bot",
+      "description": "An intelligent Discord bot that automatically detects and filters spam messages using regex patterns, fuzzy string matching, and semantic similarity analysis.",
+      "shortDescription": "An intelligent Discord bot that automatically detects and filters spam messages.",
+      "techStack": ["Python", "NLP", "Machine Learning"],
+      "image": "/assets/discord_bot.png",
+      "features": [
+        {
+          "label": "Discord API:",
+          "text": "Used the Discord API to create a bot that can detect and filter spam messages"
+        },
+        {
+          "label": "AWS EC2 Hosting:",
+          "text": "Hosted the bot on an AWS EC2 instance using GitHub"
+        },
+        {
+          "label": "Multi-layered spam detection:",
+          "text": "Pattern matching (regex), Fuzzy string comparison, Semantic similarity (SentenceTransformer)"
+        },
+        {
+          "label": "Adaptive learning system:",
+          "text": "Persistent dataset storage, Dynamic threshold calculation, Pattern recognition from deleted messages"
+        },
+        {
+          "label": "Server-specific configuration:",
+          "text": "JSON-based persistence, Environment variable secrets, Configurable admin channels"
+        },
+        {
+          "label": "Administrative controls:",
+          "text": "Permission-gated operations, Approval workflow system, Comprehensive logging"
+        },
+        {
+          "label": "Modular architecture:",
+          "text": "Separated concerns (filtering, config, admin), Independent component scaling, Extensible detection methods"
+        },
+        {
+          "label": "User-based weighting:",
+          "text": "Join time consideration, Configurable time thresholds, Weighted scoring system"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/SanthoshS0305/Discord-Scam-Detection-Bot",
+          "text": "GitHub",
+          "icon": "github"
+        },
+        {
+          "url": "https://discord.com/oauth2/authorize?client_id=1370882321238196345&permissions=2147559424&integration_type=0&scope=bot+applications.commands",
+          "text": "Live Demo",
+          "icon": "external"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "And Then I Woke Up Game",
+      "description": "A game exploring the five stages of grief that won the GDDC Game Jam 2025. Uses GDScript, showcasing game development skills and creative problem-solving.",
+      "shortDescription": "A game exploring the five stages of grief that won the GDDC Game Jam 2025.",
+      "techStack": ["GDScript", "Game Development"],
+      "image": "/assets/And_then_I_woke_up.png",
+      "features": [
+        {
+          "text": "Built in Godot using node-based architecture"
+        },
+        {
+          "text": "Core entities (player, enemies, projectiles) implemented as CharacterBody2D nodes"
+        },
+        {
+          "text": "Global singleton manages game state and level progression"
+        },
+        {
+          "text": "Enemy AI uses behavior trees with inheritance for different types"
+        },
+        {
+          "text": "Combat system implements pool pattern for projectile management"
+        },
+        {
+          "text": "Scene-based structure with dedicated level management nodes"
+        },
+        {
+          "text": "Signal-based interaction and dialogue systems"
+        },
+        {
+          "text": "State machine pattern for gameplay state transitions"
+        },
+        {
+          "text": "Modular design with clear separation of concerns"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/SanthoshS0305/GDDC-Game-Jam-25",
+          "text": "GitHub",
+          "icon": "github"
+        },
+        {
+          "url": "https://bellatorrex.itch.io/and-then-i-woke-up",
+          "text": "itch.io",
+          "icon": "itch"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "JavaScript Drum Kit",
+      "description": "Created an interactive virtual drum kit with preloaded sounds and easy sound swapping functionality.",
+      "shortDescription": "Created an interactive virtual drum kit with preloaded sounds.",
+      "techStack": ["JavaScript", "Web Audio API"],
+      "image": "/assets/drum_kit.png",
+      "features": [
+        {
+          "text": "Implemented Web Audio API for real-time sound processing and playback"
+        },
+        {
+          "text": "Created event-driven architecture for keyboard and mouse interactions"
+        },
+        {
+          "text": "Built custom audio manager for sound library and playback control"
+        },
+        {
+          "text": "Utilized AudioContext for precise timing and sound manipulation"
+        },
+        {
+          "text": "Implemented responsive design with CSS Grid"
+        },
+        {
+          "text": "Added visual feedback system for user interactions"
+        },
+        {
+          "text": "Created modular component structure for easy maintenance"
+        },
+        {
+          "text": "Implemented keyboard event listeners for drum triggers"
+        },
+        {
+          "text": "Added sound preloading for seamless playback"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/SanthoshS0305/Javascript-Drum-Kit",
+          "text": "GitHub",
+          "icon": "github"
+        },
+        {
+          "url": "https://web-drummer.netlify.app",
+          "text": "Live Demo",
+          "icon": "external"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Broomstick Chase Game",
+      "description": "Unity minigame scripted in C# where players chase a flying golden ball on a broomstick while dodging obstacles and opponents.",
+      "shortDescription": "Unity minigame scripted in C# where players chase a flying golden ball.",
+      "techStack": ["Unity", "C#", "Game Development"],
+      "image": "/assets/broom.png",
+      "features": [
+        {
+          "text": "Key Interactions:",
+          "subItems": [
+            "Player collides with Bludgers/Chasers → knockback and score reset",
+            "Player reaches End Trigger/Snitch → win condition",
+            "Spawners instantiate obstacles at random vertical positions"
+          ]
+        },
+        {
+          "text": "Game Flow:",
+          "subItems": [
+            "Player avoids obstacles while moving toward End Trigger/Snitch",
+            "Game ends on win (reaching End Trigger) or loss (knockback too far)"
+          ]
+        },
+        {
+          "text": "Technical Implementation:",
+          "subItems": [
+            "Unity physics for collision detection and movement",
+            "Random number generation for obstacle spawning and movement offsets",
+            "Scene management for game restart"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/SanthoshS0305/Broomstick-Chase-Game",
+          "text": "GitHub",
+          "icon": "github"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "GDDC example game",
+      "description": "An example game project created for the Game Development and Design Club to demonstrate various game development concepts and techniques.",
+      "shortDescription": "An example game project for the Game Development and Design Club.",
+      "techStack": ["Game Development", "GDScript"],
+      "image": "/assets/wolfiemenu.png",
+      "features": [
+        {
+          "label": "Educational Purpose:",
+          "text": "Designed as a learning resource for club members"
+        },
+        {
+          "label": "Game Development Concepts:",
+          "text": "Demonstrates core game development principles"
+        },
+        {
+          "label": "GDScript Implementation:",
+          "text": "Built using Godot's scripting language"
+        },
+        {
+          "label": "Modular Design:",
+          "text": "Showcases clean code organization and structure"
+        },
+        {
+          "label": "Interactive Elements:",
+          "text": "Includes various gameplay mechanics and interactions"
+        },
+        {
+          "label": "Documentation:",
+          "text": "Well-commented code for educational purposes"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/Brian0706/GDDC_Example_Game",
+          "text": "GitHub",
+          "icon": "github"
+        },
+        {
+          "url": "https://bellatorrex.itch.io/gddc-example-game",
+          "text": "itch.io",
+          "icon": "itch"
+        }
+      ]
+    }
+  ]
+}
