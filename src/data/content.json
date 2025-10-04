@@ -111,6 +111,34 @@
         "likes": 16,
         "comments": 0,
         "views": 1297
+    },
+    {
+        "id": 9,
+        "type": "instagram",
+        "url": "https://www.instagram.com/reel/DPRLMbSDqyq/",
+        "title": "Terminal Workshop Announcement Reel",
+        "description": "Announcement of SBCS Terminal Workshop using slideshow style storytelling",
+        "dateAdded": "2025-10-01",
+        "platform": "Instagram",
+        "category": "SBCS",
+        "tags": ["Terminal", "CLI", "Workshop", "Memes"],
+        "likes": 5,
+        "comments": 6,
+        "views": 3008
+    },
+    {
+        "id": 10,
+        "type": "instagram",
+        "url": "https://www.instagram.com/reel/DPRhmp8jhQC/",
+        "title": "SBUHacks Announcement Reel",
+        "description": "Announcement of SBUHacks Hackathon using Hotel Trivago meme and cinematic edits.",
+        "dateAdded": "2025-10-01",
+        "platform": "Instagram",
+        "category": "SBCS",
+        "tags": ["Hackathon", "SBUHacks", "Announcement", "MLH"],
+        "likes": 40,
+        "comments": 12,
+        "views": 1860
     }
   ]
 }
