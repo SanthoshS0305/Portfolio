@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import projectData from '../data/projects.json';
 
 const ProjectTiles = ({ onProjectClick }) => {
   const allProjects = projectData.projects;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
 
   // Pagination logic
   const totalPages = Math.ceil(allProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProjects = allProjects.slice(startIndex, endIndex);
+
+  // Update current page if it's out of bounds after a screen resize
+  useEffect(() => {
+    const newTotalPages = Math.ceil(allProjects.length / itemsPerPage);
+    if (currentPage > newTotalPages) {
+      setCurrentPage(newTotalPages);
+    }
+  }, [itemsPerPage, allProjects.length, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -39,13 +47,6 @@ const ProjectTiles = ({ onProjectClick }) => {
         <h2>Projects</h2>
         <p>Here are some of my recent projects and work</p>
       </div>
-      
-      <div className="projects-stats">
-        <p>
-          Showing {startIndex + 1}-{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
-          {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
-        </p>
-      </div>
 
       <div className="project-tiles">
         {currentProjects.map((project) => (
@@ -63,6 +64,13 @@ const ProjectTiles = ({ onProjectClick }) => {
             </div>
           </div>
         ))}
+      </div>
+      
+      <div className="projects-stats">
+        <p>
+          Showing {startIndex + 1}-{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
+          {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+        </p>
       </div>
 
       {/* Pagination Controls */}
