@@ -56,34 +56,35 @@
     },
     {
       "id": 1,
-      "title": "And Then I Woke Up",
-      "description": "A narrative-driven game that explores themes of consciousness and reality through interactive storytelling.",
-      "shortDescription": "A narrative-driven game exploring consciousness and reality.",
-      "techStack": ["Unity", "C#", "Game Design"],
+      "title": "And Then I Woke Up Game",
+      "description": "A narrative-driven game that explores themes of grief and loss through narrative storytelling and shoot-em-up gameplay.",
+      "shortDescription": "A narrative-driven shoot-em-up game exploring grief and loss.",
+      "techStack": ["Godot Engine", "GDScript", "Game Design"],
       "image": "/assets/And_then_I_woke_up.png",
       "features": [
         {
           "label": "Narrative Design:",
-          "text": "Branching storylines with multiple endings based on player choices"
+          "text": "Linear narrative with a focus on storytelling and character development"
         },
         {
-          "label": "Interactive Dialogue:",
-          "text": "Dynamic conversation system with meaningful consequences"
-        },
-        {
-          "label": "Atmospheric Design:",
+          "label": "Pixel Art:",
           "text": "Immersive environments that enhance the storytelling experience"
         },
         {
-          "label": "Player Agency:",
-          "text": "Meaningful choices that affect the narrative progression"
+          "label": "Shoot-em-up gameplay:",
+          "text": "Fun and challenging gameplay with a variety of enemies and bosses"
         }
       ],
       "links": [
         {
-          "url": "https://github.com/SanthoshS0305/And-Then-I-Woke-Up",
+          "url": "https://github.com/SanthoshS0305/And-Then-I-Woke-Up-Game",
           "text": "GitHub",
           "icon": "github"
+        },
+        {
+          "url": "https://bellatorrex.itch.io/and-then-i-woke-up",
+          "text": "Itch.io",
+          "icon": "itch"
         }
       ]
     },
@@ -119,7 +120,7 @@
           "icon": "github"
         },
         {
-          "url": "https://santhoshs0305.github.io/JavaScript-Drum-Kit/",
+          "url": "https://web-drummer.netlify.app",
           "text": "Demo",
           "icon": "demo"
         }
@@ -128,8 +129,8 @@
     {
       "id": 3,
       "title": "Broomstick Chase Game",
-      "description": "A fast-paced 2D platformer game featuring a magical broomstick chase through enchanted forests.",
-      "shortDescription": "A fast-paced 2D platformer with magical broomstick mechanics.",
+      "description": "A fast-paced 2D minigame featuring a magical broomstick chase through an enchanted stadium.",
+      "shortDescription": "A fast-paced 2D minigame with magical broomstick mechanics.",
       "techStack": ["Unity", "C#", "2D Game Development"],
       "image": "/assets/broom.png",
       "features": [
@@ -138,16 +139,12 @@
           "text": "Realistic physics simulation for character movement and interactions"
         },
         {
-          "label": "Level Design:",
-          "text": "Multiple challenging levels with increasing difficulty"
-        },
-        {
-          "label": "Power-ups:",
-          "text": "Magical items that enhance player abilities"
+          "label": "Obstacles:",
+          "text": "Dodge magical projectiles and opposing NPCs"
         },
         {
           "label": "Score System:",
-          "text": "Points-based progression with leaderboard functionality"
+          "text": "Points awarded for successful dodges. Beat your high score!"
         }
       ],
       "links": [
@@ -160,10 +157,10 @@
     },
     {
       "id": 4,
-      "title": "GDDC example game",
+      "title": "GDDC Example Game",
       "description": "A sample game project created for the Game Development and Design Club to demonstrate various game development concepts and techniques.",
       "shortDescription": "A sample game project demonstrating game development concepts.",
-      "techStack": ["Unity", "C#", "Game Development"],
+      "techStack": ["Godot Engine", "GDScript", "Game Development"],
       "image": "/assets/wolfiemenu.png",
       "features": [
         {
@@ -185,14 +182,75 @@
       ],
       "links": [
         {
-          "url": "https://github.com/SanthoshS0305/GDDC-Example-Game",
+          "url": "https://github.com/Brian0706/GDDC_Example_Game",
           "text": "GitHub",
           "icon": "github"
         },
         {
-          "url": "https://santhoshs0305.itch.io/gddc-example-game",
-          "text": "Play on itch.io",
+          "url": "https://bellatorrex.itch.io/gddc-example-game",
+          "text": "Itch.io",
           "icon": "itch"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Personal Portfolio Website",
+      "description": "A modern, responsive portfolio website built with React showcasing my projects, content, and professional information. Features include smooth scrolling navigation, interactive project modals, pagination systems, and adaptive section spacing for optimal viewing at any zoom level.",
+      "shortDescription": "A modern, responsive portfolio website built with React.",
+      "techStack": ["React", "JavaScript", "CSS3", "HTML5"],
+      "image": "/assets/portfolio.png",
+      "features": [
+        {
+          "label": "React Framework:",
+          "text": "Built with Create React App for modern component-based architecture"
+        },
+        {
+          "label": "Responsive Design:",
+          "text": "Mobile-first design that adapts seamlessly across all device sizes"
+        },
+        {
+          "label": "Smooth Scrolling Navigation:",
+          "text": "One-page application with smooth scroll-to-section navigation"
+        },
+        {
+          "label": "Interactive Project Modals:",
+          "text": "Click-to-expand project details with backdrop and close functionality"
+        },
+        {
+          "label": "Content Management:",
+          "text": "Organized content sections with Instagram and TikTok embeds"
+        },
+        {
+          "label": "Pagination System:",
+          "text": "Smart pagination for both projects and content sections"
+        },
+        {
+          "label": "Modern UI/UX:",
+          "text": "Dark theme with blue accent colors and smooth animations"
+        },
+        {
+          "label": "Performance Optimized:",
+          "text": "Optimized for fast loading and smooth user experience"
+        },
+        {
+          "label": "Adaptive Layout:",
+          "text": "Dynamic section spacing that adapts to content and zoom levels"
+        },
+        {
+          "label": "Self-Documenting:",
+          "text": "Includes visual flowchart showing the website's architecture and structure"
+        },
+        {
+          "label": "Continuous Updates:",
+          "text": "Portfolio project automatically reflects the latest website improvements"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://github.com/SanthoshS0305/Portfolio",
+          "text": "GitHub",
+          "icon": "github"
         }
       ]
     }

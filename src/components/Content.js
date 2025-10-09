@@ -9,6 +9,8 @@ const Content = () => {
   const [filterPlatform, setFilterPlatform] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   // Filter and sort content
   useEffect(() => {
@@ -67,6 +69,7 @@ const Content = () => {
     });
 
     setFilteredContent(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
   }, [allContent, sortBy, sortOrder, filterPlatform, filterCategory, searchTerm]);
 
   // Load Instagram and TikTok embed scripts
@@ -209,6 +212,33 @@ const Content = () => {
   const platforms = [...new Set(allContent.map(item => item.platform))];
   const categories = [...new Set(allContent.map(item => item.category))];
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredContent.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentContent = filteredContent.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Scroll to top of content section
+    const contentSection = document.getElementById('content');
+    if (contentSection) {
+      contentSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
   return (
     <section className="content">
       <div className="content-header">
@@ -274,14 +304,56 @@ const Content = () => {
       </div>
 
       <div className="content-stats">
-        <p>Showing {filteredContent.length} of {allContent.length} items</p>
+        <p>
+          Showing {startIndex + 1}-{Math.min(endIndex, filteredContent.length)} of {filteredContent.length} items
+          {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+        </p>
       </div>
 
       <div className="content-grid">
-        {filteredContent.map(item => (
+        {currentContent.map(item => (
           <ContentItem key={item.id} item={item} />
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button 
+            className="pagination-btn" 
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+            Previous
+          </button>
+          
+          <div className="pagination-pages">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+          
+          <button 
+            className="pagination-btn" 
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+      )}
     </section>
   );
 };
