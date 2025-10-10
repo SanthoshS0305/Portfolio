@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import projectData from '../data/projects.json';
 
 const ProjectTiles = ({ onProjectClick }) => {
+  const handleMouseMove = (e, tileElement) => {
+    const rect = tileElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    tileElement.style.setProperty('--mouse-x', `${x}px`);
+    tileElement.style.setProperty('--mouse-y', `${y}px`);
+  };
   const allProjects = projectData.projects;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
@@ -54,6 +62,7 @@ const ProjectTiles = ({ onProjectClick }) => {
             key={project.id} 
             className="project-tile"
             onClick={() => onProjectClick(project.id)}
+            onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
           >
             <h3>{project.title}</h3>
             <p>{project.shortDescription}</p>

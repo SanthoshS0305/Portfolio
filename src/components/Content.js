@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import contentData from '../data/content.json';
 
 const Content = () => {
+  const handleMouseMove = (e, tileElement) => {
+    const rect = tileElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    tileElement.style.setProperty('--mouse-x', `${x}px`);
+    tileElement.style.setProperty('--mouse-y', `${y}px`);
+  };
   const allContent = contentData.content;
   const [filteredContent, setFilteredContent] = useState(allContent);
   const [sortBy, setSortBy] = useState('views');
@@ -105,7 +113,7 @@ const Content = () => {
     };
   }, [filteredContent]);
 
-  const ContentItem = ({ item }) => {
+  const ContentItem = ({ item, onMouseMove }) => {
     const renderEmbed = () => {
       if (item.type === 'instagram') {
         return (
@@ -185,7 +193,10 @@ const Content = () => {
     };
 
     return (
-      <div className="content-item">
+      <div 
+        className="content-item"
+        onMouseMove={(e) => onMouseMove(e, e.currentTarget)}
+      >
         <div className="content-item-header">
           <h3 className="content-title">{item.title}</h3>
           <div className="content-meta">
@@ -312,7 +323,7 @@ const Content = () => {
 
       <div className="content-grid">
         {currentContent.map(item => (
-          <ContentItem key={item.id} item={item} />
+          <ContentItem key={item.id} item={item} onMouseMove={handleMouseMove} />
         ))}
       </div>
 
