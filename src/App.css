@@ -103,11 +103,15 @@ body {
 .content-item,
 .writing-item,
 .skill-category,
-.modal-content,
-.pagination,
-.projects-pagination {
+.modal-content {
   position: relative;
   z-index: 2;
+}
+
+.pagination {
+  position: relative;
+  z-index: 10;
+  background: transparent;
 }
 
 .project-tile::after,
@@ -205,12 +209,12 @@ body::after {
 /* All page sections are now transparent */
 
 /* Projects Container */
-.projects-container {
+.projects {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  padding: 2rem 0;
+  position: relative;
 }
 
 .projects-header {
@@ -218,17 +222,17 @@ body::after {
   margin-bottom: 3rem;
 }
 
-.projects-header h2 {
+.projects-header h1 {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #FFD873;
+  color: var(--color-gold);
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .projects-header p {
   font-size: 1.1rem;
-  color: #97A1A2;
+  color: var(--color-grey);
 }
 
 .projects-stats {
@@ -237,19 +241,19 @@ body::after {
   color: var(--color-grey);
   font-size: 0.9rem;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
-.projects-container .pagination {
-  margin-top: 2rem;
+.projects-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  margin-top: 2rem;
   padding: 1rem;
-  flex-wrap: wrap;
+  background: transparent;
 }
 
 
@@ -355,12 +359,13 @@ body::after {
 /* Project Tiles */
 .project-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   margin-bottom: 2rem;
+  justify-items: center;
 }
 
 .pagination {
@@ -684,8 +689,8 @@ footer {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .project-tiles {
-    grid-template-columns: 1fr;
-    max-width: 600px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .about-content {
@@ -736,6 +741,17 @@ footer {
 
   .project-tiles {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .project-tiles .project-tile:nth-child(n+4) {
+    display: none;
+  }
+
+  .projects-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
 }
 
@@ -1294,6 +1310,7 @@ footer {
   flex: 1;
   min-height: 200px;
   pointer-events: auto;
+  z-index: 2;
 }
 
 .content-embed {
@@ -1305,56 +1322,27 @@ footer {
   pointer-events: auto;
 }
 
-/* Instagram and TikTok embed styling - maintain original aspect ratio */
-.instagram-media {
+/* Social Media Embeds */
+.instagram-media,
+.tiktok-embed {
+  margin: 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
   background: #FFF !important;
   border: 0 !important;
   border-radius: 3px !important;
   box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15) !important;
-  margin: 0 auto !important;
-  /* Let Instagram determine its own size */
-  width: auto !important;
-  max-width: none !important;
 }
 
-.tiktok-embed {
-  margin: 0 auto !important;
-  /* Let TikTok determine its own size */
-  width: auto !important;
-  max-width: none !important;
-  min-width: auto !important;
-}
-
-/* Hide TikTok promotional text and captions */
+/* Hide TikTok promotional elements */
 .tiktok-embed [data-e2e="video-desc"],
 .tiktok-embed [data-e2e="video-desc-text"],
 .tiktok-embed .tiktok-embed-footer,
-.tiktok-embed .tiktok-embed-caption {
-  display: none !important;
-}
-
-/* Hide "Watch more exciting videos on TikTok" text */
+.tiktok-embed .tiktok-embed-caption,
 .tiktok-embed::after,
 .tiktok-embed .tiktok-embed-promotion {
   display: none !important;
-}
-
-/* Allow Instagram and TikTok embeds to display naturally */
-.instagram-media {
-  background: #FFF !important;
-  border: 0 !important;
-  border-radius: 3px !important;
-  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15) !important;
-  margin: 0 auto !important;
-  width: auto !important;
-  max-width: none !important;
-}
-
-.tiktok-embed {
-  margin: 0 auto !important;
-  width: auto !important;
-  max-width: none !important;
-  min-width: auto !important;
 }
 
 
@@ -1621,42 +1609,53 @@ footer {
 
 /* Responsive design for content */
 @media (max-width: 1024px) {
-  .content-grid {
+  /* Grid layouts */
+  .content-grid,
+  .project-tiles,
+  .writing-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .content-grid {
+  /* Grid layouts */
+  .content-grid,
+  .project-tiles,
+  .writing-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
   
-  .content-grid .content-item:nth-child(n+3) {
-    display: none;
-  }
-
-  .project-tiles .project-tile:nth-child(n+4) {
+  /* Limit items on mobile */
+  .content-grid .content-item:nth-child(n+3),
+  .project-tiles .project-tile:nth-child(n+4),
+  .writing-grid .writing-item:nth-child(n+3) {
     display: none;
   }
   
+  /* Controls and stats */
   .content-controls {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
   }
   
-  .content-stats {
+  .content-stats,
+  .projects-stats,
+  .writing-stats {
     justify-content: center;
+    font-size: 0.85rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
   
   .sort-controls {
     justify-content: center;
   }
 
-  .pagination,
-  .projects-pagination {
+  /* Pagination */
+  .pagination {
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 1.5rem;
@@ -1665,45 +1664,16 @@ footer {
     justify-content: center;
   }
 
-  .pagination-btn,
-  .projects-pagination .pagination-btn {
+  .pagination-btn {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
     min-width: 100px;
     justify-content: center;
   }
 
-  .pagination-page,
-  .projects-pagination .pagination-page {
+  .pagination-page {
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
     min-width: 36px;
-  }
-
-  .projects-stats,
-  .content-stats {
-    font-size: 0.85rem;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .projects-stats span,
-  .content-stats span {
-    white-space: nowrap;
-  }
-
-  .projects-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .projects-container .projects-pagination {
-    order: 2;
-    margin-top: 1.5rem;
-    width: 100%;
-  }
-
-  .projects-container .project-tiles {
-    order: 1;
   }
 }

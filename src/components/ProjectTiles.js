@@ -50,9 +50,9 @@ const ProjectTiles = ({ onProjectClick }) => {
   };
 
   return (
-    <div className="projects-container">
+    <section className="projects">
       <div className="projects-header">
-        <h2>Projects</h2>
+        <h1>Projects</h1>
         <p>Here are some of my recent projects and work</p>
       </div>
 
@@ -61,6 +61,25 @@ const ProjectTiles = ({ onProjectClick }) => {
           Showing {startIndex + 1}-{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
           {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </p>
+      </div>
+
+      <div className="project-tiles">
+        {currentProjects.map((project) => (
+          <div 
+            key={project.id} 
+            className="project-tile"
+            onClick={() => onProjectClick(project.id)}
+            onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+          >
+            <h3>{project.title}</h3>
+            <p>{project.shortDescription}</p>
+            <div className="tech-stack">
+              {project.techStack.map((tech, index) => (
+                <span key={index}>{tech}</span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Pagination Controls */}
@@ -101,26 +120,7 @@ const ProjectTiles = ({ onProjectClick }) => {
           </button>
         </div>
       )}
-
-      <div className="project-tiles">
-        {currentProjects.map((project) => (
-          <div 
-            key={project.id} 
-            className="project-tile"
-            onClick={() => onProjectClick(project.id)}
-            onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
-          >
-            <h3>{project.title}</h3>
-            <p>{project.shortDescription}</p>
-            <div className="tech-stack">
-              {project.techStack.map((tech, index) => (
-                <span key={index}>{tech}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </section>
   );
 };
 
