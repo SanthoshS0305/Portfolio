@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Content from './components/Content';
 import ProjectTiles from './components/ProjectTiles';
+import Writing from './components/Writing';
 import ProjectModal from './components/ProjectModal';
 import Footer from './components/Footer';
 
@@ -62,6 +63,11 @@ function App() {
         {/* Projects Section */}
         <section id="projects" className="page-section">
           <ProjectTiles onProjectClick={handleProjectClick} />
+        </section>
+
+        {/* Writing Section */}
+        <section id="writing" className="page-section">
+          <Writing />
         </section>
 
         {/* Content Section */}

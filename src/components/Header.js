@@ -40,6 +40,7 @@ const Header = () => {
   const menuItems = [
     { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Projects' },
+    { id: 'writing', label: 'Writing' },
     { id: 'content', label: 'Content' },
     { id: 'about', label: 'Skills and Contact' }
   ];

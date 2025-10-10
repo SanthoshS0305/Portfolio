@@ -1,6 +1,14 @@
 import React from 'react';
 
 const About = () => {
+  const handleMouseMove = (e, element) => {
+    const rect = element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    element.style.setProperty('--mouse-x', `${x}px`);
+    element.style.setProperty('--mouse-y', `${y}px`);
+  };
   return (
     <section className="about">
       <div className="about-header">
@@ -10,7 +18,10 @@ const About = () => {
         <div className="skills-section">
           <h2>Skills</h2>
           <div className="skills-grid">
-            <div className="skill-category">
+            <div 
+              className="skill-category"
+              onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+            >
               <h3>Programming Languages</h3>
               <ul>
                 <li>Java</li>
@@ -20,7 +31,10 @@ const About = () => {
                 <li>C</li>
               </ul>
             </div>
-            <div className="skill-category">
+            <div 
+              className="skill-category"
+              onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+            >
               <h3>Development</h3>
               <ul>
                 <li>Game Development</li>
@@ -30,7 +44,10 @@ const About = () => {
                 <li>Full Stack Development</li>
               </ul>
             </div>
-            <div className="skill-category">
+            <div 
+              className="skill-category"
+              onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+            >
               <h3>Tools & Technologies</h3>
               <ul>
                 <li>Git and GitHub</li>
@@ -41,7 +58,10 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className="contact-section">
+        <div 
+          className="contact-section"
+          onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+        >
           <h2>Get in Touch</h2>
           <p>Feel free to reach out at <a href="mailto:santhoshs0305@gmail.com">santhoshs0305@gmail.com</a></p>
           <div className="social-links">

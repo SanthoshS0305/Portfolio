@@ -56,25 +56,6 @@ const ProjectTiles = ({ onProjectClick }) => {
         <p>Here are some of my recent projects and work</p>
       </div>
 
-      <div className="project-tiles">
-        {currentProjects.map((project) => (
-          <div 
-            key={project.id} 
-            className="project-tile"
-            onClick={() => onProjectClick(project.id)}
-            onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
-          >
-            <h3>{project.title}</h3>
-            <p>{project.shortDescription}</p>
-            <div className="tech-stack">
-              {project.techStack.map((tech, index) => (
-                <span key={index}>{tech}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      
       <div className="projects-stats">
         <p>
           Showing {startIndex + 1}-{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
@@ -120,6 +101,25 @@ const ProjectTiles = ({ onProjectClick }) => {
           </button>
         </div>
       )}
+
+      <div className="project-tiles">
+        {currentProjects.map((project) => (
+          <div 
+            key={project.id} 
+            className="project-tile"
+            onClick={() => onProjectClick(project.id)}
+            onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+          >
+            <h3>{project.title}</h3>
+            <p>{project.shortDescription}</p>
+            <div className="tech-stack">
+              {project.techStack.map((tech, index) => (
+                <span key={index}>{tech}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
