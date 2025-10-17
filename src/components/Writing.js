@@ -170,7 +170,7 @@ const Writing = () => {
       <div className="writing-container">
         <div className="writing-header">
           <h2>Writing</h2>
-          <p>My thoughts and insights on technology, development, and more</p>
+          <p>Writing is my one true love, and I'm so excited to share my work with you!</p>
         </div>
 
         {loading ? (

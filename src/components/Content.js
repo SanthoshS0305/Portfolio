@@ -254,14 +254,14 @@ const Content = () => {
     <section className="content">
       <div className="content-header">
         <h1>Content</h1>
-        <p>Check out my latest Instagram reels and TikTok videos!</p>
+        <p>I make marketing content for my clients and organizations I work with. Check them out below!</p>
       </div>
 
       <div className="content-controls">
         <div className="search-control">
           <input
             type="text"
-            placeholder="Search content..."
+            placeholder="Search by title, description, or tags..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"

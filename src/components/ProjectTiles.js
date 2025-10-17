@@ -53,7 +53,7 @@ const ProjectTiles = ({ onProjectClick }) => {
     <section className="projects">
       <div className="projects-header">
         <h1>Projects</h1>
-        <p>Here are some of my recent projects and work</p>
+        <p>Here are some of the cool projects that I've worked on!</p>
       </div>
 
       <div className="projects-stats">
