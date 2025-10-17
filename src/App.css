@@ -203,7 +203,6 @@ body::after {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid rgba(247, 247, 247, 0.1);
 }
 
 /* All page sections are now transparent */
@@ -354,6 +353,11 @@ body::after {
   font-size: 1.1rem;
   color: #b0b0b0;
   line-height: 1.6;
+}
+
+.hero-about p {
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 /* Project Tiles */

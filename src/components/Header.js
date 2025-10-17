@@ -49,7 +49,7 @@ const Header = () => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        background: 'rgba(54, 54, 54, 0.8)',
+        background: 'rgba(48, 48, 48, 0.8)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(247, 247, 247, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
