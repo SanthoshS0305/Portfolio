@@ -1,16 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import contentData from '../data/content.json';
+import instagramData from '../data/instagram.json';
+
+const fromApify = (post, index) => ({
+  id: `apify-${post.id || index}`,
+  type: 'instagram',
+  url: post.url,
+  title: (post.caption || '').slice(0, 80) || 'Instagram Post',
+  description: post.caption || '',
+  dateAdded: post.timestamp?.slice(0, 10) || '',
+  platform: 'Instagram',
+  category: 'SBCS',
+  tags: ['Stony Brook', 'Computer Science', 'SBCS'],
+  likes: post.likesCount ?? null,
+  comments: post.commentsCount ?? null,
+  views: post.videoViewCount ?? null,
+});
 
 const Content = () => {
   const handleMouseMove = (e, tileElement) => {
     const rect = tileElement.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     tileElement.style.setProperty('--mouse-x', `${x}px`);
     tileElement.style.setProperty('--mouse-y', `${y}px`);
   };
-  const allContent = contentData.content;
+
+  const allContent = useMemo(() => {
+    const manual = contentData.content;
+    const manualUrls = new Set(manual.map(c => c.url));
+    const apifyItems = instagramData
+      .filter(p => p.url && !manualUrls.has(p.url))
+      .map(fromApify);
+    return [...apifyItems, ...manual];
+  }, []);
   const [filteredContent, setFilteredContent] = useState(allContent);
   const [sortBy, setSortBy] = useState('views');
   const [sortOrder, setSortOrder] = useState('desc');
@@ -53,12 +77,12 @@ const Content = () => {
           bValue = new Date(b.dateAdded);
           break;
         case 'likes':
-          aValue = a.likes || 0;
-          bValue = b.likes || 0;
+          aValue = a.likes ?? -1;
+          bValue = b.likes ?? -1;
           break;
         case 'views':
-          aValue = a.views || 0;
-          bValue = b.views || 0;
+          aValue = a.views ?? -1;
+          bValue = b.views ?? -1;
           break;
         case 'title':
           aValue = a.title.toLowerCase();
@@ -299,6 +323,7 @@ const Content = () => {
             className="sort-select"
           >
             <option value="views">Most Viewed</option>
+            <option value="likes">Most Liked</option>
             <option value="dateAdded">Date Added</option>
             <option value="title">Title</option>
           </select>
