@@ -301,15 +301,21 @@ body::after {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.hero-left {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex: 1;
 }
 
 .hero-header {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+  text-align: left;
 }
 
 .hero-header h1 {
@@ -321,43 +327,117 @@ body::after {
 .hero-header p {
   font-size: 1.25rem;
   color: #b0b0b0;
-  white-space: nowrap;
-}
-
-.hero-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 3rem;
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
 }
 
 .hero-image {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .hero-profile-image {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-about {
-  flex: 1;
   font-size: 1.1rem;
   color: #b0b0b0;
   line-height: 1.6;
 }
 
 .hero-about p {
-  display: inline-block;
+  display: block;
   margin-bottom: 10px;
+}
+
+/* Hero Right — Vertical Carousel */
+.hero-right {
+  width: 400px;
+  flex-shrink: 0;
+  margin-right: -6rem;
+}
+
+.carousel-viewport {
+  height: 620px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  will-change: transform;
+}
+
+.carousel-item {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Carousel Popup */
+.carousel-popup {
+  z-index: 9999;
+  background: rgba(54, 54, 54, 0.97);
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid rgba(255, 216, 115, 0.3);
+}
+
+.carousel-popup-thumbnail {
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+}
+
+.carousel-popup-thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.carousel-popup-header {
+  background: #2d2d2d;
+  padding: 16px 20px;
+  border-bottom: 1px solid #555;
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carousel-popup-title {
+  font-size: 1.4rem;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+
+.carousel-popup-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.carousel-popup-description {
+  font-size: 1rem;
+  color: #b0b0b0;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* Project Tiles */
@@ -701,13 +781,25 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .hero-content {
+  .hero {
     flex-direction: column;
-    text-align: center;
   }
 
-  .hero-about {
-    text-align: center;
+  .hero-right {
+    width: 100%;
+  }
+
+  .carousel-viewport {
+    height: 260px;
+  }
+
+  .carousel-track {
+    flex-direction: row;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
   }
 
   .hero-header h1 {
@@ -716,7 +808,6 @@ footer {
 
   .hero-header p {
     font-size: 1.1rem;
-    white-space: normal;
   }
 }
 

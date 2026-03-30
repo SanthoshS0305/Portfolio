@@ -1,0 +1,26 @@
+[
+  {
+    "src": "/company_carousel/thumplocal.png",
+    "alt": "ThumpLocal",
+    "title": "Thump Local LLC",
+    "description": "I work as an Assistant Digital Marketing Coordinator at Thump Local LLC. Thump is a Digital Marketing Agency based in Long Island, NY."
+  },
+  {
+    "src": "/company_carousel/sbcs-bracket.png",
+    "alt": "SBCS",
+    "title": "Stony Brook Computing Society",
+    "description": "I am the two-time elected Public Relations Officer for the Stony Brook Computing Society. SBCS is a student-run Computing Club at Stony Brook University." 
+  },
+  {
+    "src": "/company_carousel/sbuhacks.png",
+    "alt": "SBUHacks",
+    "title": "SBUHacks",
+    "description":"SBUHacks is Stony Brook University's premier Hackathon, hosted and organized by the Stony Brook Computing Society. I helped organize the Hackathon, specifically managed all the marketing material, generating over 600 leads in the process."
+  },
+  {
+    "src": "/company_carousel/GDDC.jpg",
+    "alt": "GDDC",
+    "title": "Game Development and Design Club",
+    "description": "The Game Development and Design Club, or GDDC, is SBU's Game Development Club. I served as its Vice President for the 2025-26 Academic Year." 
+  }
+]
