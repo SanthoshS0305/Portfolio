@@ -1,0 +1,25 @@
+name: Update Instagram Data
+
+    on:
+      repository_dispatch:
+        types: [apify-instagram-update]
+
+    jobs:
+      update:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+
+          - name: Download Apify dataset
+            run: |
+              curl -o src/data/instagram.json \
+                "https://api.apify.com/v2/acts/apify~instagram-post-scraper/runs/last/dataset/items?token=${{ secrets.APIFY_TOKEN }}&format=json"
+
+          - name: Commit and push
+            run: |
+              git config user.name "github-actions"
+              git config user.email "actions@github.com"
+              git add src/data/instagram.json
+              git diff --staged --quiet || git commit -m "chore: update instagram data"
+              git push
+
