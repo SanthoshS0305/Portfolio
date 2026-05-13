@@ -45,7 +45,7 @@ const Writing = () => {
           title: item.title || '',
           description: formatDescription(item.description || item.content || ''),
           link: item.link || '',
-          thumbnail: item.thumbnail || '',
+          thumbnail: item.enclosure?.link || item.thumbnail || '',
           date: new Date(item.pubDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
