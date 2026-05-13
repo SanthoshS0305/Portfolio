@@ -993,6 +993,28 @@ footer {
   margin-bottom: 1rem;
 }
 
+.writing-subscribe {
+  margin-top: 3rem;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.writing-subscribe h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.writing-subscribe p {
+  margin-bottom: 1.25rem;
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+}
+
+.writing-subscribe iframe {
+  max-width: 100%;
+}
+
 .writing-loading,
 .writing-error,
 .writing-empty {

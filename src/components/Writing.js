@@ -249,6 +249,20 @@ const Writing = () => {
             </div>
           </>
         )}
+
+        <div className="writing-subscribe">
+          <h3>Subscribe</h3>
+          <p>Get new essays delivered straight to your inbox.</p>
+          <iframe
+            src="https://dashesnothyphens.substack.com/embed?transparent=1&light=1"
+            width="480"
+            height="320"
+            style={{ border: 0, background: 'transparent' }}
+            frameBorder="0"
+            scrolling="no"
+            title="Subscribe to Dashes Not Hyphens"
+          />
+        </div>
       </div>
     </section>
   );
