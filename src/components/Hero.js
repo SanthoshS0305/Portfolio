@@ -74,9 +74,6 @@ const HorizontalScroll = () => {
             className="carousel-popup"
             style={{ position: 'fixed', top, left, pointerEvents: 'none' }}
           >
-            <div className="carousel-popup-thumbnail">
-              <img src={hoveredItem.src} alt={hoveredItem.alt} />
-            </div>
             <div className="carousel-popup-header">
               <h3 className="carousel-popup-title">{hoveredItem.title}</h3>
             </div>
