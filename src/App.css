@@ -399,7 +399,7 @@ body::after {
 /* Carousel Popup */
 .carousel-popup {
   z-index: 9999;
-  background: var(--color-teal-20);
+  background: rgba(8, 22, 22, 0.82);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   max-width: 300px;
