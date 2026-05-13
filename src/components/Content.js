@@ -33,7 +33,10 @@ const Content = () => {
     const apifyItems = instagramData
       .filter(p => p.url && !manualUrls.has(p.url))
       .map(fromApify);
-    return [...apifyItems, ...manual];
+    const combined = [...apifyItems, ...manual];
+    return combined.filter(item =>
+      item.type !== 'instagram' || !item.dateAdded || item.dateAdded >= '2025-01-01'
+    );
   }, []);
   const [filteredContent, setFilteredContent] = useState(allContent);
   const [sortBy, setSortBy] = useState('views');
