@@ -25,60 +25,34 @@ const Writing = () => {
           return;
         }
 
-        const response = await fetch(SUBSTACK_API_URL, {
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
+        const response = await fetch(SUBSTACK_API_URL);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-        
-        // Validate feed structure
-        const channelTitle = xmlDoc.querySelector('channel > title')?.textContent;
-        if (!channelTitle) {
-          throw new Error('Invalid feed: missing channel title');
+        const data = await response.json();
+
+        if (data.status !== 'ok') {
+          throw new Error('Invalid feed: rss2json returned non-ok status');
         }
 
-        const items = xmlDoc.querySelectorAll('item');
-        if (!items || items.length === 0) {
+        if (!data.items || data.items.length === 0) {
           throw new Error('Invalid feed format or no items found');
         }
 
-        const formattedArticles = Array.from(items).map(item => {
-          // Prefer Substack's enclosure tag, fall back to first img in content:encoded
-          const content = item.querySelector('content\\:encoded, encoded')?.textContent || '';
-          let thumbnail = item.querySelector('enclosure')?.getAttribute('url') || '';
-          if (!thumbnail) {
-            const div = document.createElement('div');
-            div.innerHTML = content;
-            const firstImage = div.querySelector('img');
-            if (firstImage) thumbnail = firstImage.src;
-          }
-
-          const description = item.querySelector('description')?.textContent || '';
-          const title = item.querySelector('title')?.textContent || '';
-          const link = item.querySelector('link')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || '';
-
-          return {
-            title,
-            description: formatDescription(description || content || ''),
-            link,
-            thumbnail,
-            date: new Date(pubDate).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }),
-            readTime: calculateReadTime(content || '')
-          };
-        });
+        const formattedArticles = data.items.map(item => ({
+          title: item.title || '',
+          description: formatDescription(item.description || item.content || ''),
+          link: item.link || '',
+          thumbnail: item.thumbnail || '',
+          date: new Date(item.pubDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }),
+          readTime: calculateReadTime(item.content || '')
+        }));
 
         setArticles(formattedArticles);
         setCache(formattedArticles);
@@ -106,7 +80,7 @@ const Writing = () => {
             errorMessage += 'The server returned an error. ';
           } else if (err.message.includes('Failed to fetch')) {
             errorMessage += 'Network error - please check your connection. ';
-          } else if (err.message.includes('Invalid feed')) {
+          } else if (err.message.includes('Invalid feed') || err.message.includes('non-ok status')) {
             errorMessage += 'The feed format was invalid. ';
           }
           
@@ -269,8 +243,7 @@ const Writing = () => {
 };
 
 const SUBSTACK_RSS_URL = "https://dashesnothyphens.substack.com/feed";
-const CORS_PROXY = "https://api.allorigins.win/raw?url=";
-const SUBSTACK_API_URL = `${CORS_PROXY}${encodeURIComponent(SUBSTACK_RSS_URL)}`;
+const SUBSTACK_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_RSS_URL)}`;
 
 const CACHE_KEY = 'substack_articles_cache';
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
