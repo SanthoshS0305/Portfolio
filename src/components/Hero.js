@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import carouselData from '../data/carouselData.json';
 
-const VerticalCarousel = () => {
+const HorizontalScroll = () => {
   const trackRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -17,16 +17,16 @@ const VerticalCarousel = () => {
     const track = trackRef.current;
     if (!track) return;
 
-    const speed = 0.35;
+    const speed = 0.5;
 
     const animate = () => {
       if (shouldAnimate) {
         posRef.current += speed;
-        const half = track.scrollHeight / 2;
+        const half = track.scrollWidth / 2;
         if (posRef.current >= half) {
           posRef.current = 0;
         }
-        track.style.transform = `translateY(-${posRef.current}px)`;
+        track.style.transform = `translateX(-${posRef.current}px)`;
       }
       rafRef.current = requestAnimationFrame(animate);
     };
@@ -69,26 +69,21 @@ const VerticalCarousel = () => {
         const left = Math.min(cursorPos.x + OFFSET, window.innerWidth - POPUP_WIDTH - MARGIN);
         const top = Math.min(cursorPos.y + OFFSET, window.innerHeight - popupHeight - MARGIN);
         return (
-        <div
-          ref={popupRef}
-          className="carousel-popup"
-          style={{
-            position: 'fixed',
-            top,
-            left,
-            pointerEvents: 'none',
-          }}
-        >
-          <div className="carousel-popup-thumbnail">
-            <img src={hoveredItem.src} alt={hoveredItem.alt} />
+          <div
+            ref={popupRef}
+            className="carousel-popup"
+            style={{ position: 'fixed', top, left, pointerEvents: 'none' }}
+          >
+            <div className="carousel-popup-thumbnail">
+              <img src={hoveredItem.src} alt={hoveredItem.alt} />
+            </div>
+            <div className="carousel-popup-header">
+              <h3 className="carousel-popup-title">{hoveredItem.title}</h3>
+            </div>
+            <div className="carousel-popup-body">
+              <p className="carousel-popup-description">{hoveredItem.description}</p>
+            </div>
           </div>
-          <div className="carousel-popup-header">
-            <h3 className="carousel-popup-title">{hoveredItem.title}</h3>
-          </div>
-          <div className="carousel-popup-body">
-            <p className="carousel-popup-description">{hoveredItem.description}</p>
-          </div>
-        </div>
         );
       })()}
     </>
@@ -98,29 +93,29 @@ const VerticalCarousel = () => {
 const Hero = () => {
   return (
     <section className="hero">
-      <div className="hero-left">
+      <div className="hero-bio">
         <div className="hero-image">
           <img src="/profile.jpg" alt="Santhosh Senthil" className="hero-profile-image" />
         </div>
-        <div className="hero-header">
-          <h1>Hi, I'm <span className="highlight">Santhosh Senthil</span></h1>
-          <p>Computer Science Student, Professional Content Creator, and Writer</p>
-        </div>
-        <div className="hero-about">
-          <p>
-            I'm a Computer Science Student Minoring in Writing and Rhetoric at Stony Brook University in New York. I'm also a professional content creator and writer.
-          </p>
-          <p>
-            I am passionate about computers and people. That is why I am Vice President of the Stony Brook University Game Development and Design Club and the Public Relations Officer of the Stony Brook Computing Society.
-          </p>
-          <p>
-            As an avid artist, I love creating social media content for various organizations. I am also an avid writer, and you can check out my writing portfolio. You can also check out my projects if you're interested in my work.
-          </p>
+        <div className="hero-bio-text">
+          <div className="hero-header">
+            <h1>Hi, I'm <span className="highlight">Santhosh Senthil</span></h1>
+            <p>Computer Science Student, Professional Content Creator, and Writer</p>
+          </div>
+          <div className="hero-about">
+            <p>
+              I'm a Computer Science Student Minoring in Writing and Rhetoric at Stony Brook University in New York. I'm also a professional content creator and writer.
+            </p>
+            <p>
+              I am passionate about computers and people. That is why I am Vice President of the Stony Brook University Game Development and Design Club and the Public Relations Officer of the Stony Brook Computing Society.
+            </p>
+            <p>
+              As an avid artist, I love creating social media content for various organizations. I am also an avid writer, and you can check out my writing portfolio. You can also check out my projects if you're interested in my work.
+            </p>
+          </div>
         </div>
       </div>
-      <div className="hero-right">
-        <VerticalCarousel />
-      </div>
+      <HorizontalScroll />
     </section>
   );
 };
