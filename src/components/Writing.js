@@ -51,14 +51,14 @@ const Writing = () => {
         }
 
         const formattedArticles = Array.from(items).map(item => {
-          // Extract first image from content
+          // Prefer Substack's enclosure tag, fall back to first img in content:encoded
           const content = item.querySelector('content\\:encoded, encoded')?.textContent || '';
-          let thumbnail = '';
-          const div = document.createElement('div');
-          div.innerHTML = content;
-          const firstImage = div.querySelector('img');
-          if (firstImage) {
-            thumbnail = firstImage.src;
+          let thumbnail = item.querySelector('enclosure')?.getAttribute('url') || '';
+          if (!thumbnail) {
+            const div = document.createElement('div');
+            div.innerHTML = content;
+            const firstImage = div.querySelector('img');
+            if (firstImage) thumbnail = firstImage.src;
           }
 
           const description = item.querySelector('description')?.textContent || '';
