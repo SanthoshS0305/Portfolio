@@ -5,7 +5,7 @@ const Writing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -166,10 +166,6 @@ const Writing = () => {
               <div className="writing-empty">No articles found.</div>
             ) : (
               <>
-                <div className="writing-stats">
-                  Showing {startIndex + 1}-{Math.min(endIndex, articles.length)} of {articles.length} articles (Page {currentPage} of {totalPages})
-                </div>
-
                 <div className="writing-grid">
                   {currentArticles.map((article, index) => (
                     <div
@@ -185,11 +181,13 @@ const Writing = () => {
                           className="writing-thumbnail"
                         />
                       )}
-                      <h3>{article.title}</h3>
-                      <p>{article.description}</p>
-                      <div className="writing-stats">
-                        <span>{article.date}</span>
-                        <span>{article.readTime} min read</span>
+                      <div className="writing-item-text">
+                        <h3>{article.title}</h3>
+                        <p>{article.description}</p>
+                        <div className="writing-meta">
+                          <span>{article.date}</span>
+                          <span>{article.readTime} min read</span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -288,7 +286,7 @@ const formatDescription = (description) => {
   div.innerHTML = description;
   // Get first paragraph or first 150 characters
   const text = div.textContent || div.innerText || "";
-  return text.length > 150 ? text.substring(0, 150) + "..." : text;
+  return text.length > 160 ? text.substring(0, 160) + "..." : text;
 };
 
 const calculateReadTime = (content) => {
