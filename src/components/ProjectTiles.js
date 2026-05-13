@@ -1,52 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import projectData from '../data/projects.json';
+import { readClient, queries } from '../cms/sanityClient';
+import projectFallback from '../data/projects.json';
 
 const ProjectTiles = ({ onProjectClick }) => {
+  const [allProjects, setAllProjects] = useState(projectFallback.projects);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    readClient.fetch(queries.projects)
+      .then((res) => { if (res?.length) setAllProjects(res); })
+      .catch(() => {});
+  }, []);
+
   const handleMouseMove = (e, tileElement) => {
     const rect = tileElement.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    tileElement.style.setProperty('--mouse-x', `${x}px`);
-    tileElement.style.setProperty('--mouse-y', `${y}px`);
+    tileElement.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    tileElement.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
-  const allProjects = projectData.projects;
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
 
-  // Pagination logic
+  const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
   const totalPages = Math.ceil(allProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProjects = allProjects.slice(startIndex, endIndex);
 
-  // Update current page if it's out of bounds after a screen resize
   useEffect(() => {
     const newTotalPages = Math.ceil(allProjects.length / itemsPerPage);
-    if (currentPage > newTotalPages) {
-      setCurrentPage(newTotalPages);
-    }
+    if (currentPage > newTotalPages && newTotalPages > 0) setCurrentPage(newTotalPages);
   }, [itemsPerPage, allProjects.length, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Scroll to top of projects section
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
+    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -58,23 +43,23 @@ const ProjectTiles = ({ onProjectClick }) => {
 
       <div className="projects-stats">
         <p>
-          Showing {startIndex + 1}-{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
+          Showing {startIndex + 1}–{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
           {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </p>
       </div>
 
       <div className="project-tiles">
         {currentProjects.map((project) => (
-          <div 
-            key={project.id} 
+          <div
+            key={project._id || project.id}
             className="project-tile"
-            onClick={() => onProjectClick(project.id)}
+            onClick={() => onProjectClick(project)}
             onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
           >
             <h3>{project.title}</h3>
             <p>{project.shortDescription}</p>
             <div className="tech-stack">
-              {project.techStack.map((tech, index) => (
+              {(project.techStack || []).map((tech, index) => (
                 <span key={index}>{tech}</span>
               ))}
             </div>
@@ -82,12 +67,11 @@ const ProjectTiles = ({ onProjectClick }) => {
         ))}
       </div>
 
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="pagination">
-          <button 
-            className="pagination-btn" 
-            onClick={handlePreviousPage}
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -95,9 +79,9 @@ const ProjectTiles = ({ onProjectClick }) => {
             </svg>
             Previous
           </button>
-          
+
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 className={`pagination-page ${currentPage === page ? 'active' : ''}`}
@@ -107,10 +91,10 @@ const ProjectTiles = ({ onProjectClick }) => {
               </button>
             ))}
           </div>
-          
-          <button 
-            className="pagination-btn" 
-            onClick={handleNextPage}
+
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
             Next

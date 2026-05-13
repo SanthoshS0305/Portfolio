@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { readClient, queries } from '../cms/sanityClient';
 
 const Writing = () => {
-  const [articles, setArticles] = useState([]);
+  const [substackArticles, setSubstackArticles] = useState([]);
+  const [sanityArticles, setSanityArticles] = useState([]);
+  const [hiddenWritingUrls, setHiddenWritingUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
+
+  // Merged: Sanity takes priority (overrides RSS for same URL); hidden RSS items suppressed
+  const articles = useMemo(() => {
+    const hiddenSet = new Set(hiddenWritingUrls);
+    const sanityLinks = new Set(sanityArticles.map((a) => a.link));
+    const rssOnly = substackArticles.filter((a) => !sanityLinks.has(a.link) && !hiddenSet.has(a.link));
+    return [...sanityArticles, ...rssOnly].sort((a, b) => {
+      const da = a.rawDate ? new Date(a.rawDate) : 0;
+      const db = b.rawDate ? new Date(b.rawDate) : 0;
+      return db - da;
+    });
+  }, [substackArticles, sanityArticles, hiddenWritingUrls]);
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -18,7 +33,7 @@ const Writing = () => {
         // Check cache first
         const cachedData = getCache();
         if (cachedData && !isBackgroundRefresh) {
-          setArticles(cachedData);
+          setSubstackArticles(cachedData);
           setLoading(false);
           // Fetch fresh data in background
           fetchArticles(0, true);
@@ -51,10 +66,11 @@ const Writing = () => {
             month: 'long',
             day: 'numeric'
           }),
+          rawDate: item.pubDate || '',
           readTime: calculateReadTime(item.content || '')
         }));
 
-        setArticles(formattedArticles);
+        setSubstackArticles(formattedArticles);
         setCache(formattedArticles);
         
       } catch (err) {
@@ -87,7 +103,7 @@ const Writing = () => {
           // Use cached data as fallback
           const cachedData = getCache();
           if (cachedData) {
-            setArticles(cachedData);
+            setSubstackArticles(cachedData);
             errorMessage += 'Showing cached data. ';
           }
           
@@ -105,6 +121,33 @@ const Writing = () => {
     // Fetch articles every hour
     const interval = setInterval(fetchArticles, 3600000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    readClient.fetch(queries.siteSettings)
+      .then((s) => { if (s?.hiddenWritingUrls) setHiddenWritingUrls(s.hiddenWritingUrls); })
+      .catch(() => {});
+  }, []);
+
+  // Fetch manual writing entries from Sanity and merge with Substack
+  useEffect(() => {
+    readClient.fetch(queries.writingItems)
+      .then((items) => {
+        if (items?.length) {
+          setSanityArticles(items.map((item) => ({
+            title: item.title || '',
+            description: item.description || '',
+            link: item.link || '',
+            thumbnail: item.thumbnailUrl || item.thumbnailExternalUrl || '',
+            date: item.date ? new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            }) : '',
+            rawDate: item.date || '',
+            readTime: null,
+          })));
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {

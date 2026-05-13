@@ -1,7 +1,57 @@
 import React, { useEffect, useRef, useState } from 'react';
-import carouselData from '../data/carouselData.json';
+import { readClient, queries } from '../cms/sanityClient';
+import carouselFallback from '../data/carouselData.json';
 
-const HorizontalScroll = () => {
+const DEFAULT_HERO = {
+  name: 'Santhosh Senthil',
+  tagline: 'Computer Science Student, Professional Content Creator, and Writer',
+  bio: [
+    "I'm a Computer Science Student Minoring in Writing and Rhetoric at Stony Brook University in New York. I'm also a professional content creator and writer. I am currently an **Assistant Digital Marketing Coordinator for Thump Local**, and a **research assistant for PoliTech, under Professor Robert Kelly**.",
+    "I am passionate about computers and people. That is why I am a **Peer Mentor** for the **College of Engineering and Applied Sciences' Peer Mentoring Program**. I was also the **Vice President of the SBU Game Development and Design Club** and the **Public Relations Officer for the Stony Brook Computing Society**.",
+    "As an avid artist, I love creating [social media content](scroll:content) for various organizations. I am also an avid writer, and you can check out my [writing portfolio](scroll:writing). You can also check out my [coding projects](scroll:projects) if you're interested in my work.",
+  ],
+  profileImageUrl: '/profile.jpg',
+};
+
+// Parse [text](scroll:section) tokens into React nodes
+const parseBio = (text) => {
+  const parts = [];
+  const regex = /\[([^\]]+)\]\(scroll:([^)]+)\)/g;
+  let lastIndex = 0;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) parts.push({ type: 'text', content: text.slice(lastIndex, match.index) });
+    parts.push({ type: 'scrollLink', text: match[1], target: match[2] });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) parts.push({ type: 'text', content: text.slice(lastIndex) });
+  return parts;
+};
+
+const renderBioParagraph = (text) => {
+  if (!text) return null;
+  const parts = parseBio(text);
+  return parts.map((part, i) => {
+    if (part.type === 'scrollLink') {
+      return (
+        <button
+          key={i}
+          className="hero-scroll-link"
+          onClick={() => document.getElementById(part.target)?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          {part.text}
+        </button>
+      );
+    }
+    // Render **bold** inline
+    const segments = part.content.split(/\*\*([^*]+)\*\*/g);
+    return segments.map((seg, j) =>
+      j % 2 === 1 ? <strong key={`${i}-${j}`}>{seg}</strong> : seg
+    );
+  });
+};
+
+const HorizontalScroll = ({ items }) => {
   const trackRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -10,34 +60,27 @@ const HorizontalScroll = () => {
   const rafRef = useRef(null);
   const popupRef = useRef(null);
 
-  const doubled = [...carouselData, ...carouselData];
+  const doubled = [...items, ...items];
   const shouldAnimate = !isPaused && hoveredItem === null;
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-
     const speed = 0.5;
-
     const animate = () => {
       if (shouldAnimate) {
         posRef.current += speed;
         const half = track.scrollWidth / 2;
-        if (posRef.current >= half) {
-          posRef.current = 0;
-        }
+        if (posRef.current >= half) posRef.current = 0;
         track.style.transform = `translateX(-${posRef.current}px)`;
       }
       rafRef.current = requestAnimationFrame(animate);
     };
-
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
   }, [shouldAnimate]);
 
-  const handleMouseMove = (e) => {
-    setCursorPos({ x: e.clientX, y: e.clientY });
-  };
+  const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
 
   return (
     <>
@@ -55,7 +98,7 @@ const HorizontalScroll = () => {
               onMouseEnter={() => setHoveredItem(img)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <img src={img.src} alt={img.alt} />
+              <img src={img.src || img.srcUrl} alt={img.alt || img.title} />
             </div>
           ))}
         </div>
@@ -69,11 +112,8 @@ const HorizontalScroll = () => {
         const left = Math.min(cursorPos.x + OFFSET, window.innerWidth - POPUP_WIDTH - MARGIN);
         const top = Math.min(cursorPos.y + OFFSET, window.innerHeight - popupHeight - MARGIN);
         return (
-          <div
-            ref={popupRef}
-            className="carousel-popup"
-            style={{ position: 'fixed', top, left, pointerEvents: 'none' }}
-          >
+          <div ref={popupRef} className="carousel-popup"
+            style={{ position: 'fixed', top, left, pointerEvents: 'none' }}>
             <div className="carousel-popup-header">
               <h3 className="carousel-popup-title">{hoveredItem.title}</h3>
             </div>
@@ -87,38 +127,38 @@ const HorizontalScroll = () => {
   );
 };
 
-const Hero = () => {
+const Hero = ({ heroData }) => {
+  const [carouselItems, setCarouselItems] = useState(carouselFallback);
+
+  useEffect(() => {
+    readClient.fetch(queries.carousel)
+      .then((items) => { if (items?.length) setCarouselItems(items); })
+      .catch(() => {});
+  }, []);
+
+  const hero = heroData || DEFAULT_HERO;
+  const imageUrl = hero.profileImageUrl || '/profile.jpg';
+  const bio = hero.bio?.length ? hero.bio : DEFAULT_HERO.bio;
+
   return (
     <section className="hero">
       <div className="hero-bio">
         <div className="hero-image">
-          <img src="/profile.jpg" alt="Santhosh Senthil" className="hero-profile-image" />
+          <img src={imageUrl} alt={hero.name} className="hero-profile-image" />
         </div>
         <div className="hero-bio-text">
           <div className="hero-header">
-            <h1>Hi, I'm <span className="highlight">Santhosh Senthil</span></h1>
-            <p>Computer Science Student, Professional Content Creator, and Writer</p>
+            <h1>Hi, I'm <span className="highlight">{hero.name}</span></h1>
+            <p>{hero.tagline}</p>
           </div>
           <div className="hero-about">
-            <p>
-              I'm a Computer Science Student Minoring in Writing and Rhetoric at Stony Brook University in New York. I'm also a professional content creator and writer. I am currently an <strong>Assistant Digital Marketing Coordinator for Thump Local</strong>, and a <strong>research assistant for PoliTech, under Professor Robert Kelly</strong>.
-            </p>
-            <p>
-              I am passionate about computers and people. That is why I am a <strong>Peer Mentor</strong> for the <strong>College of Engineering and Applied Sciences' Peer Mentoring Program</strong>. I was also the <strong>Vice President of the SBU Game Development and Design Club</strong> and the <strong>Public Relations Officer for the Stony Brook Computing Society</strong>.
-            </p>
-            <p>
-              As an avid artist, I love creating{' '}
-              <button className="hero-scroll-link" onClick={() => document.getElementById('content').scrollIntoView({ behavior: 'smooth' })}>social media content</button>
-              {' '}for various organizations. I am also an avid writer, and you can check out my{' '}
-              <button className="hero-scroll-link" onClick={() => document.getElementById('writing').scrollIntoView({ behavior: 'smooth' })}>writing portfolio</button>
-              . You can also check out my{' '}
-              <button className="hero-scroll-link" onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>coding projects</button>
-              {' '}if you're interested in my work.
-            </p>
+            {bio.map((para, i) => (
+              <p key={i}>{renderBioParagraph(para)}</p>
+            ))}
           </div>
         </div>
       </div>
-      <HorizontalScroll />
+      <HorizontalScroll items={carouselItems} />
     </section>
   );
 };

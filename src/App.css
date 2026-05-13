@@ -306,35 +306,34 @@ body::after {
 }
 
 .hero-bio {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 2.5rem;
+  overflow: hidden; /* clearfix for float */
 }
 
 .hero-image {
-  flex-shrink: 0;
-  display: flex;
-  align-items: flex-start;
+  float: left;
+  shape-outside: circle(50%);
+  shape-margin: 1.5rem;
+  width: clamp(180px, 33%, 360px);
+  margin-bottom: 1rem;
 }
 
 .hero-profile-image {
-  width: 200px;
-  height: 200px;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-bio-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: block;
 }
 
 .hero-header {
   text-align: left;
+  margin-bottom: 1rem;
 }
 
 .hero-header h1 {
@@ -607,7 +606,7 @@ body::after {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(var(--skill-cols, 3), 1fr);
   gap: 2rem;
 }
 
@@ -791,7 +790,7 @@ footer {
   }
 
   .hero-bio {
-    gap: 1.5rem;
+    overflow: hidden;
   }
 
   .hero-header h1 {
@@ -814,13 +813,23 @@ footer {
   }
 
   .hero-bio {
+    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
+  .hero-image {
+    float: none;
+    shape-outside: none;
+    shape-margin: 0;
+    width: 200px;
+    margin-bottom: 1.5rem;
+  }
+
   .hero-header {
     text-align: center;
+    margin-bottom: 0.75rem;
   }
 
   .hero-header h1 {
