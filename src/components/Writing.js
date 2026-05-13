@@ -25,7 +25,7 @@ const Writing = () => {
           return;
         }
 
-        const response = await fetch(MEDIUM_API_URL, {
+        const response = await fetch(SUBSTACK_API_URL, {
           headers: {
             'Accept': 'application/json',
           }
@@ -84,9 +84,9 @@ const Writing = () => {
         setCache(formattedArticles);
         
       } catch (err) {
-        console.error('Error fetching Medium articles:', {
+        console.error('Error fetching Substack articles:', {
           error: err,
-          url: MEDIUM_API_URL,
+          url: SUBSTACK_API_URL,
           retryCount,
           isBackgroundRefresh,
           message: err.message
@@ -254,11 +254,11 @@ const Writing = () => {
   );
 };
 
-const MEDIUM_RSS_URL = "https://medium.com/feed/@santhoshs0305";
+const SUBSTACK_RSS_URL = "https://dashesnothyphens.substack.com/feed";
 const CORS_PROXY = "https://api.allorigins.win/raw?url=";
-const MEDIUM_API_URL = `${CORS_PROXY}${encodeURIComponent(MEDIUM_RSS_URL)}`;
+const SUBSTACK_API_URL = `${CORS_PROXY}${encodeURIComponent(SUBSTACK_RSS_URL)}`;
 
-const CACHE_KEY = 'medium_articles_cache';
+const CACHE_KEY = 'substack_articles_cache';
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 const MAX_RETRIES = 3;
 
