@@ -107,7 +107,13 @@ const Hero = () => {
               I am passionate about computers and people. That is why I am Vice President of the Stony Brook University Game Development and Design Club and the Public Relations Officer of the Stony Brook Computing Society.
             </p>
             <p>
-              As an avid artist, I love creating social media content for various organizations. I am also an avid writer, and you can check out my writing portfolio. You can also check out my projects if you're interested in my work.
+              As an avid artist, I love creating{' '}
+              <button className="hero-scroll-link" onClick={() => document.getElementById('content').scrollIntoView({ behavior: 'smooth' })}>social media content</button>
+              {' '}for various organizations. I am also an avid writer, and you can check out my{' '}
+              <button className="hero-scroll-link" onClick={() => document.getElementById('writing').scrollIntoView({ behavior: 'smooth' })}>writing portfolio</button>
+              . You can also check out my{' '}
+              <button className="hero-scroll-link" onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>coding projects</button>
+              {' '}if you're interested in my work.
             </p>
           </div>
         </div>
