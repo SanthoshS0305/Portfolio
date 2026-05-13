@@ -196,7 +196,7 @@ const Writing = () => {
 
           <div className="writing-subscribe">
             <h3>Subscribe</h3>
-            <p>Get new essays delivered straight to your inbox.</p>
+            <p>Get my writing delivered straight to your inbox!</p>
             <iframe
               src="https://dashesnothyphens.substack.com/embed?transparent=1&light=1"
               width="480"
