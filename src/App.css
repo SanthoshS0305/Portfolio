@@ -901,10 +901,21 @@ footer {
   color: var(--color-grey);
 }
 
+.writing-body {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.writing-posts {
+  flex: 2;
+  min-width: 0;
+}
+
 .writing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
   width: 100%;
   margin-bottom: 2rem;
 }
@@ -994,20 +1005,29 @@ footer {
 }
 
 .writing-subscribe {
-  margin-top: 3rem;
+  flex: 1;
+  min-width: 0;
+  position: sticky;
+  top: 2rem;
   text-align: center;
   padding: 2rem 1rem;
+  background: var(--color-teal-20);
+  border-radius: 12px;
+  border: 1px solid var(--color-white-10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .writing-subscribe h3 {
   font-size: 1.25rem;
   font-weight: 600;
+  color: var(--color-gold);
   margin-bottom: 0.5rem;
 }
 
 .writing-subscribe p {
   margin-bottom: 1.25rem;
-  color: var(--text-secondary, #666);
+  color: var(--color-grey);
   font-size: 0.95rem;
 }
 
@@ -1031,8 +1051,8 @@ footer {
 
 .writing-skeleton {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
   width: 100%;
   margin-bottom: 2rem;
 }
@@ -1133,22 +1153,27 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .writing-body {
+    flex-direction: column;
+  }
+
+  .writing-subscribe {
+    position: static;
+    width: 100%;
+  }
+
   .writing-grid {
     grid-template-columns: 1fr;
   }
-  
-  .writing-grid .writing-item:nth-child(n+3) {
-    display: none;
+
+  .writing-skeleton {
+    grid-template-columns: 1fr;
   }
-  
-  .writing-header {
-    text-align: center;
-  }
-  
+
   .writing-header h2 {
     font-size: 2rem;
   }
-  
+
   .writing-stats {
     flex-direction: column;
     gap: 0.5rem;
@@ -1728,8 +1753,7 @@ footer {
 @media (max-width: 1024px) {
   /* Grid layouts */
   .content-grid,
-  .project-tiles,
-  .writing-grid {
+  .project-tiles {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
@@ -1738,16 +1762,14 @@ footer {
 @media (max-width: 768px) {
   /* Grid layouts */
   .content-grid,
-  .project-tiles,
-  .writing-grid {
+  .project-tiles {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   /* Limit items on mobile */
   .content-grid .content-item:nth-child(n+3),
-  .project-tiles .project-tile:nth-child(n+4),
-  .writing-grid .writing-item:nth-child(n+3) {
+  .project-tiles .project-tile:nth-child(n+4) {
     display: none;
   }
   

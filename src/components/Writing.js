@@ -5,7 +5,7 @@ const Writing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = window.innerWidth <= 768 ? 2 : 6;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -109,8 +109,7 @@ const Writing = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const newItemsPerPage = window.innerWidth <= 768 ? 2 : 6;
-      const newTotalPages = Math.ceil(articles.length / newItemsPerPage);
+      const newTotalPages = Math.ceil(articles.length / itemsPerPage);
       if (currentPage > newTotalPages) {
         setCurrentPage(newTotalPages);
       }
@@ -147,95 +146,99 @@ const Writing = () => {
           <p>Writing is my one true love, and I'm so excited to share my work with you!</p>
         </div>
 
-        {loading ? (
-          <div className="writing-skeleton">
-            {[...Array(itemsPerPage)].map((_, index) => (
-              <div key={index} className="writing-skeleton-item">
-                <div className="skeleton-image" />
-                <div className="skeleton-title" />
-                <div className="skeleton-text" />
-                <div className="skeleton-text" />
-                <div className="skeleton-text" />
-              </div>
-            ))}
-          </div>
-        ) : error ? (
-          <div className="writing-error">{error}</div>
-        ) : articles.length === 0 ? (
-          <div className="writing-empty">No articles found.</div>
-        ) : (
-          <>
-            <div className="writing-stats">
-              Showing {startIndex + 1}-{Math.min(endIndex, articles.length)} of {articles.length} articles (Page {currentPage} of {totalPages})
-            </div>
-
-            <div className="writing-grid">
-              {currentArticles.map((article, index) => (
-                <div 
-                  key={index} 
-                  className="writing-item"
-                  onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
-                  onClick={() => window.open(article.link, '_blank')}
-                >
-                  {article.thumbnail && (
-                    <img 
-                      src={article.thumbnail} 
-                      alt={article.title}
-                      className="writing-thumbnail"
-                    />
-                  )}
-                  <h3>{article.title}</h3>
-                  <p>{article.description}</p>
-                  <div className="writing-stats">
-                    <span>{article.date}</span>
-                    <span>{article.readTime} min read</span>
+        <div className="writing-body">
+          <div className="writing-posts">
+            {loading ? (
+              <div className="writing-skeleton">
+                {[...Array(itemsPerPage)].map((_, index) => (
+                  <div key={index} className="writing-skeleton-item">
+                    <div className="skeleton-image" />
+                    <div className="skeleton-title" />
+                    <div className="skeleton-text" />
+                    <div className="skeleton-text" />
+                    <div className="skeleton-text" />
                   </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="writing-pagination">
-              <button
-                className="pagination-btn"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-              <div className="pagination-pages">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </button>
                 ))}
               </div>
-              <button
-                className="pagination-btn"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
+            ) : error ? (
+              <div className="writing-error">{error}</div>
+            ) : articles.length === 0 ? (
+              <div className="writing-empty">No articles found.</div>
+            ) : (
+              <>
+                <div className="writing-stats">
+                  Showing {startIndex + 1}-{Math.min(endIndex, articles.length)} of {articles.length} articles (Page {currentPage} of {totalPages})
+                </div>
 
-        <div className="writing-subscribe">
-          <h3>Subscribe</h3>
-          <p>Get new essays delivered straight to your inbox.</p>
-          <iframe
-            src="https://dashesnothyphens.substack.com/embed?transparent=1&light=1"
-            width="480"
-            height="320"
-            style={{ border: 0, background: 'transparent' }}
-            frameBorder="0"
-            scrolling="no"
-            title="Subscribe to Dashes Not Hyphens"
-          />
+                <div className="writing-grid">
+                  {currentArticles.map((article, index) => (
+                    <div
+                      key={index}
+                      className="writing-item"
+                      onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+                      onClick={() => window.open(article.link, '_blank')}
+                    >
+                      {article.thumbnail && (
+                        <img
+                          src={article.thumbnail}
+                          alt={article.title}
+                          className="writing-thumbnail"
+                        />
+                      )}
+                      <h3>{article.title}</h3>
+                      <p>{article.description}</p>
+                      <div className="writing-stats">
+                        <span>{article.date}</span>
+                        <span>{article.readTime} min read</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="writing-pagination">
+                  <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  <div className="pagination-pages">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                        onClick={() => handlePageChange(page)}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="writing-subscribe">
+            <h3>Subscribe</h3>
+            <p>Get new essays delivered straight to your inbox.</p>
+            <iframe
+              src="https://dashesnothyphens.substack.com/embed?transparent=1&light=1"
+              width="480"
+              height="320"
+              style={{ border: 0, background: 'transparent' }}
+              frameBorder="0"
+              scrolling="no"
+              title="Subscribe to Dashes Not Hyphens"
+            />
+          </div>
         </div>
       </div>
     </section>
