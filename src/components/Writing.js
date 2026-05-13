@@ -5,7 +5,7 @@ const Writing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -165,62 +165,32 @@ const Writing = () => {
             ) : articles.length === 0 ? (
               <div className="writing-empty">No articles found.</div>
             ) : (
-              <>
-                <div className="writing-grid">
-                  {currentArticles.map((article, index) => (
-                    <div
-                      key={index}
-                      className="writing-item"
-                      onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
-                      onClick={() => window.open(article.link, '_blank')}
-                    >
-                      {article.thumbnail && (
-                        <img
-                          src={article.thumbnail}
-                          alt={article.title}
-                          className="writing-thumbnail"
-                        />
-                      )}
-                      <div className="writing-item-text">
-                        <h3>{article.title}</h3>
-                        <p>{article.description}</p>
-                        <div className="writing-meta">
-                          <span>{article.date}</span>
-                          <span>{article.readTime} min read</span>
-                        </div>
+              <div className="writing-grid">
+                {currentArticles.map((article, index) => (
+                  <div
+                    key={index}
+                    className="writing-item"
+                    onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
+                    onClick={() => window.open(article.link, '_blank')}
+                  >
+                    {article.thumbnail && (
+                      <img
+                        src={article.thumbnail}
+                        alt={article.title}
+                        className="writing-thumbnail"
+                      />
+                    )}
+                    <div className="writing-item-text">
+                      <h3>{article.title}</h3>
+                      <p>{article.description}</p>
+                      <div className="writing-meta">
+                        <span>{article.date}</span>
+                        <span>{article.readTime} min read</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                <div className="writing-pagination">
-                  <button
-                    className="pagination-btn"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
-                  <div className="pagination-pages">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                        onClick={() => handlePageChange(page)}
-                      >
-                        {page}
-                      </button>
-                    ))}
                   </div>
-                  <button
-                    className="pagination-btn"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
-                </div>
-              </>
+                ))}
+              </div>
             )}
           </div>
 
@@ -237,6 +207,34 @@ const Writing = () => {
               title="Subscribe to Dashes Not Hyphens"
             />
           </div>
+        </div>
+
+        <div className="writing-pagination">
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1 || articles.length === 0}
+          >
+            Previous
+          </button>
+          <div className="pagination-pages">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages || articles.length === 0}
+          >
+            Next
+          </button>
         </div>
       </div>
     </section>
