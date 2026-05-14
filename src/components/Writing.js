@@ -253,12 +253,14 @@ const Writing = () => {
         <div className="writing-controls">
           <input
             type="text"
+            aria-label="Search articles"
             placeholder="Search…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ ...selectStyle, minWidth: '160px', cursor: 'text' }}
           />
           <select
+            aria-label="Filter by website"
             style={selectStyle}
             value={filterWebsiteType}
             onChange={(e) => setFilterWebsiteType(e.target.value)}
@@ -268,6 +270,7 @@ const Writing = () => {
             ))}
           </select>
           <select
+            aria-label="Sort order"
             style={selectStyle}
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
