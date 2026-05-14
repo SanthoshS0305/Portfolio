@@ -35,10 +35,6 @@ async function run() {
   const posts = await res.json();
   console.log(`Fetched ${posts.length} posts from Apify`);
 
-  if (posts.length > 0) {
-    console.log('Available fields on first reel:', Object.keys(posts[0]).join(', '), '\n');
-  }
-
   // Reel scraper returns only Reels, but guard against any non-reel URLs just in case
   const reels = posts.filter(p => p.shortCode && p.url);
   console.log(`${reels.length} Reels to sync\n`);
@@ -57,7 +53,7 @@ async function run() {
       dateAdded: p.timestamp ? p.timestamp.slice(0, 10) : null,
       likes: p.likesCount ?? null,
       comments: p.commentsCount ?? null,
-      views: p.playCount ?? p.videoPlayCount ?? p.videoViewCount ?? null,
+      views: p.videoPlayCount ?? p.videoViewCount ?? null,
     },
   }));
 

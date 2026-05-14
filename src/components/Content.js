@@ -192,7 +192,7 @@ const Content = () => {
             )}
             <div className="content-meta">
               {item.views != null && <span>👁 {item.views.toLocaleString()}</span>}
-              {item.likes != null && <span>❤️ {item.likes.toLocaleString()}</span>}
+              {item.likes != null && <span>❤️ {item.likes === -1 ? 'Hidden' : item.likes.toLocaleString()}</span>}
               {item.comments != null && <span>💬 {item.comments.toLocaleString()}</span>}
             </div>
           </div>
