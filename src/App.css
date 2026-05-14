@@ -37,6 +37,11 @@
   box-sizing: border-box;
 }
 
+select option {
+  background-color: #1e1e1e;
+  color: #F7F7F7;
+}
+
 /* Header Styles */
 .header {
   background: #000000;
@@ -919,11 +924,6 @@ footer {
   align-items: center;
   gap: 10px;
   margin-bottom: 1.5rem;
-}
-
-.writing-controls select option {
-  background-color: #1e1e1e;
-  color: #F7F7F7;
 }
 
 .writing-body {
