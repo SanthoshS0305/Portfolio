@@ -135,6 +135,8 @@ async function run() {
       links: [{ url: repo.html_url, text: 'GitHub', icon: 'github' }],
       githubRepo: repo.name,
       isAutoImported: true,
+      githubCreatedAt: repo.created_at.slice(0, 10),
+      githubPushedAt: repo.pushed_at.slice(0, 10),
       order: nextOrder++,
     });
 
@@ -143,6 +145,35 @@ async function run() {
   }
 
   console.log(`\nSync complete. ${added} new project(s) added to Sanity.`);
+
+  // Backfill GitHub dates for all auto-imported projects
+  console.log('\nBackfilling GitHub dates for existing projects...');
+  const existingProjects = await client.fetch(
+    `*[_type == "project" && defined(githubRepo)]{ _id, githubRepo }`
+  );
+  let backfilled = 0;
+  for (const project of existingProjects) {
+    try {
+      const repoRes = await fetch(
+        `https://api.github.com/repos/${GITHUB_USERNAME}/${project.githubRepo}`,
+        { headers: ghHeaders }
+      );
+      if (!repoRes.ok) {
+        console.log(`  [skip] ${project.githubRepo} — GitHub API ${repoRes.status}`);
+        continue;
+      }
+      const repo = await repoRes.json();
+      await client.patch(project._id).set({
+        githubCreatedAt: repo.created_at.slice(0, 10),
+        githubPushedAt: repo.pushed_at.slice(0, 10),
+      }).commit();
+      console.log(`  [updated] ${project.githubRepo} — pushed: ${repo.pushed_at.slice(0, 10)}`);
+      backfilled++;
+    } catch (err) {
+      console.log(`  [error] ${project.githubRepo} — ${err.message}`);
+    }
+  }
+  console.log(`Backfill complete. ${backfilled} project(s) updated.`);
 }
 
 run().catch(err => {
