@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A personal portfolio website built with React, backed by a headless CMS and automated GitHub project sync.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Sections** — Hero, Projects, Writing, Content carousel, and About, all driven by Sanity CMS data
+- **Project tiles** — Clickable cards that open a detail modal with project info pulled from Sanity
+- **Custom admin panel** — CMS editor accessible at `/admin` (password-protected) for managing all site content without touching code
+- **GitHub automation** — A daily sync script (`scripts/sync-github-repos.js`) fetches public repos from GitHub and upserts them into Sanity as project entries
+- **Google Analytics** — Page views and project-click events tracked via GA4
+- **Dynamic favicon** — Profile image set in the CMS is automatically applied as the browser favicon
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18, MUI v7 |
+| CMS | Sanity (free tier) |
+| Analytics | react-ga4 (GA4) |
+| Automation | Node.js cron script + GitHub Actions |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Setup
 
-### `npm test`
+1. **Install dependencies**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm install
+   ```
 
-### `npm run build`
+2. **Configure environment variables** — create a `.env` file in the project root:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```env
+   REACT_APP_SANITY_PROJECT_ID=your_project_id
+   REACT_APP_SANITY_DATASET=production
+   REACT_APP_SANITY_TOKEN=your_read_token
+   REACT_APP_CMS_PASSWORD_HASH=sha256_of_your_password
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Seed the CMS** (first-time setup)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   node scripts/seed-sanity.js
+   ```
 
-### `npm run eject`
+4. **Start the dev server**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## GitHub Repo Sync
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The `scripts/sync-github-repos.js` script pulls public repositories from the GitHub API and upserts them into Sanity. It is designed to run as a scheduled GitHub Actions workflow. Three repository secrets are required:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `SANITY_PROJECT_ID`
+- `SANITY_DATASET`
+- `SANITY_WRITE_TOKEN`
 
-## Learn More
+## Scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start development server |
+| `npm run build` | Production build |
+| `node scripts/seed-sanity.js` | Seed initial CMS content |
+| `node scripts/sync-github-repos.js` | Sync GitHub repos to Sanity |
