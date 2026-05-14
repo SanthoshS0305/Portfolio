@@ -86,6 +86,8 @@ export const projectSchema = {
       }],
     },
     { name: 'order', title: 'Display Order', type: 'number' },
+    { name: 'githubRepo', title: 'GitHub Repo Name (auto-import key)', type: 'string' },
+    { name: 'isAutoImported', title: 'Auto-imported from GitHub', type: 'boolean' },
   ],
 };
 
@@ -159,5 +161,6 @@ export const siteSettingsSchema = {
   type: 'document',
   fields: [
     { name: 'contactEmail', title: 'Contact Email', type: 'string' },
+    { name: 'githubIgnoredRepos', title: 'GitHub Repos to Never Auto-import', type: 'array', of: [{ type: 'string' }] },
   ],
 };

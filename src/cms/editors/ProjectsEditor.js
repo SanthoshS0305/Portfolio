@@ -29,6 +29,8 @@ const ProjectsEditor = ({ onFeedback }) => {
   const [saving, setSaving] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [techInput, setTechInput] = useState('');
+  const [deleteDialog, setDeleteDialog] = useState(null);
+  const [ignoreOnDelete, setIgnoreOnDelete] = useState(false);
 
   const load = () => readClient.fetch(queries.projects).then((res) => setProjects(res || []));
   useEffect(() => { load(); }, []);
@@ -72,6 +74,38 @@ const ProjectsEditor = ({ onFeedback }) => {
     if (!window.confirm('Delete this project?')) return;
     try { await writeClient.delete(id); await load(); onFeedback('Deleted.', 'success'); }
     catch (err) { onFeedback('Delete failed.', 'error'); }
+  };
+
+  const handleDeleteClick = (id) => {
+    const project = projects.find(p => p._id === id);
+    if (project && project.isAutoImported) {
+      setIgnoreOnDelete(false);
+      setDeleteDialog({ id, repoName: project.githubRepo });
+    } else {
+      deleteProject(id);
+    }
+  };
+
+  const confirmDelete = async (ignoreRepo) => {
+    const { id, repoName } = deleteDialog;
+    setDeleteDialog(null);
+    try {
+      if (ignoreRepo && repoName) {
+        const settingsId = await writeClient.fetch(`*[_type == "siteSettings"][0]._id`);
+        if (settingsId) {
+          await writeClient.patch(settingsId)
+            .setIfMissing({ githubIgnoredRepos: [] })
+            .append('githubIgnoredRepos', [repoName])
+            .commit();
+        }
+      }
+      await writeClient.delete(id);
+      await load();
+      onFeedback('Deleted.', 'success');
+    } catch (err) {
+      console.error(err);
+      onFeedback('Delete failed.', 'error');
+    }
   };
 
   const move = async (idx, dir) => {
@@ -131,11 +165,53 @@ const ProjectsEditor = ({ onFeedback }) => {
         getLabel={(p) => p.title}
         onMoveUp={(idx) => move(idx, -1)}
         onMoveDown={(idx) => move(idx, 1)}
-        onDelete={deleteProject}
+        onDelete={handleDeleteClick}
         renderItem={(p) => (
-          <button style={btn('#FFD873')} onClick={() => startEdit(p)}>Edit</button>
+          <>
+            {p.isAutoImported && (
+              <span style={{
+                fontSize: '11px', padding: '2px 7px', borderRadius: '20px',
+                background: 'rgba(100,200,100,0.12)', border: '1px solid rgba(100,200,100,0.3)',
+                color: '#81c784', flexShrink: 0,
+              }}>GitHub</span>
+            )}
+            <button style={btn('#FFD873')} onClick={() => startEdit(p)}>Edit</button>
+          </>
         )}
       />
+
+      {deleteDialog && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000 }}
+          onClick={() => setDeleteDialog(null)}
+        >
+          <div
+            style={{ background: '#1e1e1e', border: '1px solid rgba(247,247,247,0.15)', borderRadius: '12px', padding: '24px', width: '400px', maxWidth: '90vw' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <h4 style={{ margin: '0 0 10px', color: '#FFD873' }}>Delete Project?</h4>
+            <p style={{ color: '#aaa', fontSize: '14px', margin: '0 0 14px' }}>
+              This project was auto-imported from{' '}
+              <code style={{ color: '#F7F7F7', background: 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: '4px' }}>
+                {deleteDialog.repoName}
+              </code>.
+            </p>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#F7F7F7', fontSize: '14px', marginBottom: '20px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={ignoreOnDelete}
+                onChange={e => setIgnoreOnDelete(e.target.checked)}
+                style={{ cursor: 'pointer', width: '16px', height: '16px' }}
+              />
+              Also prevent this repo from being re-imported
+            </label>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+              <button style={btn('#aaa')} onClick={() => setDeleteDialog(null)}>Cancel</button>
+              <button style={btn('#ff6b6b')} onClick={() => confirmDelete(ignoreOnDelete)}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {editing && (
         <div
@@ -154,6 +230,12 @@ const ProjectsEditor = ({ onFeedback }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <h3 style={{ margin: 0, color: '#FFD873' }}>{isNew ? 'Add Project' : 'Edit Project'}</h3>
+
+            {editing.isAutoImported && (
+              <div style={{ background: 'rgba(100,200,100,0.08)', border: '1px solid rgba(100,200,100,0.25)', borderRadius: '6px', padding: '8px 12px', fontSize: '13px', color: '#81c784' }}>
+                Auto-imported from <strong>{editing.githubRepo}</strong>. Your edits won't be overwritten by the daily sync.
+              </div>
+            )}
 
             <div style={fieldStyle}><label style={labelStyle}>Title *</label>
               <input style={inputStyle} value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></div>
