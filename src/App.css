@@ -308,22 +308,25 @@ body::after {
 .hero-bio {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 2.5rem;
 }
 
 .hero-image {
   flex-shrink: 0;
-  display: flex;
-  align-items: flex-start;
+  align-self: flex-start;
+  width: clamp(200px, 30vw, 360px);
+  height: clamp(200px, 30vw, 360px);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-profile-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-bio-text {
@@ -607,7 +610,7 @@ body::after {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(var(--skill-cols, 2), 1fr);
   gap: 2rem;
 }
 
@@ -832,9 +835,10 @@ footer {
     height: 165px;
   }
 
-  .hero-profile-image {
+  .hero-image {
     width: 200px;
     height: 200px;
+    align-self: auto;
   }
 
   .page-section {
@@ -1236,10 +1240,11 @@ footer {
 
 .content-controls {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
-  padding: 1rem 0;
+  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
 .search-control {
@@ -1417,6 +1422,8 @@ footer {
   align-items: center;
   font-size: 0.85rem;
   color: #b0b0b0;
+  padding: 0.75rem 1rem;
+  flex-shrink: 0;
 }
 
 .content-platform {

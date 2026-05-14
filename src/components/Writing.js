@@ -1,11 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { readClient, queries } from '../cms/sanityClient';
 
 const Writing = () => {
-  const [articles, setArticles] = useState([]);
+  const [substackArticles, setSubstackArticles] = useState([]);
+  const [sanityArticles, setSanityArticles] = useState([]);
+  const [hiddenWritingUrls, setHiddenWritingUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const subscribeRef = useRef(null);
+
+  // Merged: Sanity takes priority (overrides RSS for same URL); hidden RSS items suppressed
+  const articles = useMemo(() => {
+    const hiddenSet = new Set(hiddenWritingUrls);
+    const sanityLinks = new Set(sanityArticles.map((a) => a.link));
+    const rssOnly = substackArticles.filter((a) => !sanityLinks.has(a.link) && !hiddenSet.has(a.link));
+    return [...sanityArticles, ...rssOnly].sort((a, b) => {
+      const da = a.rawDate ? new Date(a.rawDate) : 0;
+      const db = b.rawDate ? new Date(b.rawDate) : 0;
+      return db - da;
+    });
+  }, [substackArticles, sanityArticles, hiddenWritingUrls]);
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -18,7 +34,7 @@ const Writing = () => {
         // Check cache first
         const cachedData = getCache();
         if (cachedData && !isBackgroundRefresh) {
-          setArticles(cachedData);
+          setSubstackArticles(cachedData);
           setLoading(false);
           // Fetch fresh data in background
           fetchArticles(0, true);
@@ -51,10 +67,11 @@ const Writing = () => {
             month: 'long',
             day: 'numeric'
           }),
+          rawDate: item.pubDate || '',
           readTime: calculateReadTime(item.content || '')
         }));
 
-        setArticles(formattedArticles);
+        setSubstackArticles(formattedArticles);
         setCache(formattedArticles);
         
       } catch (err) {
@@ -87,7 +104,7 @@ const Writing = () => {
           // Use cached data as fallback
           const cachedData = getCache();
           if (cachedData) {
-            setArticles(cachedData);
+            setSubstackArticles(cachedData);
             errorMessage += 'Showing cached data. ';
           }
           
@@ -108,16 +125,61 @@ const Writing = () => {
   }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      const newTotalPages = Math.ceil(articles.length / itemsPerPage);
-      if (currentPage > newTotalPages) {
-        setCurrentPage(newTotalPages);
-      }
-    };
+    readClient.fetch(queries.siteSettings)
+      .then((s) => { if (s?.hiddenWritingUrls) setHiddenWritingUrls(s.hiddenWritingUrls); })
+      .catch(() => {});
+  }, []);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [currentPage, articles.length]);
+  // Fetch manual writing entries from Sanity and merge with Substack
+  useEffect(() => {
+    readClient.fetch(queries.writingItems)
+      .then((items) => {
+        if (items?.length) {
+          setSanityArticles(items.map((item) => ({
+            title: item.title || '',
+            description: item.description || '',
+            link: item.link || '',
+            thumbnail: item.thumbnailUrl || item.thumbnailExternalUrl || '',
+            date: item.date ? new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            }) : '',
+            rawDate: item.date || '',
+            readTime: null,
+          })));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const calcItemsPerPage = useCallback(() => {
+    if (!subscribeRef.current) return;
+    const subH = subscribeRef.current.offsetHeight;
+    const item = document.querySelector('.writing-item');
+    if (!subH || !item) return;
+    const grid = item.closest('.writing-grid');
+    const gap = grid ? parseFloat(getComputedStyle(grid).rowGap || getComputedStyle(grid).gap) || 20 : 20;
+    const itemH = item.offsetHeight;
+    if (!itemH) return;
+    const count = Math.max(1, Math.floor((subH + gap) / (itemH + gap)));
+    setItemsPerPage((prev) => {
+      if (prev !== count) setCurrentPage(1);
+      return count;
+    });
+  }, []);
+
+  // Recalculate after articles render
+  useEffect(() => {
+    const raf = requestAnimationFrame(calcItemsPerPage);
+    return () => cancelAnimationFrame(raf);
+  }, [articles, calcItemsPerPage]);
+
+  // Recalculate when subscribe panel resizes (window zoom / resize)
+  useEffect(() => {
+    if (!subscribeRef.current) return;
+    const ro = new ResizeObserver(calcItemsPerPage);
+    ro.observe(subscribeRef.current);
+    return () => ro.disconnect();
+  }, [calcItemsPerPage]);
 
   const handleMouseMove = (e, element) => {
     const rect = element.getBoundingClientRect();
@@ -194,7 +256,7 @@ const Writing = () => {
             )}
           </div>
 
-          <div className="writing-subscribe">
+          <div className="writing-subscribe" ref={subscribeRef}>
             <h3>Subscribe</h3>
             <p>Get my writing delivered straight to your inbox!</p>
             <iframe

@@ -1,41 +1,31 @@
 import React, { useState } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Menu,
-  MenuItem,
-  Avatar,
-  Box,
-  useTheme,
-  useMediaQuery
+  AppBar, Toolbar, Typography, IconButton, Menu, MenuItem,
+  Avatar, Box, useTheme, useMediaQuery
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Header = () => {
+const DEFAULT_NAME = 'Santhosh Senthil';
+const DEFAULT_IMAGE = '/profile.jpg';
+
+const Header = ({ heroData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const name = heroData?.name || DEFAULT_NAME;
+  const profileImage = heroData?.profileImageUrl || DEFAULT_IMAGE;
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       handleClose();
     }
   };
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleMenu = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
   const menuItems = [
     { id: 'home', label: 'Home' },
@@ -46,55 +36,37 @@ const Header = () => {
   ];
 
   return (
-    <AppBar 
-      position="fixed" 
-      sx={{ 
+    <AppBar
+      position="fixed"
+      sx={{
         background: 'rgba(48, 48, 48, 0.8)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(247, 247, 247, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
       }}
     >
-      <Toolbar sx={{ 
+      <Toolbar sx={{
         justifyContent: 'space-between',
-        '& .MuiTypography-root': {
-          textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
-        }
+        '& .MuiTypography-root': { textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Avatar
-            src="/profile.jpg"
-            alt="Santhosh Senthil"
-            sx={{ width: 40, height: 40 }}
-          />
+          <Avatar src={profileImage} alt={name} sx={{ width: 40, height: 40 }} />
           <Typography variant="h6" component="h1" sx={{ fontWeight: 600 }}>
-            Santhosh Senthil
+            {name}
           </Typography>
         </Box>
 
         {isMobile ? (
           <>
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleMenu}
-            >
+            <IconButton size="large" edge="end" color="inherit" aria-label="menu" onClick={handleMenu}>
               <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}
               PaperProps={{
@@ -106,24 +78,14 @@ const Header = () => {
                   mt: 1,
                   '& .MuiMenuItem-root': {
                     color: '#F7F7F7',
-                    '&:hover': {
-                      background: 'rgba(46, 96, 93, 0.2)',
-                      backdropFilter: 'blur(10px)'
-                    }
+                    '&:hover': { background: 'rgba(46, 96, 93, 0.2)', backdropFilter: 'blur(10px)' }
                   }
                 }
               }}
             >
               {menuItems.map((item) => (
-                <MenuItem 
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: 'rgba(255, 216, 115, 0.1)'
-                    }
-                  }}
-                >
+                <MenuItem key={item.id} onClick={() => scrollToSection(item.id)}
+                  sx={{ '&:hover': { backgroundColor: 'rgba(255, 216, 115, 0.1)' } }}>
                   {item.label}
                 </MenuItem>
               ))}
@@ -136,18 +98,10 @@ const Header = () => {
                 key={item.id}
                 component="a"
                 href={`#${item.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.id);
-                }}
+                onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
                 sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  '&:hover': {
-                    color: '#FFD873'
-                  }
+                  color: 'inherit', textDecoration: 'none', fontWeight: 500,
+                  cursor: 'pointer', '&:hover': { color: '#FFD873' }
                 }}
               >
                 {item.label}
