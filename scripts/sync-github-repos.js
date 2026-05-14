@@ -149,7 +149,7 @@ async function run() {
   // Backfill GitHub dates for all auto-imported projects
   console.log('\nBackfilling GitHub dates for existing projects...');
   const existingProjects = await client.fetch(
-    `*[_type == "project" && defined(githubRepo)]{ _id, githubRepo }`
+    `*[_type == "project" && defined(githubRepo) && (!defined(githubCreatedAt) || !defined(githubPushedAt))]{ _id, githubRepo }`
   );
   let backfilled = 0;
   for (const project of existingProjects) {
