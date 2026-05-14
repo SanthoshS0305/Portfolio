@@ -3,6 +3,16 @@ import { readClient, queries } from '../cms/sanityClient';
 import projectFallback from '../data/projects.json';
 
 const ProjectTiles = ({ onProjectClick }) => {
+  const selectStyle = {
+    padding: '8px 12px',
+    background: 'rgba(255,255,255,0.07)',
+    border: '1px solid rgba(247,247,247,0.2)',
+    color: '#F7F7F7',
+    borderRadius: '6px',
+    fontSize: '13px',
+    cursor: 'pointer',
+  };
+
   const [allProjects, setAllProjects] = useState(projectFallback.projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -86,9 +96,45 @@ const ProjectTiles = ({ onProjectClick }) => {
         <p>Here are some of the cool projects that I've worked on!</p>
       </div>
 
+      <div className="projects-controls">
+        <input
+          type="text"
+          aria-label="Search projects"
+          placeholder="Search…"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ ...selectStyle, minWidth: '160px', cursor: 'text' }}
+        />
+        <select
+          aria-label="Filter by tech"
+          style={selectStyle}
+          value={filterTech}
+          onChange={(e) => setFilterTech(e.target.value)}
+        >
+          {techOptions.map((t) => (
+            <option key={t} value={t}>{t === 'all' ? 'All Tech' : t}</option>
+          ))}
+        </select>
+        <select
+          aria-label="Sort order"
+          style={selectStyle}
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="default">Default Order</option>
+          <option value="lastcommit">Last Commit</option>
+          <option value="projectstart">Project Start</option>
+          <option value="az">A–Z</option>
+          <option value="za">Z–A</option>
+        </select>
+      </div>
+
       <div className="projects-stats">
         <p>
-          Showing {startIndex + 1}–{Math.min(endIndex, allProjects.length)} of {allProjects.length} projects
+          Showing {startIndex + 1}–{Math.min(endIndex, filteredProjects.length)} of{' '}
+          {filteredProjects.length !== allProjects.length
+            ? `${filteredProjects.length} matching projects (${allProjects.length} total)`
+            : `${allProjects.length} projects`}
           {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </p>
       </div>
