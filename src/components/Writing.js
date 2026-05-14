@@ -275,7 +275,7 @@ const Writing = () => {
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
-            <option value="newest">Newest First</option>
+            <option value="newest">Most Recent</option>
             <option value="oldest">Oldest First</option>
             <option value="az">A–Z</option>
             <option value="za">Z–A</option>
