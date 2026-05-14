@@ -10,18 +10,45 @@ const Writing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const subscribeRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterWebsiteType, setFilterWebsiteType] = useState('all');
+  const [sortOrder, setSortOrder] = useState('newest');
 
   // Merged: Sanity takes priority (overrides RSS for same URL); hidden RSS items suppressed
   const articles = useMemo(() => {
     const hiddenSet = new Set(hiddenWritingUrls);
     const sanityLinks = new Set(sanityArticles.map((a) => a.link));
     const rssOnly = substackArticles.filter((a) => !sanityLinks.has(a.link) && !hiddenSet.has(a.link));
-    return [...sanityArticles, ...rssOnly].sort((a, b) => {
+    return [...sanityArticles, ...rssOnly];
+  }, [substackArticles, sanityArticles, hiddenWritingUrls]);
+
+  const websiteTypes = ['all', ...new Set(articles.map((a) => a.websiteType).filter(Boolean))];
+
+  const filteredArticles = useMemo(() => {
+    let result = [...articles];
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter((a) =>
+        a.title.toLowerCase().includes(term) ||
+        a.description.toLowerCase().includes(term)
+      );
+    }
+    if (filterWebsiteType !== 'all') {
+      result = result.filter((a) => a.websiteType === filterWebsiteType);
+    }
+    result.sort((a, b) => {
       const da = a.rawDate ? new Date(a.rawDate) : 0;
       const db = b.rawDate ? new Date(b.rawDate) : 0;
+      if (sortOrder === 'newest') return db - da;
+      if (sortOrder === 'oldest') return da - db;
+      if (sortOrder === 'az') return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
+      if (sortOrder === 'za') return a.title.toLowerCase() > b.title.toLowerCase() ? -1 : 1;
       return db - da;
     });
-  }, [substackArticles, sanityArticles, hiddenWritingUrls]);
+    return result;
+  }, [articles, searchTerm, filterWebsiteType, sortOrder]);
+
+  useEffect(() => { setCurrentPage(1); }, [searchTerm, filterWebsiteType, sortOrder]);
 
   useEffect(() => {
     const fetchArticles = async (retryCount = 0, isBackgroundRefresh = false) => {
@@ -68,7 +95,8 @@ const Writing = () => {
             day: 'numeric'
           }),
           rawDate: item.pubDate || '',
-          readTime: calculateReadTime(item.content || '')
+          readTime: calculateReadTime(item.content || ''),
+          websiteType: 'Substack',
         }));
 
         setSubstackArticles(formattedArticles);
@@ -145,6 +173,7 @@ const Writing = () => {
             }) : '',
             rawDate: item.date || '',
             readTime: null,
+            websiteType: item.websiteType || '',
           })));
         }
       })
@@ -192,8 +221,8 @@ const Writing = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentArticles = articles.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(articles.length / itemsPerPage);
+  const currentArticles = filteredArticles.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -226,6 +255,8 @@ const Writing = () => {
               <div className="writing-error">{error}</div>
             ) : articles.length === 0 ? (
               <div className="writing-empty">No articles found.</div>
+            ) : filteredArticles.length === 0 ? (
+              <div className="writing-empty">No results match your filters.</div>
             ) : (
               <div className="writing-grid">
                 {currentArticles.map((article, index) => (
@@ -275,7 +306,7 @@ const Writing = () => {
           <button
             className="pagination-btn"
             onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1 || articles.length === 0}
+            disabled={currentPage === 1 || filteredArticles.length === 0}
           >
             Previous
           </button>
@@ -293,7 +324,7 @@ const Writing = () => {
           <button
             className="pagination-btn"
             onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages || articles.length === 0}
+            disabled={currentPage === totalPages || filteredArticles.length === 0}
           >
             Next
           </button>
