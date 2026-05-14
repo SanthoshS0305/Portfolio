@@ -921,6 +921,11 @@ footer {
   margin-bottom: 1.5rem;
 }
 
+.writing-controls select option {
+  background-color: #1e1e1e;
+  color: #F7F7F7;
+}
+
 .writing-body {
   display: flex;
   gap: 2rem;
