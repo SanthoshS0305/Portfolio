@@ -1,22 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import contentData from '../data/content.json';
-import instagramData from '../data/instagram.json';
 import { readClient, queries } from '../cms/sanityClient';
-
-const fromApify = (post, index) => ({
-  id: `apify-${post.id || index}`,
-  type: 'instagram',
-  url: post.url,
-  title: (post.caption || '').slice(0, 80) || 'Instagram Post',
-  description: post.caption || '',
-  dateAdded: post.timestamp?.slice(0, 10) || '',
-  platform: 'Instagram',
-  category: 'SBCS',
-  tags: ['Stony Brook', 'Computer Science', 'SBCS'],
-  likes: post.likesCount ?? null,
-  comments: post.commentsCount ?? null,
-  views: post.videoViewCount ?? null,
-});
 
 const fromSanity = (item) => ({
   id: item._id,
@@ -41,7 +24,7 @@ const Content = () => {
   };
 
   // Manual entries: start with local JSON fallback, update with Sanity data
-  const [manualItems, setManualItems] = useState(contentData.content);
+  const [manualItems, setManualItems] = useState([]);
   const [hiddenContentUrls, setHiddenContentUrls] = useState([]);
 
   useEffect(() => {
@@ -57,15 +40,10 @@ const Content = () => {
   }, []);
 
   const allContent = useMemo(() => {
-    const manualUrls = new Set(manualItems.map((c) => c.url));
     const hiddenSet = new Set(hiddenContentUrls);
-    const apifyItems = instagramData
-      .filter((p) => p.url && !manualUrls.has(p.url) && !hiddenSet.has(p.url))
-      .map(fromApify);
-    const combined = [...apifyItems, ...manualItems];
-    return combined.filter(
-      (item) => item.type !== 'instagram' || !item.dateAdded || item.dateAdded >= '2025-01-01'
-    );
+    return manualItems
+      .filter((item) => !hiddenSet.has(item.url))
+      .filter((item) => item.type !== 'instagram' || !item.dateAdded || item.dateAdded >= '2025-01-01');
   }, [manualItems, hiddenContentUrls]);
 
   const [filteredContent, setFilteredContent] = useState(allContent);

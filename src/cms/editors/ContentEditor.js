@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import instagramData from '../../data/instagram.json';
 import { readClient, writeClient, queries } from '../sanityClient';
 
 const inputStyle = {
@@ -48,23 +47,6 @@ const ContentEditor = ({ onFeedback }) => {
     setIsNew(false);
   };
   const startNew = () => { setEditing({ ...EMPTY, dateAdded: new Date().toISOString().slice(0, 10) }); setIsNew(true); };
-  const startEditFromAuto = (autoItem) => {
-    setEditing({
-      ...EMPTY,
-      url: autoItem.url || '',
-      title: autoItem.title || '',
-      description: autoItem.description || '',
-      platform: autoItem.platform || 'Instagram',
-      type: (autoItem.platform || 'Instagram') === 'TikTok' ? 'tiktok' : 'instagram',
-      category: autoItem.category || '',
-      tags: [...(autoItem.tags || [])],
-      dateAdded: autoItem.dateAdded || '',
-      likes: autoItem.likes ?? '',
-      comments: autoItem.comments ?? '',
-      views: autoItem.views ?? '',
-    });
-    setIsNew(true);
-  };
 
   const saveItem = async () => {
     if (!editing.url.trim()) { onFeedback('URL is required.', 'error'); return; }
@@ -98,13 +80,13 @@ const ContentEditor = ({ onFeedback }) => {
   };
 
   const deleteItem = async (id) => {
-    if (!window.confirm('Delete this content item?')) return;
+    if (!window.confirm('Delete this content item? Auto-synced posts will return on the next weekly run.')) return;
     try { await writeClient.delete(id); await load(); onFeedback('Deleted.', 'success'); }
     catch { onFeedback('Delete failed.', 'error'); }
   };
 
   const deleteAll = async () => {
-    if (!window.confirm('Delete ALL manual content entries? This cannot be undone.')) return;
+    if (!window.confirm('Delete ALL content entries? Auto-synced posts will return on the next weekly run.')) return;
     try {
       await writeClient.delete({ query: '*[_type == "contentItem"]' });
       await load();
@@ -121,8 +103,8 @@ const ContentEditor = ({ onFeedback }) => {
     } catch { onFeedback('Failed to update visibility.', 'error'); }
   };
 
-  const hideAutoItem = (url) => persistHiddenUrls([...new Set([...hiddenUrls, url])]);
-  const unhideAutoItem = (url) => persistHiddenUrls(hiddenUrls.filter((u) => u !== url));
+  const hideItem = (url) => persistHiddenUrls([...new Set([...hiddenUrls, url])]);
+  const unhideItem = (url) => persistHiddenUrls(hiddenUrls.filter((u) => u !== url));
 
   const addTag = () => {
     const t = tagInput.trim();
@@ -132,12 +114,9 @@ const ContentEditor = ({ onFeedback }) => {
   };
   const removeTag = (i) => setEditing({ ...editing, tags: editing.tags.filter((_, idx) => idx !== i) });
 
-  // Auto items from instagram.json — exclude those overridden by Sanity or explicitly hidden
-  const sanityUrls = new Set(items.map((i) => i.url));
   const hiddenSet = new Set(hiddenUrls);
-  const from2025 = (p) => !p.timestamp || p.timestamp >= '2025-01-01';
-  const autoItems = instagramData.filter((p) => p.url && from2025(p) && !sanityUrls.has(p.url) && !hiddenSet.has(p.url));
-  const hiddenAuto = instagramData.filter((p) => p.url && from2025(p) && hiddenSet.has(p.url) && !sanityUrls.has(p.url));
+  const visibleItems = items.filter((i) => !hiddenSet.has(i.url));
+  const hiddenItems = items.filter((i) => hiddenSet.has(i.url));
 
   const rowStyle = {
     display: 'flex', alignItems: 'center', gap: '10px',
@@ -145,13 +124,18 @@ const ContentEditor = ({ onFeedback }) => {
     border: '1px solid rgba(247,247,247,0.1)', borderRadius: '8px',
   };
 
+  const itemBadge = (item) => item._id?.startsWith('instagram-')
+    ? badge('rgba(255,160,50,0.8)', 'rgba(255,160,50,0.12)')
+    : badge('rgba(100,160,255,0.8)', 'rgba(100,160,255,0.12)');
+  const itemBadgeLabel = (item) => item._id?.startsWith('instagram-') ? 'Synced' : 'Manual';
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-
-      {/* Manual (Sanity) entries */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ margin: 0, color: '#FFD873' }}>Manual Entries ({items.length})</h3>
+          <h3 style={{ margin: 0, color: '#FFD873' }}>
+            Content Items ({visibleItems.length} visible{hiddenItems.length > 0 ? `, ${hiddenItems.length} hidden` : ''})
+          </h3>
           <div style={{ display: 'flex', gap: '8px' }}>
             {items.length > 0 && (
               <button style={btn('#ff6b6b')} onClick={deleteAll}>Delete All</button>
@@ -160,66 +144,31 @@ const ContentEditor = ({ onFeedback }) => {
           </div>
         </div>
         <p style={{ color: '#888', fontSize: '13px', margin: 0 }}>
-          Editing an auto-fetched post creates a manual override here. Overriding a post hides the auto version.
+          "Synced" posts are auto-imported weekly from Apify. Edits persist until the next sync overwrites them. "Hide" removes from the public site without deleting.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <div key={item._id} style={rowStyle}>
-              <span style={badge('rgba(100,160,255,0.8)', 'rgba(100,160,255,0.12)')}>Manual</span>
+              <span style={itemBadge(item)}>{itemBadgeLabel(item)}</span>
               <span style={{ flex: 1, fontSize: '14px', color: '#F7F7F7', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 [{item.platform}] {item.title || item.url}
               </span>
               <button style={btn('#FFD873')} onClick={() => startEdit(item)}>Edit</button>
+              <button style={btn('#aaa')} onClick={() => hideItem(item.url)}>Hide</button>
               <button style={btn('#ff6b6b')} onClick={() => deleteItem(item._id)}>Delete</button>
             </div>
           ))}
-          {items.length === 0 && <p style={{ color: '#666', fontSize: '13px' }}>No manual entries yet.</p>}
-        </div>
-      </div>
-
-      {/* Auto (instagram.json) entries */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <h3 style={{ margin: 0, color: '#FFD873' }}>
-          Auto-fetched Posts ({autoItems.length} visible{hiddenAuto.length > 0 ? `, ${hiddenAuto.length} hidden` : ''})
-        </h3>
-        <p style={{ color: '#888', fontSize: '13px', margin: 0 }}>
-          From instagram.json (Apify). "Edit" creates a manual override above. "Hide" removes from the site.
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {autoItems.map((item, i) => (
-            <div key={item.url || i} style={rowStyle}>
-              <span style={badge('rgba(255,160,50,0.8)', 'rgba(255,160,50,0.12)')}>Auto</span>
-              <span style={{ flex: 1, fontSize: '14px', color: '#F7F7F7', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {(item.caption || '').slice(0, 80) || item.url}
-              </span>
-              <span style={{ fontSize: '12px', color: '#888', flexShrink: 0 }}>{item.timestamp?.slice(0, 10)}</span>
-              <button style={btn('#FFD873')} onClick={() => startEditFromAuto({
-                url: item.url,
-                title: (item.caption || '').slice(0, 80) || 'Instagram Post',
-                description: item.caption || '',
-                platform: 'Instagram',
-                category: 'SBCS',
-                tags: ['Stony Brook', 'Computer Science', 'SBCS'],
-                dateAdded: item.timestamp?.slice(0, 10) || '',
-                likes: item.likesCount ?? '',
-                comments: item.commentsCount ?? '',
-                views: item.videoViewCount ?? '',
-              })}>Edit</button>
-              <button style={btn('#ff6b6b')} onClick={() => hideAutoItem(item.url)}>Hide</button>
-            </div>
-          ))}
-          {hiddenAuto.map((item, i) => (
-            <div key={item.url || i} style={{ ...rowStyle, opacity: 0.55, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(247,247,247,0.06)' }}>
+          {hiddenItems.map((item) => (
+            <div key={item._id} style={{ ...rowStyle, opacity: 0.55, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(247,247,247,0.06)' }}>
               <span style={badge('rgba(150,150,150,0.6)', 'rgba(100,100,100,0.15)')}>Hidden</span>
               <span style={{ flex: 1, fontSize: '14px', color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {(item.caption || '').slice(0, 80) || item.url}
+                [{item.platform}] {item.title || item.url}
               </span>
-              <button style={btn('#aaa')} onClick={() => unhideAutoItem(item.url)}>Unhide</button>
+              <button style={btn('#aaa')} onClick={() => unhideItem(item.url)}>Unhide</button>
+              <button style={btn('#ff6b6b')} onClick={() => deleteItem(item._id)}>Delete</button>
             </div>
           ))}
-          {autoItems.length === 0 && hiddenAuto.length === 0 && (
-            <p style={{ color: '#666', fontSize: '13px' }}>No auto-fetched posts found.</p>
-          )}
+          {items.length === 0 && <p style={{ color: '#666', fontSize: '13px' }}>No content entries yet. Run the Instagram sync workflow to populate.</p>}
         </div>
       </div>
 
