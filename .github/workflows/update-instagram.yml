@@ -20,7 +20,7 @@ jobs:
           RESPONSE=$(curl -s -X POST \
             "https://api.apify.com/v2/acts/apify~instagram-post-scraper/runs?token=${{ secrets.APIFY_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"directUrls\":[\"https://www.instagram.com/${{ vars.INSTAGRAM_USERNAME }}/\"],\"resultsType\":\"posts\",\"resultsLimit\":50}")
+            -d "{\"username\":\"${{ vars.INSTAGRAM_USERNAME }}\",\"resultsLimit\":50}")
           echo "Apify response: $RESPONSE"
           RUN_ID=$(echo "$RESPONSE" | jq -r '.data.id // empty')
           if [ -z "$RUN_ID" ]; then
