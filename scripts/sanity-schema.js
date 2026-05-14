@@ -88,6 +88,8 @@ export const projectSchema = {
     { name: 'order', title: 'Display Order', type: 'number' },
     { name: 'githubRepo', title: 'GitHub Repo Name (auto-import key)', type: 'string' },
     { name: 'isAutoImported', title: 'Auto-imported from GitHub', type: 'boolean' },
+    { name: 'githubCreatedAt', title: 'GitHub Repo Created Date', type: 'date' },
+    { name: 'githubPushedAt', title: 'GitHub Last Push Date', type: 'date' },
   ],
 };
 

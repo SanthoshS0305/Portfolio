@@ -40,7 +40,8 @@ export const queries = {
   projects: `*[_type == "project"] | order(order asc) {
     _id, id, title, description, shortDescription, techStack,
     "image": coalesce(image.asset->url, srcUrl),
-    features, links, order, githubRepo, isAutoImported
+    features, links, order, githubRepo, isAutoImported,
+    githubCreatedAt, githubPushedAt
   }`,
 
   skillCategories: `*[_type == "skillCategory"] | order(order asc) {
