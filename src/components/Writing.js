@@ -323,7 +323,7 @@ const Writing = () => {
                       <p>{article.description}</p>
                       <div className="writing-meta">
                         <span>{article.date}</span>
-                        <span>{article.readTime} min read</span>
+                        {article.readTime != null && <span>{article.readTime} min read</span>}
                       </div>
                     </div>
                   </div>

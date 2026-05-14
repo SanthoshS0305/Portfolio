@@ -83,6 +83,7 @@ const WritingEditor = ({ onFeedback }) => {
       link: rssItem.link,
       thumbnailUrl: rssItem.thumbnail,
       date: rssItem.date,
+      websiteType: 'Substack',
     });
     setIsNew(true);
   };
