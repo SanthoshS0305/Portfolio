@@ -22,7 +22,10 @@ const Writing = () => {
     return [...sanityArticles, ...rssOnly];
   }, [substackArticles, sanityArticles, hiddenWritingUrls]);
 
-  const websiteTypes = ['all', ...new Set(articles.map((a) => a.websiteType).filter(Boolean))];
+  const websiteTypes = useMemo(
+    () => ['all', ...new Set(articles.map((a) => a.websiteType).filter(Boolean))],
+    [articles]
+  );
 
   const filteredArticles = useMemo(() => {
     let result = [...articles];
@@ -30,7 +33,7 @@ const Writing = () => {
       const term = searchTerm.toLowerCase();
       result = result.filter((a) =>
         a.title.toLowerCase().includes(term) ||
-        a.description.toLowerCase().includes(term)
+        (a.description || '').toLowerCase().includes(term)
       );
     }
     if (filterWebsiteType !== 'all') {
@@ -41,8 +44,8 @@ const Writing = () => {
       const db = b.rawDate ? new Date(b.rawDate) : 0;
       if (sortOrder === 'newest') return db - da;
       if (sortOrder === 'oldest') return da - db;
-      if (sortOrder === 'az') return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
-      if (sortOrder === 'za') return a.title.toLowerCase() > b.title.toLowerCase() ? -1 : 1;
+      if (sortOrder === 'az') return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+      if (sortOrder === 'za') return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
       return db - da;
     });
     return result;
