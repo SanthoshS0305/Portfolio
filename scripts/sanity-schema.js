@@ -151,6 +151,7 @@ export const writingItemSchema = {
     { name: 'thumbnail', title: 'Thumbnail Image', type: 'image' },
     { name: 'thumbnailExternalUrl', title: 'Thumbnail URL (fallback)', type: 'url' },
     { name: 'date', title: 'Publication Date', type: 'date' },
+    { name: 'websiteType', title: 'Website / Publication', type: 'string' },
   ],
 };
 

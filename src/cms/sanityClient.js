@@ -57,7 +57,7 @@ export const queries = {
   }`,
 
   writingItems: `*[_type == "writingItem"] | order(date desc) {
-    _id, title, description, link,
+    _id, title, description, link, websiteType,
     "thumbnailUrl": coalesce(thumbnail.asset->url, thumbnailExternalUrl),
     date
   }`,
