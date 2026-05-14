@@ -587,6 +587,17 @@ body::after {
   margin-bottom: 1rem;
 }
 
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-grey);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-white-10);
+  margin-top: auto;
+}
+
 
 /* About Section */
 .about {

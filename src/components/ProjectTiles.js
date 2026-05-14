@@ -2,6 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 import projectFallback from '../data/projects.json';
 
+const formatDate = (iso) => {
+  if (!iso) return null;
+  return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+};
+
 const selectStyle = {
   padding: '8px 12px',
   background: 'rgba(255,255,255,0.07)',
@@ -158,6 +163,12 @@ const ProjectTiles = ({ onProjectClick }) => {
                 <span key={index}>{tech}</span>
               ))}
             </div>
+            {(project.githubCreatedAt || project.githubPushedAt) && (
+              <div className="project-meta">
+                {project.githubCreatedAt && <span>Started {formatDate(project.githubCreatedAt)}</span>}
+                {project.githubPushedAt && <span>Last commit {formatDate(project.githubPushedAt)}</span>}
+              </div>
+            )}
           </div>
         ))}
       </div>
