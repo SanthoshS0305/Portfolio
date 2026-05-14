@@ -6,6 +6,7 @@ import SortableList from '../components/SortableList';
 const EMPTY_PROJECT = {
   title: '', description: '', shortDescription: '',
   techStack: [], image: '', features: [], links: [], order: 0,
+  githubCreatedAt: '', githubPushedAt: '',
 };
 const EMPTY_FEATURE = { label: '', text: '' };
 const EMPTY_LINK = { url: '', text: '', icon: 'external' };
@@ -53,6 +54,8 @@ const ProjectsEditor = ({ onFeedback }) => {
         links: editing.links,
         order: editing.order,
         srcUrl: editing.image,
+        githubCreatedAt: editing.githubCreatedAt || undefined,
+        githubPushedAt: editing.githubPushedAt || undefined,
       };
       if (isNew) {
         await writeClient.create(doc);
@@ -245,6 +248,13 @@ const ProjectsEditor = ({ onFeedback }) => {
 
             <div style={fieldStyle}><label style={labelStyle}>Full Description</label>
               <textarea style={textareaStyle} rows={4} value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></div>
+
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ ...fieldStyle, flex: 1 }}><label style={labelStyle}>Project Start Date</label>
+                <input style={inputStyle} type="date" value={editing.githubCreatedAt || ''} onChange={(e) => setEditing({ ...editing, githubCreatedAt: e.target.value })} /></div>
+              <div style={{ ...fieldStyle, flex: 1 }}><label style={labelStyle}>Last Commit Date</label>
+                <input style={inputStyle} type="date" value={editing.githubPushedAt || ''} onChange={(e) => setEditing({ ...editing, githubPushedAt: e.target.value })} /></div>
+            </div>
 
             <div style={fieldStyle}>
               <label style={labelStyle}>Tech Stack</label>
