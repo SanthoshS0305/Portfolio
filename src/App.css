@@ -306,34 +306,38 @@ body::after {
 }
 
 .hero-bio {
-  overflow: hidden; /* clearfix for float */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 2.5rem;
 }
 
 .hero-image {
-  float: left;
-  shape-outside: circle(50%);
-  shape-margin: 1.5rem;
-  width: clamp(180px, 33%, 360px);
-  margin-bottom: 1rem;
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: clamp(200px, 30vw, 360px);
+  height: clamp(200px, 30vw, 360px);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-profile-image {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  border-radius: 50%;
+  height: 100%;
   object-fit: cover;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-bio-text {
-  display: block;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .hero-header {
   text-align: left;
-  margin-bottom: 1rem;
 }
 
 .hero-header h1 {
@@ -790,7 +794,7 @@ footer {
   }
 
   .hero-bio {
-    overflow: hidden;
+    gap: 1.5rem;
   }
 
   .hero-header h1 {
@@ -813,23 +817,13 @@ footer {
   }
 
   .hero-bio {
-    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .hero-image {
-    float: none;
-    shape-outside: none;
-    shape-margin: 0;
-    width: 200px;
-    margin-bottom: 1.5rem;
-  }
-
   .hero-header {
     text-align: center;
-    margin-bottom: 0.75rem;
   }
 
   .hero-header h1 {
@@ -841,9 +835,10 @@ footer {
     height: 165px;
   }
 
-  .hero-profile-image {
+  .hero-image {
     width: 200px;
     height: 200px;
+    align-self: auto;
   }
 
   .page-section {
@@ -1245,10 +1240,11 @@ footer {
 
 .content-controls {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
-  padding: 1rem 0;
+  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
 .search-control {
@@ -1426,6 +1422,8 @@ footer {
   align-items: center;
   font-size: 0.85rem;
   color: #b0b0b0;
+  padding: 0.75rem 1rem;
+  flex-shrink: 0;
 }
 
 .content-platform {

@@ -156,7 +156,7 @@ const Content = () => {
         <p>Check out some of the social media content I've created!</p>
       </div>
 
-      <div className="content-controls" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+      <div className="content-controls">
         <input
           type="text"
           placeholder="Search…"

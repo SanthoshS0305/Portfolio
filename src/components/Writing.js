@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 
 const Writing = () => {
@@ -8,7 +8,8 @@ const Writing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const subscribeRef = useRef(null);
 
   // Merged: Sanity takes priority (overrides RSS for same URL); hidden RSS items suppressed
   const articles = useMemo(() => {
@@ -150,17 +151,35 @@ const Writing = () => {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const newTotalPages = Math.ceil(articles.length / itemsPerPage);
-      if (currentPage > newTotalPages) {
-        setCurrentPage(newTotalPages);
-      }
-    };
+  const calcItemsPerPage = useCallback(() => {
+    if (!subscribeRef.current) return;
+    const subH = subscribeRef.current.offsetHeight;
+    const item = document.querySelector('.writing-item');
+    if (!subH || !item) return;
+    const grid = item.closest('.writing-grid');
+    const gap = grid ? parseFloat(getComputedStyle(grid).rowGap || getComputedStyle(grid).gap) || 20 : 20;
+    const itemH = item.offsetHeight;
+    if (!itemH) return;
+    const count = Math.max(1, Math.floor((subH + gap) / (itemH + gap)));
+    setItemsPerPage((prev) => {
+      if (prev !== count) setCurrentPage(1);
+      return count;
+    });
+  }, []);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [currentPage, articles.length]);
+  // Recalculate after articles render
+  useEffect(() => {
+    const raf = requestAnimationFrame(calcItemsPerPage);
+    return () => cancelAnimationFrame(raf);
+  }, [articles, calcItemsPerPage]);
+
+  // Recalculate when subscribe panel resizes (window zoom / resize)
+  useEffect(() => {
+    if (!subscribeRef.current) return;
+    const ro = new ResizeObserver(calcItemsPerPage);
+    ro.observe(subscribeRef.current);
+    return () => ro.disconnect();
+  }, [calcItemsPerPage]);
 
   const handleMouseMove = (e, element) => {
     const rect = element.getBoundingClientRect();
@@ -237,7 +256,7 @@ const Writing = () => {
             )}
           </div>
 
-          <div className="writing-subscribe">
+          <div className="writing-subscribe" ref={subscribeRef}>
             <h3>Subscribe</h3>
             <p>Get my writing delivered straight to your inbox!</p>
             <iframe

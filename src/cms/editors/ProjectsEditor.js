@@ -207,6 +207,7 @@ const ProjectsEditor = ({ onFeedback }) => {
                   <select style={{ ...inputStyle, width: '90px', flex: 'none' }} value={l.icon} onChange={(e) => updateLink(i, 'icon', e.target.value)}>
                     <option value="github">GitHub</option>
                     <option value="external">External</option>
+                    <option value="globe">Website</option>
                     <option value="demo">Demo</option>
                     <option value="itch">Itch.io</option>
                   </select>

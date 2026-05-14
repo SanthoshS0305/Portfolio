@@ -27,7 +27,7 @@ export const uploadImage = async (file) => {
 // GROQ queries used by site components
 export const queries = {
   hero: `*[_type == "hero"][0] {
-    name, tagline, bio,
+    _id, name, tagline, bio,
     "profileImageUrl": profileImage.asset->url
   }`,
 

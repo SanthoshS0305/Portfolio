@@ -3,18 +3,29 @@ import sha256 from 'js-sha256';
 import AdminPanel from './AdminPanel';
 
 const SESSION_KEY = 'cms_authed';
+const COOKIE_NAME = 'cms_authed';
+const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
 
-const isAuthed = () => sessionStorage.getItem(SESSION_KEY) === 'true';
+const getCookie = (name) => {
+  const match = document.cookie.split('; ').find((row) => row.startsWith(name + '='));
+  return match ? match.split('=')[1] : null;
+};
+
+const isAuthed = () =>
+  sessionStorage.getItem(SESSION_KEY) === 'true' ||
+  getCookie(COOKIE_NAME) === 'true';
 
 const CMSAuthGate = () => {
   const [authed, setAuthed] = useState(isAuthed);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [staySignedIn, setStaySignedIn] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
     sessionStorage.removeItem(SESSION_KEY);
+    document.cookie = `${COOKIE_NAME}=; max-age=0; path=/; SameSite=Strict`;
     setAuthed(false);
     setUsername('');
     setPassword('');
@@ -36,13 +47,16 @@ const CMSAuthGate = () => {
       return;
     }
 
-    // Small artificial delay to prevent brute-force timing attacks
     await new Promise((r) => setTimeout(r, 400));
 
     const passwordHash = sha256(password);
 
     if (username === expectedUser && passwordHash === expectedHash) {
-      sessionStorage.setItem(SESSION_KEY, 'true');
+      if (staySignedIn) {
+        document.cookie = `${COOKIE_NAME}=true; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Strict`;
+      } else {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+      }
       setAuthed(true);
     } else {
       setError('Invalid username or password.');
@@ -82,6 +96,21 @@ const CMSAuthGate = () => {
       fontSize: '14px',
       outline: 'none',
     },
+    checkRow: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px',
+      cursor: 'pointer',
+      userSelect: 'none',
+    },
+    checkbox: {
+      width: '16px',
+      height: '16px',
+      accentColor: '#FFD873',
+      cursor: 'pointer',
+      flexShrink: 0,
+    },
+    checkLabel: { fontSize: '13px', color: '#aaa', cursor: 'pointer' },
     submitBtn: {
       padding: '12px',
       background: '#FFD873',
@@ -101,11 +130,7 @@ const CMSAuthGate = () => {
       color: '#ff9a9a',
       fontSize: '13px',
     },
-    backLink: {
-      textAlign: 'center',
-      fontSize: '13px',
-      color: '#666',
-    },
+    backLink: { textAlign: 'center', fontSize: '13px', color: '#666' },
     anchor: { color: '#FFD873', textDecoration: 'none' },
   };
 
@@ -140,6 +165,16 @@ const CMSAuthGate = () => {
             required
           />
         </div>
+
+        <label style={s.checkRow}>
+          <input
+            type="checkbox"
+            style={s.checkbox}
+            checked={staySignedIn}
+            onChange={(e) => setStaySignedIn(e.target.checked)}
+          />
+          <span style={s.checkLabel}>Stay signed in for 30 days</span>
+        </label>
 
         {error && <div style={s.error}>{error}</div>}
 

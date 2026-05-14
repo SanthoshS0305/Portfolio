@@ -152,9 +152,9 @@ const Hero = ({ heroData }) => {
             <p>{hero.tagline}</p>
           </div>
           <div className="hero-about">
-            {bio.map((para, i) => (
-              <p key={i}>{renderBioParagraph(para)}</p>
-            ))}
+            <p style={{ whiteSpace: 'pre-line' }}>
+              {renderBioParagraph(bio.join('\n\n'))}
+            </p>
           </div>
         </div>
       </div>

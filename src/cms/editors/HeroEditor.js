@@ -39,7 +39,10 @@ const saveBtn = {
 };
 
 const HeroEditor = ({ onFeedback }) => {
-  const [data, setData] = useState(DEFAULT);
+  const [data, setData] = useState({
+    ...DEFAULT,
+    bioText: DEFAULT.bio.join('\n\n'),
+  });
   const [docId, setDocId] = useState(null);
   const [saving, setSaving] = useState(false);
 
@@ -47,10 +50,11 @@ const HeroEditor = ({ onFeedback }) => {
     readClient.fetch(queries.hero).then((res) => {
       if (res) {
         setDocId(res._id);
+        const bio = res.bio?.length ? res.bio : DEFAULT.bio;
         setData({
           name: res.name || DEFAULT.name,
           tagline: res.tagline || DEFAULT.tagline,
-          bio: res.bio?.length ? res.bio : DEFAULT.bio,
+          bioText: bio.join('\n\n'),
           profileImageUrl: res.profileImageUrl || DEFAULT.profileImageUrl,
         });
       }
@@ -60,25 +64,26 @@ const HeroEditor = ({ onFeedback }) => {
   const save = async () => {
     setSaving(true);
     try {
+      const bio = data.bioText.split('\n\n').map((s) => s.trim()).filter(Boolean);
       const doc = {
         _type: 'hero',
         name: data.name,
         tagline: data.tagline,
-        bio: data.bio,
+        bio,
       };
 
       let savedDoc;
       if (docId) {
         savedDoc = await writeClient.patch(docId).set(doc).commit();
       } else {
-        savedDoc = await writeClient.create({ ...doc, _id: 'singleton-hero' });
-        setDocId(savedDoc._id);
+        savedDoc = await writeClient.createIfNotExists({ ...doc, _id: 'singleton-hero' });
+        await writeClient.patch('singleton-hero').set(doc).commit();
+        setDocId('singleton-hero');
       }
 
-      // If there's a new image URL that's a CDN URL (uploaded), link the asset
       if (data.profileImageUrl && data.profileImageUrl.startsWith('https://cdn.sanity.io')) {
         const assetId = data.profileImageUrl.split('/').slice(-1)[0].split('.')[0];
-        await writeClient.patch(savedDoc._id || docId).set({
+        await writeClient.patch(savedDoc?._id || docId || 'singleton-hero').set({
           profileImage: { _type: 'image', asset: { _type: 'reference', _ref: `image-${assetId}` } }
         }).commit();
       }
@@ -90,12 +95,6 @@ const HeroEditor = ({ onFeedback }) => {
     } finally {
       setSaving(false);
     }
-  };
-
-  const setBio = (idx, val) => {
-    const bio = [...data.bio];
-    bio[idx] = val;
-    setData({ ...data, bio });
   };
 
   return (
@@ -111,20 +110,15 @@ const HeroEditor = ({ onFeedback }) => {
       </div>
 
       <div style={fieldStyle}>
-        <label style={labelStyle}>Bio — Paragraph 1</label>
-        <textarea style={textareaStyle} rows={4} value={data.bio[0] || ''} onChange={(e) => setBio(0, e.target.value)} />
-      </div>
-
-      <div style={fieldStyle}>
-        <label style={labelStyle}>Bio — Paragraph 2</label>
-        <textarea style={textareaStyle} rows={4} value={data.bio[1] || ''} onChange={(e) => setBio(1, e.target.value)} />
-      </div>
-
-      <div style={fieldStyle}>
-        <label style={labelStyle}>Bio — Paragraph 3</label>
-        <textarea style={textareaStyle} rows={4} value={data.bio[2] || ''} onChange={(e) => setBio(2, e.target.value)} />
+        <label style={labelStyle}>Bio</label>
+        <textarea
+          style={textareaStyle}
+          rows={10}
+          value={data.bioText}
+          onChange={(e) => setData({ ...data, bioText: e.target.value })}
+        />
         <small style={{ color: '#888', fontSize: '11px' }}>
-          Scroll links syntax: <code style={{ color: '#FFD873' }}>[link text](scroll:content)</code> — sections: <code style={{ color: '#FFD873' }}>content</code>, <code style={{ color: '#FFD873' }}>writing</code>, <code style={{ color: '#FFD873' }}>projects</code>
+          Use a blank line between paragraphs. Scroll links: <code style={{ color: '#FFD873' }}>[link text](scroll:content)</code> — sections: <code style={{ color: '#FFD873' }}>content</code>, <code style={{ color: '#FFD873' }}>writing</code>, <code style={{ color: '#FFD873' }}>projects</code>
         </small>
       </div>
 
