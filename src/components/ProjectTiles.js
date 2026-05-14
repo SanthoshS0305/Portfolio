@@ -1,10 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 import projectFallback from '../data/projects.json';
 
 const ProjectTiles = ({ onProjectClick }) => {
   const [allProjects, setAllProjects] = useState(projectFallback.projects);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterTech, setFilterTech] = useState('all');
+  const [sortOrder, setSortOrder] = useState('default');
+
+  const techOptions = useMemo(() => {
+    const all = allProjects.flatMap((p) => p.techStack || []);
+    return ['all', ...Array.from(new Set(all)).sort()];
+  }, [allProjects]);
+
+  const filteredProjects = useMemo(() => {
+    let result = [...allProjects];
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter((p) =>
+        p.title.toLowerCase().includes(term) ||
+        (p.shortDescription || '').toLowerCase().includes(term) ||
+        (p.techStack || []).some((t) => t.toLowerCase().includes(term)) ||
+        (p.features || []).some((f) => (f.label || '').toLowerCase().includes(term))
+      );
+    }
+    if (filterTech !== 'all') {
+      result = result.filter((p) => (p.techStack || []).includes(filterTech));
+    }
+    result.sort((a, b) => {
+      if (sortOrder === 'default') return (a.order ?? 999) - (b.order ?? 999);
+      if (sortOrder === 'lastcommit') {
+        if (!a.githubPushedAt && !b.githubPushedAt) return 0;
+        if (!a.githubPushedAt) return 1;
+        if (!b.githubPushedAt) return -1;
+        return b.githubPushedAt.localeCompare(a.githubPushedAt);
+      }
+      if (sortOrder === 'projectstart') {
+        if (!a.githubCreatedAt && !b.githubCreatedAt) return 0;
+        if (!a.githubCreatedAt) return 1;
+        if (!b.githubCreatedAt) return -1;
+        return b.githubCreatedAt.localeCompare(a.githubCreatedAt);
+      }
+      if (sortOrder === 'az') return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+      if (sortOrder === 'za') return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
+      return 0;
+    });
+    return result;
+  }, [allProjects, searchTerm, filterTech, sortOrder]);
+
+  useEffect(() => { setCurrentPage(1); }, [searchTerm, filterTech, sortOrder]);
 
   useEffect(() => {
     readClient.fetch(queries.projects)
@@ -19,15 +64,15 @@ const ProjectTiles = ({ onProjectClick }) => {
   };
 
   const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
-  const totalPages = Math.ceil(allProjects.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentProjects = allProjects.slice(startIndex, endIndex);
+  const currentProjects = filteredProjects.slice(startIndex, endIndex);
 
   useEffect(() => {
-    const newTotalPages = Math.ceil(allProjects.length / itemsPerPage);
+    const newTotalPages = Math.ceil(filteredProjects.length / itemsPerPage);
     if (currentPage > newTotalPages && newTotalPages > 0) setCurrentPage(newTotalPages);
-  }, [itemsPerPage, allProjects.length, currentPage]);
+  }, [itemsPerPage, filteredProjects.length, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
