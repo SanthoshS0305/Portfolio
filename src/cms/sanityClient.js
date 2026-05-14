@@ -40,7 +40,7 @@ export const queries = {
   projects: `*[_type == "project"] | order(order asc) {
     _id, id, title, description, shortDescription, techStack,
     "image": coalesce(image.asset->url, srcUrl),
-    features, links, order
+    features, links, order, githubRepo, isAutoImported
   }`,
 
   skillCategories: `*[_type == "skillCategory"] | order(order asc) {
@@ -62,5 +62,5 @@ export const queries = {
     date
   }`,
 
-  siteSettings: `*[_type == "siteSettings"][0] { _id, contactEmail, hiddenWritingUrls, hiddenContentUrls }`,
+  siteSettings: `*[_type == "siteSettings"][0] { _id, contactEmail, hiddenWritingUrls, hiddenContentUrls, githubIgnoredRepos }`,
 };
