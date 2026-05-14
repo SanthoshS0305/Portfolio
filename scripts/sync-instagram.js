@@ -12,7 +12,7 @@ require('dotenv').config();
 const { createClient } = require('@sanity/client');
 
 const APIFY_TOKEN = process.env.APIFY_TOKEN;
-const APIFY_ACTOR = 'apify~instagram-post-scraper';
+const APIFY_ACTOR = 'apify~instagram-reel-scraper';
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID || process.env.REACT_APP_SANITY_PROJECT_ID,
@@ -36,11 +36,12 @@ async function run() {
   console.log(`Fetched ${posts.length} posts from Apify`);
 
   if (posts.length > 0) {
-    console.log('Available fields on first post:', Object.keys(posts[0]).join(', '), '\n');
+    console.log('Available fields on first reel:', Object.keys(posts[0]).join(', '), '\n');
   }
 
-  const reels = posts.filter(p => p.shortCode && p.url && p.url.includes('/reel/'));
-  console.log(`${reels.length} Reels (filtered from ${posts.length} total posts)\n`);
+  // Reel scraper returns only Reels, but guard against any non-reel URLs just in case
+  const reels = posts.filter(p => p.shortCode && p.url);
+  console.log(`${reels.length} Reels to sync\n`);
 
   const mutations = reels.map(p => ({
     createOrReplace: {
@@ -56,7 +57,7 @@ async function run() {
       dateAdded: p.timestamp ? p.timestamp.slice(0, 10) : null,
       likes: p.likesCount ?? null,
       comments: p.commentsCount ?? null,
-      views: p.videoViewCount ?? p.videoPlayCount ?? p.playCount ?? null,
+      views: p.playCount ?? p.videoPlayCount ?? p.videoViewCount ?? null,
     },
   }));
 
