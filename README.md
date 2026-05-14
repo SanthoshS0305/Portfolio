@@ -1,6 +1,6 @@
 # Portfolio
 
-My personal portfolio website built with React, backed by a headless CMS and automated GitHub project sync.
+My personal portfolio website built with React, backed by a headless CMS, automated GitHub project sync, and liquid glass designs.
 
 ## Features
 
