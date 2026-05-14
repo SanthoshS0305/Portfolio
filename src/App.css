@@ -912,6 +912,15 @@ footer {
   color: var(--color-grey);
 }
 
+.writing-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
 .writing-body {
   display: flex;
   gap: 2rem;

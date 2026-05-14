@@ -2,6 +2,16 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { readClient, queries } from '../cms/sanityClient';
 
 const Writing = () => {
+  const selectStyle = {
+    padding: '8px 12px',
+    background: 'rgba(255,255,255,0.07)',
+    border: '1px solid rgba(247,247,247,0.2)',
+    color: '#F7F7F7',
+    borderRadius: '6px',
+    fontSize: '13px',
+    cursor: 'pointer',
+  };
+
   const [substackArticles, setSubstackArticles] = useState([]);
   const [sanityArticles, setSanityArticles] = useState([]);
   const [hiddenWritingUrls, setHiddenWritingUrls] = useState([]);
@@ -238,6 +248,35 @@ const Writing = () => {
         <div className="writing-header">
           <h2>Writing</h2>
           <p>Writing is my one true love, and I'm so excited to share my work with you!</p>
+        </div>
+
+        <div className="writing-controls">
+          <input
+            type="text"
+            placeholder="Search…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ ...selectStyle, minWidth: '160px', cursor: 'text' }}
+          />
+          <select
+            style={selectStyle}
+            value={filterWebsiteType}
+            onChange={(e) => setFilterWebsiteType(e.target.value)}
+          >
+            {websiteTypes.map((t) => (
+              <option key={t} value={t}>{t === 'all' ? 'All Sites' : t}</option>
+            ))}
+          </select>
+          <select
+            style={selectStyle}
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="az">A–Z</option>
+            <option value="za">Z–A</option>
+          </select>
         </div>
 
         <div className="writing-body">
