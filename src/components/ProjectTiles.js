@@ -2,17 +2,17 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 import projectFallback from '../data/projects.json';
 
-const ProjectTiles = ({ onProjectClick }) => {
-  const selectStyle = {
-    padding: '8px 12px',
-    background: 'rgba(255,255,255,0.07)',
-    border: '1px solid rgba(247,247,247,0.2)',
-    color: '#F7F7F7',
-    borderRadius: '6px',
-    fontSize: '13px',
-    cursor: 'pointer',
-  };
+const selectStyle = {
+  padding: '8px 12px',
+  background: 'rgba(255,255,255,0.07)',
+  border: '1px solid rgba(247,247,247,0.2)',
+  color: '#F7F7F7',
+  borderRadius: '6px',
+  fontSize: '13px',
+  cursor: 'pointer',
+};
 
+const ProjectTiles = ({ onProjectClick }) => {
   const [allProjects, setAllProjects] = useState(projectFallback.projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -130,13 +130,17 @@ const ProjectTiles = ({ onProjectClick }) => {
       </div>
 
       <div className="projects-stats">
-        <p>
-          Showing {startIndex + 1}–{Math.min(endIndex, filteredProjects.length)} of{' '}
-          {filteredProjects.length !== allProjects.length
-            ? `${filteredProjects.length} matching projects (${allProjects.length} total)`
-            : `${allProjects.length} projects`}
-          {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
-        </p>
+        {filteredProjects.length === 0 ? (
+          <p>No projects match your filters ({allProjects.length} total)</p>
+        ) : (
+          <p>
+            Showing {startIndex + 1}–{Math.min(endIndex, filteredProjects.length)} of{' '}
+            {filteredProjects.length !== allProjects.length
+              ? `${filteredProjects.length} matching projects (${allProjects.length} total)`
+              : `${allProjects.length} projects`}
+            {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+          </p>
+        )}
       </div>
 
       <div className="project-tiles">

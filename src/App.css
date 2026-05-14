@@ -250,7 +250,6 @@ body::after {
 
 .projects-stats {
   text-align: center;
-  margin-bottom: 2rem;
   color: var(--color-grey);
   font-size: 0.9rem;
   display: flex;
