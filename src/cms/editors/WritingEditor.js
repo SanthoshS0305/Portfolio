@@ -5,7 +5,7 @@ import ImageUpload from '../components/ImageUpload';
 const SUBSTACK_RSS_URL = 'https://dashesnothyphens.substack.com/feed';
 const SUBSTACK_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_RSS_URL)}`;
 
-const EMPTY = { title: '', description: '', link: '', thumbnailUrl: '', date: '' };
+const EMPTY = { title: '', description: '', link: '', thumbnailUrl: '', date: '', websiteType: '' };
 
 const inputStyle = {
   width: '100%', padding: '8px 12px',
@@ -101,6 +101,7 @@ const WritingEditor = ({ onFeedback }) => {
         link: editing.link,
         thumbnailExternalUrl: editing.thumbnailUrl,
         date: editing.date,
+        websiteType: editing.websiteType,
       };
       if (isNew) await writeClient.create(doc);
       else await writeClient.patch(editing._id).set(doc).commit();
@@ -242,6 +243,14 @@ const WritingEditor = ({ onFeedback }) => {
 
             <div style={fieldStyle}><label style={labelStyle}>Date</label>
               <input style={inputStyle} type="date" value={editing.date} onChange={(e) => setEditing({ ...editing, date: e.target.value })} /></div>
+
+            <div style={fieldStyle}><label style={labelStyle}>Website / Publication</label>
+              <input
+                style={inputStyle}
+                value={editing.websiteType}
+                onChange={(e) => setEditing({ ...editing, websiteType: e.target.value })}
+                placeholder="e.g. Substack, Medium, Personal Blog"
+              /></div>
 
             <div style={fieldStyle}><label style={labelStyle}>Description / Preview text</label>
               <textarea style={textareaStyle} rows={3} value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></div>
