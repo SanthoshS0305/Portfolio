@@ -35,34 +35,38 @@ async function run() {
   const posts = await res.json();
   console.log(`Fetched ${posts.length} posts from Apify`);
 
-  const valid = posts.filter(p => p.shortCode && p.url);
-  console.log(`${valid.length} posts with valid shortCode\n`);
+  if (posts.length > 0) {
+    console.log('Available fields on first post:', Object.keys(posts[0]).join(', '), '\n');
+  }
 
-  const mutations = valid.map(p => ({
+  const reels = posts.filter(p => p.shortCode && p.url && p.url.includes('/reel/'));
+  console.log(`${reels.length} Reels (filtered from ${posts.length} total posts)\n`);
+
+  const mutations = reels.map(p => ({
     createOrReplace: {
       _id: `instagram-${p.shortCode}`,
       _type: 'contentItem',
       type: 'instagram',
       platform: 'Instagram',
       url: p.url,
-      title: (p.caption || '').slice(0, 80) || 'Instagram Post',
+      title: (p.caption || '').slice(0, 80) || 'Instagram Reel',
       description: p.caption || '',
       category: 'SBCS',
       tags: ['Stony Brook', 'Computer Science', 'SBCS'],
       dateAdded: p.timestamp ? p.timestamp.slice(0, 10) : null,
       likes: p.likesCount ?? null,
       comments: p.commentsCount ?? null,
-      views: p.videoViewCount ?? null,
+      views: p.videoViewCount ?? p.videoPlayCount ?? p.playCount ?? null,
     },
   }));
 
   if (!mutations.length) {
-    console.log('No posts to sync.');
+    console.log('No Reels to sync.');
     return;
   }
 
   await client.mutate(mutations);
-  console.log(`Sync complete. ${mutations.length} post(s) upserted to Sanity.`);
+  console.log(`Sync complete. ${mutations.length} Reel(s) upserted to Sanity.`);
 }
 
 run().catch(err => {
