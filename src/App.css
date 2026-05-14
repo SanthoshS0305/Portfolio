@@ -1444,9 +1444,9 @@ footer {
   font-weight: 600;
   color: #ffffff;
   margin: 0 0 0.5rem 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content-meta {
