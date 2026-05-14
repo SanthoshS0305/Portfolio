@@ -1,14 +1,44 @@
 name: Update Instagram Data
 
 on:
+  schedule:
+    - cron: '0 3 * * 0'        # weekly Sunday 3am UTC
   repository_dispatch:
     types: [apify-instagram-update]
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Trigger Apify actor run
+        id: trigger
+        if: github.event_name != 'repository_dispatch'
+        run: |
+          RESPONSE=$(curl -sf -X POST \
+            "https://api.apify.com/v2/acts/apify~instagram-post-scraper/runs?token=${{ secrets.APIFY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"directUrls\":[\"https://www.instagram.com/${{ vars.INSTAGRAM_USERNAME }}/\"],\"resultsType\":\"posts\",\"resultsLimit\":50}")
+          echo "run_id=$(echo "$RESPONSE" | jq -r '.data.id')" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for Apify run to complete
+        if: steps.trigger.outputs.run_id != ''
+        timeout-minutes: 15
+        run: |
+          RUN_ID="${{ steps.trigger.outputs.run_id }}"
+          while true; do
+            STATUS=$(curl -sf \
+              "https://api.apify.com/v2/actor-runs/$RUN_ID?token=${{ secrets.APIFY_TOKEN }}" \
+              | jq -r '.data.status')
+            echo "Run status: $STATUS"
+            case "$STATUS" in
+              SUCCEEDED) break ;;
+              FAILED|ABORTED|TIMED-OUT) echo "Apify run ended with: $STATUS"; exit 1 ;;
+            esac
+            sleep 30
+          done
 
       - name: Download Apify dataset
         run: |
@@ -22,4 +52,3 @@ jobs:
           git add src/data/instagram.json
           git diff --staged --quiet || git commit -m "chore: update instagram data"
           git push
-
