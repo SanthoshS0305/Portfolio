@@ -42,7 +42,7 @@ const About = () => {
     element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
 
-  const colCount = Math.min(Math.max(skills.length, 1), 4);
+  const colCount = skills.length <= 2 ? 1 : 2;
 
   return (
     <section className="about">
