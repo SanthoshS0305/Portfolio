@@ -52,12 +52,12 @@ const renderBioParagraph = (text) => {
   });
 };
 
-const HorizontalScroll = ({ items }) => {
+const HorizontalScroll = ({ items, autoplay }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const popupRef = useRef(null);
 
-  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'x', items });
+  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'x', items, autoplay });
 
   const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
 
@@ -110,12 +110,18 @@ const HorizontalScroll = ({ items }) => {
 
 const Hero = ({ heroData }) => {
   const [carouselItems, setCarouselItems] = useState(carouselFallback);
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     readClient.fetch(queries.carousel)
       .then((items) => { if (items?.length) setCarouselItems(items); })
       .catch(() => {});
+    readClient.fetch(queries.siteSettings)
+      .then((res) => { if (res) setSettings(res); })
+      .catch(() => {});
   }, []);
+
+  const companyCarouselAutoplay = settings.companyCarouselAutoplay ?? true;
 
   const hero = heroData || DEFAULT_HERO;
   const imageUrl = hero.profileImageUrl || '/profile.jpg';
@@ -139,7 +145,7 @@ const Hero = ({ heroData }) => {
           </div>
         </div>
       </div>
-      <HorizontalScroll items={carouselItems} />
+      <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
     </section>
   );
 };
