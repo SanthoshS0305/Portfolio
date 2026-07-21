@@ -7,10 +7,12 @@ import SocialEditor from './editors/SocialEditor';
 import ContentEditor from './editors/ContentEditor';
 import WritingEditor from './editors/WritingEditor';
 import SettingsEditor from './editors/SettingsEditor';
+import CertificationsEditor from './editors/CertificationsEditor';
 
 const TABS = [
   { id: 'hero', label: 'Hero' },
   { id: 'carousel', label: 'Carousel' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'social', label: 'Social Links' },
@@ -102,6 +104,7 @@ const AdminPanel = ({ onLogout }) => {
     switch (activeTab) {
       case 'hero':     return <HeroEditor {...props} />;
       case 'carousel': return <CarouselEditor {...props} />;
+      case 'certifications': return <CertificationsEditor {...props} />;
       case 'projects': return <ProjectsEditor {...props} />;
       case 'skills':   return <SkillsEditor {...props} />;
       case 'social':   return <SocialEditor {...props} />;
