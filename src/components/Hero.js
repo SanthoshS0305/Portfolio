@@ -110,10 +110,11 @@ const HorizontalScroll = ({ items, autoplay }) => {
 };
 
 const VerticalScroll = ({ items }) => {
-  const { trackRef, doubled, containerHandlers } = useMarqueeCarousel({ axis: 'y', items });
+  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'y', items });
 
   return (
     <div className="cert-carousel-viewport" onMouseEnter={containerHandlers.onMouseEnter} onMouseLeave={containerHandlers.onMouseLeave}>
+      <button type="button" className="carousel-arrow carousel-arrow-up" aria-label="Previous" onClick={() => nudge('prev')}>︿</button>
       <div className="cert-carousel-track" ref={trackRef}>
         {doubled.map((cert, i) => (
           <div className="cert-carousel-item" key={i}>
@@ -125,6 +126,7 @@ const VerticalScroll = ({ items }) => {
           </div>
         ))}
       </div>
+      <button type="button" className="carousel-arrow carousel-arrow-down" aria-label="Next" onClick={() => nudge('next')}>﹀</button>
     </div>
   );
 };

@@ -460,7 +460,8 @@ body::after {
   transition: opacity 0.2s ease, background 0.2s ease;
 }
 
-.carousel-viewport:hover .carousel-arrow {
+.carousel-viewport:hover .carousel-arrow,
+.cert-carousel-viewport:hover .carousel-arrow {
   opacity: 1;
 }
 
@@ -478,6 +479,18 @@ body::after {
   top: 50%;
   right: 8px;
   transform: translateY(-50%);
+}
+
+.carousel-arrow-up {
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.carousel-arrow-down {
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Vertical Certifications Carousel */
