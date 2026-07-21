@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 import carouselFallback from '../data/carouselData.json';
+import { useMarqueeCarousel } from '../hooks/useMarqueeCarousel';
 
 const DEFAULT_HERO = {
   name: 'Santhosh Senthil',
@@ -52,33 +53,11 @@ const renderBioParagraph = (text) => {
 };
 
 const HorizontalScroll = ({ items }) => {
-  const trackRef = useRef(null);
-  const [isPaused, setIsPaused] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const posRef = useRef(0);
-  const rafRef = useRef(null);
   const popupRef = useRef(null);
 
-  const doubled = [...items, ...items];
-  const shouldAnimate = !isPaused && hoveredItem === null;
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const speed = 0.5;
-    const animate = () => {
-      if (shouldAnimate) {
-        posRef.current += speed;
-        const half = track.scrollWidth / 2;
-        if (posRef.current >= half) posRef.current = 0;
-        track.style.transform = `translateX(-${posRef.current}px)`;
-      }
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [shouldAnimate]);
+  const { trackRef, doubled, containerHandlers } = useMarqueeCarousel({ axis: 'x', items });
 
   const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
 
@@ -86,8 +65,8 @@ const HorizontalScroll = ({ items }) => {
     <>
       <div
         className="carousel-viewport"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => { setIsPaused(false); setHoveredItem(null); }}
+        onMouseEnter={containerHandlers.onMouseEnter}
+        onMouseLeave={() => { containerHandlers.onMouseLeave(); setHoveredItem(null); }}
         onMouseMove={handleMouseMove}
       >
         <div className="carousel-track" ref={trackRef}>
