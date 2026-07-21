@@ -154,24 +154,28 @@ const Hero = ({ heroData }) => {
 
   return (
     <section className="hero">
-      <div className="hero-bio">
-        <div className="hero-image">
-          <img src={imageUrl} alt={hero.name} className="hero-profile-image" />
-        </div>
-        <div className="hero-bio-text">
-          <div className="hero-header">
-            <h1>Hi, I'm <span className="highlight">{hero.name}</span></h1>
-            <p>{hero.tagline}</p>
+      <div className="hero-row">
+        <div className="hero-left">
+          <div className="hero-bio">
+            <div className="hero-image">
+              <img src={imageUrl} alt={hero.name} className="hero-profile-image" />
+            </div>
+            <div className="hero-bio-text">
+              <div className="hero-header">
+                <h1>Hi, I'm <span className="highlight">{hero.name}</span></h1>
+                <p>{hero.tagline}</p>
+              </div>
+              <div className="hero-about">
+                <p style={{ whiteSpace: 'pre-line' }}>
+                  {renderBioParagraph(bio.join('\n\n'))}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="hero-about">
-            <p style={{ whiteSpace: 'pre-line' }}>
-              {renderBioParagraph(bio.join('\n\n'))}
-            </p>
-          </div>
+          <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
         </div>
+        <VerticalScroll items={certItems} />
       </div>
-      <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
-      <VerticalScroll items={certItems} />
     </section>
   );
 };

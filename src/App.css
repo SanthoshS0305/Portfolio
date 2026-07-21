@@ -313,6 +313,17 @@ body::after {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.hero-row {
+  display: flex;
+  align-items: stretch;
+  gap: 2.5rem;
+}
+
+.hero-left {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -467,6 +478,38 @@ body::after {
   top: 50%;
   right: 8px;
   transform: translateY(-50%);
+}
+
+/* Vertical Certifications Carousel */
+.cert-carousel-viewport {
+  width: 280px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.cert-carousel-track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  will-change: transform;
+  height: max-content;
+}
+
+.cert-carousel-item {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cert-carousel-item iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 /* Carousel Popup */
