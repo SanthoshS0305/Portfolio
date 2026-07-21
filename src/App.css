@@ -942,6 +942,15 @@ footer {
     text-align: center;
   }
 
+  .hero-row {
+    flex-direction: column;
+  }
+
+  .cert-carousel-viewport {
+    width: 100%;
+    height: 280px;
+  }
+
   .hero-header {
     text-align: center;
   }
