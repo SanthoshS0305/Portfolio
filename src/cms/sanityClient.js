@@ -37,6 +37,10 @@ export const queries = {
     order
   }`,
 
+  certifications: `*[_type == "certification"] | order(order asc) {
+    _id, title, issuer, iframeUrl, order
+  }`,
+
   projects: `*[_type == "project"] | order(order asc) {
     _id, id, title, description, shortDescription, techStack,
     "image": coalesce(image.asset->url, srcUrl),
@@ -63,5 +67,5 @@ export const queries = {
     date
   }`,
 
-  siteSettings: `*[_type == "siteSettings"][0] { _id, contactEmail, hiddenWritingUrls, hiddenContentUrls, githubIgnoredRepos }`,
+  siteSettings: `*[_type == "siteSettings"][0] { _id, contactEmail, hiddenWritingUrls, hiddenContentUrls, githubIgnoredRepos, companyCarouselAutoplay, certCarouselAutoplay }`,
 };
