@@ -429,6 +429,46 @@ body::after {
   border-radius: 12px;
 }
 
+/* Carousel Arrow Buttons */
+.carousel-arrow {
+  position: absolute;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-white-10);
+  background: rgba(20, 20, 20, 0.6);
+  color: var(--color-gold);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.carousel-viewport:hover .carousel-arrow {
+  opacity: 1;
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 216, 115, 0.15);
+}
+
+.carousel-arrow-left {
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+}
+
+.carousel-arrow-right {
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+}
+
 /* Carousel Popup */
 .carousel-popup {
   z-index: 9999;

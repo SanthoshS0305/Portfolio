@@ -57,7 +57,7 @@ const HorizontalScroll = ({ items }) => {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const popupRef = useRef(null);
 
-  const { trackRef, doubled, containerHandlers } = useMarqueeCarousel({ axis: 'x', items });
+  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'x', items });
 
   const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
 
@@ -69,6 +69,7 @@ const HorizontalScroll = ({ items }) => {
         onMouseLeave={() => { containerHandlers.onMouseLeave(); setHoveredItem(null); }}
         onMouseMove={handleMouseMove}
       >
+        <button type="button" className="carousel-arrow carousel-arrow-left" aria-label="Previous" onClick={() => nudge('prev')}>‹</button>
         <div className="carousel-track" ref={trackRef}>
           {doubled.map((img, i) => (
             <div
@@ -81,6 +82,7 @@ const HorizontalScroll = ({ items }) => {
             </div>
           ))}
         </div>
+        <button type="button" className="carousel-arrow carousel-arrow-right" aria-label="Next" onClick={() => nudge('next')}>›</button>
       </div>
 
       {hoveredItem && (() => {
