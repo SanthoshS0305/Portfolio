@@ -109,8 +109,8 @@ const HorizontalScroll = ({ items, autoplay }) => {
   );
 };
 
-const VerticalScroll = ({ items }) => {
-  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'y', items });
+const VerticalScroll = ({ items, autoplay }) => {
+  const { trackRef, doubled, containerHandlers, nudge } = useMarqueeCarousel({ axis: 'y', items, autoplay });
 
   return (
     <div className="cert-carousel-viewport" onMouseEnter={containerHandlers.onMouseEnter} onMouseLeave={containerHandlers.onMouseLeave}>
@@ -149,6 +149,7 @@ const Hero = ({ heroData }) => {
   }, []);
 
   const companyCarouselAutoplay = settings.companyCarouselAutoplay ?? true;
+  const certCarouselAutoplay = settings.certCarouselAutoplay ?? true;
 
   const hero = heroData || DEFAULT_HERO;
   const imageUrl = hero.profileImageUrl || '/profile.jpg';
@@ -176,7 +177,7 @@ const Hero = ({ heroData }) => {
           </div>
           <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
         </div>
-        <VerticalScroll items={certItems} />
+        <VerticalScroll items={certItems} autoplay={certCarouselAutoplay} />
       </div>
     </section>
   );
