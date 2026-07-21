@@ -9,7 +9,7 @@
  *    https://www.sanity.io/manage
  *
  * Schema types to create:
- *   hero, carouselItem, project, skillCategory, socialLink,
+ *   hero, carouselItem, certification, project, skillCategory, socialLink,
  *   contentItem, writingItem, siteSettings
  *
  * -----------------------------------------------------------------
@@ -47,6 +47,19 @@ export const carouselItemSchema = {
     { name: 'description', title: 'Description', type: 'text' },
     { name: 'image', title: 'Image', type: 'image' },
     { name: 'srcUrl', title: 'Image URL (fallback)', type: 'url' },
+    { name: 'order', title: 'Display Order', type: 'number' },
+  ],
+};
+
+// schemas/certification.js
+export const certificationSchema = {
+  name: 'certification',
+  title: 'Certification',
+  type: 'document',
+  fields: [
+    { name: 'title', title: 'Title', type: 'string' },
+    { name: 'issuer', title: 'Issuer', type: 'string' },
+    { name: 'iframeUrl', title: 'Embed Iframe URL', type: 'url' },
     { name: 'order', title: 'Display Order', type: 'number' },
   ],
 };
@@ -165,5 +178,7 @@ export const siteSettingsSchema = {
   fields: [
     { name: 'contactEmail', title: 'Contact Email', type: 'string' },
     { name: 'githubIgnoredRepos', title: 'GitHub Repos to Never Auto-import', type: 'array', of: [{ type: 'string' }] },
+    { name: 'companyCarouselAutoplay', title: 'Company Carousel Autoplay', type: 'boolean' },
+    { name: 'certCarouselAutoplay', title: 'Certifications Carousel Autoplay', type: 'boolean' },
   ],
 };
