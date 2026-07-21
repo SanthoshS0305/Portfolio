@@ -34,10 +34,29 @@ const CarouselEditor = ({ onFeedback }) => {
   const [editing, setEditing] = useState(null); // item being edited
   const [saving, setSaving] = useState(false);
   const [isNew, setIsNew] = useState(false);
+  const [autoplay, setAutoplay] = useState(true);
 
   const load = () => readClient.fetch(queries.carousel).then(setItems);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    readClient.fetch(queries.siteSettings).then((res) => {
+      if (res) setAutoplay(res.companyCarouselAutoplay ?? true);
+    });
+  }, []);
+
+  const toggleAutoplay = async () => {
+    const next = !autoplay;
+    setAutoplay(next);
+    try {
+      await writeClient.createIfNotExists({ _type: 'siteSettings', _id: 'singleton-settings' });
+      await writeClient.patch('singleton-settings').set({ companyCarouselAutoplay: next }).commit();
+      onFeedback(`Autoplay ${next ? 'enabled' : 'disabled'}.`, 'success');
+    } catch (err) {
+      console.error(err);
+      onFeedback('Failed to update autoplay.', 'error');
+    }
+  };
 
   const startEdit = (item) => { setEditing({ ...item }); setIsNew(false); };
   const startNew = () => { setEditing({ ...EMPTY, order: items.length }); setIsNew(true); };
@@ -99,7 +118,12 @@ const CarouselEditor = ({ onFeedback }) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3 style={{ margin: 0, color: '#FFD873' }}>Carousel Items ({items.length})</h3>
-        <button style={btn('#FFD873', 'rgba(255,216,115,0.1)')} onClick={startNew}>+ Add Item</button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button style={btn(autoplay ? '#8af0a8' : '#aaa')} onClick={toggleAutoplay}>
+            Autoplay: {autoplay ? 'On' : 'Off'}
+          </button>
+          <button style={btn('#FFD873', 'rgba(255,216,115,0.1)')} onClick={startNew}>+ Add Item</button>
+        </div>
       </div>
 
       <SortableList
