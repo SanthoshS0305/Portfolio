@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
 import carouselFallback from '../data/carouselData.json';
+import certificationsFallback from '../data/certificationsData.json';
 import { useMarqueeCarousel } from '../hooks/useMarqueeCarousel';
 
 const DEFAULT_HERO = {
@@ -108,13 +109,37 @@ const HorizontalScroll = ({ items, autoplay }) => {
   );
 };
 
+const VerticalScroll = ({ items }) => {
+  const { trackRef, doubled, containerHandlers } = useMarqueeCarousel({ axis: 'y', items });
+
+  return (
+    <div className="cert-carousel-viewport" onMouseEnter={containerHandlers.onMouseEnter} onMouseLeave={containerHandlers.onMouseLeave}>
+      <div className="cert-carousel-track" ref={trackRef}>
+        {doubled.map((cert, i) => (
+          <div className="cert-carousel-item" key={i}>
+            <iframe
+              src={cert.iframeUrl}
+              title={cert.title}
+              aria-label={`${cert.title} — ${cert.issuer}`}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Hero = ({ heroData }) => {
   const [carouselItems, setCarouselItems] = useState(carouselFallback);
+  const [certItems, setCertItems] = useState(certificationsFallback);
   const [settings, setSettings] = useState({});
 
   useEffect(() => {
     readClient.fetch(queries.carousel)
       .then((items) => { if (items?.length) setCarouselItems(items); })
+      .catch(() => {});
+    readClient.fetch(queries.certifications)
+      .then((items) => { if (items?.length) setCertItems(items); })
       .catch(() => {});
     readClient.fetch(queries.siteSettings)
       .then((res) => { if (res) setSettings(res); })
@@ -146,6 +171,7 @@ const Hero = ({ heroData }) => {
         </div>
       </div>
       <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
+      <VerticalScroll items={certItems} />
     </section>
   );
 };
