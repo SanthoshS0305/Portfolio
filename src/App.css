@@ -313,6 +313,9 @@ body::after {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .hero-row {
@@ -326,6 +329,23 @@ body::after {
   flex-direction: row;
   align-items: stretch;
   gap: 2.5rem;
+}
+
+.hero-image {
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: clamp(200px, 30vw, 360px);
+  height: clamp(200px, 30vw, 360px);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hero-profile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-bio-text {
@@ -380,9 +400,7 @@ body::after {
 
 /* Horizontal Scroll Carousel */
 .carousel-viewport {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100%;
   height: 140px;
   overflow: hidden;
   position: relative;
@@ -473,9 +491,9 @@ body::after {
 /* Vertical Certifications Carousel */
 .cert-carousel-viewport {
   position: relative;
-  width: 280px;
+  width: 190px;
   flex-shrink: 0;
-  height: 420px;
+  height: 351px;
   overflow: hidden;
 }
 
@@ -497,8 +515,7 @@ body::after {
 
 .cert-carousel-item img {
   width: 100%;
-  height: 170px;
-  object-fit: cover;
+  height: auto;
   border-radius: 12px;
   display: block;
 }
@@ -946,6 +963,12 @@ footer {
   .carousel-item {
     width: 220px;
     height: 165px;
+  }
+
+  .hero-image {
+    width: 200px;
+    height: 200px;
+    align-self: auto;
   }
 
   .page-section {
