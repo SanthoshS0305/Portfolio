@@ -21,6 +21,18 @@
     "src": "/company_carousel/GDDC.jpg",
     "alt": "GDDC",
     "title": "Game Development and Design Club",
-    "description": "The Game Development and Design Club, or GDDC, is SBU's Game Development Club. I served as its Vice President for the 2025-26 Academic Year." 
+    "description": "The Game Development and Design Club, or GDDC, is SBU's Game Development Club. I served as its Vice President for the 2025-26 Academic Year."
+  },
+  {
+    "src": "/company_carousel/politech.png",
+    "alt": "Politech",
+    "title": "Politech",
+    "description": "PoliTech is a political-science/tech research lab at Stony Brook University, led by Prof. Robert Kelly. I'm currently an undergraduate research assistant working on projects related to the Fair Representation Act."
+  },
+  {
+    "src": "/company_carousel/ceas.png",
+    "alt": "CEAS",
+    "title": "CEAS",
+    "description": "As a CS student, I am a member of the College of Engineering and Applied Sciences. I work with CEAS as a mentor in their Peer Mentoring Program, where we equip freshman students with the tools to thrive at University." 
   }
 ]
