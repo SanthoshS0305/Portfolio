@@ -38,7 +38,9 @@ export const queries = {
   }`,
 
   certifications: `*[_type == "certification"] | order(order asc) {
-    _id, title, issuer, iframeUrl, order
+    _id, title, issuer,
+    "src": coalesce(image.asset->url, srcUrl),
+    order
   }`,
 
   projects: `*[_type == "project"] | order(order asc) {

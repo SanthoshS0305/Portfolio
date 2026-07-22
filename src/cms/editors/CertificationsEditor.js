@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { readClient, writeClient, queries } from '../sanityClient';
+import ImageUpload from '../components/ImageUpload';
 import SortableList from '../components/SortableList';
 
-const EMPTY = { title: '', issuer: '', iframeUrl: '', order: 0 };
+const EMPTY = { title: '', issuer: '', src: '', order: 0 };
 
 const inputStyle = {
   width: '100%',
@@ -66,8 +67,8 @@ const CertificationsEditor = ({ onFeedback }) => {
       const doc = {
         title: editing.title,
         issuer: editing.issuer,
-        iframeUrl: editing.iframeUrl,
         order: editing.order,
+        srcUrl: editing.src, // store direct URL for non-Sanity images
       };
       if (isNew) {
         await writeClient.create({ _type: 'certification', ...doc });
@@ -159,10 +160,11 @@ const CertificationsEditor = ({ onFeedback }) => {
               <input style={inputStyle} value={editing.issuer} onChange={(e) => setEditing({ ...editing, issuer: e.target.value })} />
             </div>
 
-            <div style={fieldStyle}>
-              <label style={labelStyle}>Embed Iframe URL</label>
-              <input style={inputStyle} value={editing.iframeUrl} onChange={(e) => setEditing({ ...editing, iframeUrl: e.target.value })} />
-            </div>
+            <ImageUpload
+              label="Image"
+              currentUrl={editing.src}
+              onUpload={(url) => setEditing({ ...editing, src: url })}
+            />
 
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
               <button style={btn('#aaa')} onClick={() => setEditing(null)}>Cancel</button>

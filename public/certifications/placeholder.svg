@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" width="280" height="200">
+  <rect width="280" height="200" rx="12" fill="#1e1e1e"/>
+  <circle cx="140" cy="80" r="40" fill="none" stroke="#FFD873" stroke-width="4"/>
+  <path d="M140 60 l8 16 18 2 -13 13 3 18 -16 -9 -16 9 3 -18 -13 -13 18 -2 z" fill="#FFD873"/>
+  <path d="M120 112 l-10 40 20 -10 10 22 12 -34" fill="none" stroke="#FFD873" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M160 112 l10 40 -20 -10 -10 22 -12 -34" fill="none" stroke="#FFD873" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="140" y="180" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" fill="#97A1A2">Certificate image</text>
+</svg>

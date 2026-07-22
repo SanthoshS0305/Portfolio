@@ -59,7 +59,8 @@ export const certificationSchema = {
   fields: [
     { name: 'title', title: 'Title', type: 'string' },
     { name: 'issuer', title: 'Issuer', type: 'string' },
-    { name: 'iframeUrl', title: 'Embed Iframe URL', type: 'url' },
+    { name: 'image', title: 'Image', type: 'image' },
+    { name: 'srcUrl', title: 'Image URL (fallback)', type: 'url' },
     { name: 'order', title: 'Display Order', type: 'number' },
   ],
 };

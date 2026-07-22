@@ -118,11 +118,8 @@ const VerticalScroll = ({ items, autoplay }) => {
       <div className="cert-carousel-track" ref={trackRef}>
         {doubled.map((cert, i) => (
           <div className="cert-carousel-item" key={i}>
-            <iframe
-              src={cert.iframeUrl}
-              title={cert.title}
-              aria-label={`${cert.title} — ${cert.issuer}`}
-            />
+            <img src={cert.src} alt={cert.title} />
+            <p className="cert-carousel-item-title">{cert.title}</p>
           </div>
         ))}
       </div>
