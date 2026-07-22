@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KDDJ9PML');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager: only loads after cookie consent is granted (see src/utils/consent.js) -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-66EPWTT7Q7');
+      window.__loadAnalytics = function () {
+        if (window.__analyticsLoaded) return;
+        window.__analyticsLoaded = true;
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KDDJ9PML');
+      };
+      if (localStorage.getItem('cookie_consent') === 'granted') {
+        window.__loadAnalytics();
+      }
     </script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/profile.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,10 +44,7 @@
     <title>Santhosh Senthil</title>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDDJ9PML"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- No GTM noscript fallback: it can't honor the cookie consent choice, so it's intentionally omitted. -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

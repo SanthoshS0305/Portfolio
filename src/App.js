@@ -9,15 +9,24 @@ import ProjectTiles from './components/ProjectTiles';
 import Writing from './components/Writing';
 import ProjectModal from './components/ProjectModal';
 import Footer from './components/Footer';
+import CookieConsentBanner from './components/CookieConsentBanner';
 import { readClient, queries } from './cms/sanityClient';
+import { getConsent, CONSENT_GRANTED_EVENT } from './utils/consent';
 
 function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [heroData, setHeroData] = useState(null);
 
   useEffect(() => {
-    ReactGA.initialize('G-66EPWTT7Q7');
-    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    const initGA = () => {
+      ReactGA.initialize('G-66EPWTT7Q7');
+      ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    };
+    if (getConsent() === 'granted') {
+      initGA();
+    }
+    window.addEventListener(CONSENT_GRANTED_EVENT, initGA);
+    return () => window.removeEventListener(CONSENT_GRANTED_EVENT, initGA);
   }, []);
 
   // Fetch hero data once; shared with both Hero and Header
@@ -84,6 +93,7 @@ function App() {
       )}
 
       <Footer />
+      <CookieConsentBanner />
     </div>
   );
 }
