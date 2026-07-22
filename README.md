@@ -18,7 +18,7 @@ My personal site: React on the frontend, Sanity as the CMS, with a couple of cro
 |-------|------------|
 | Frontend | React 18, MUI v7 |
 | CMS | Sanity (free tier) |
-| Analytics | react-ga4 (GA4) |
+| Analytics | react-ga4 (GA4) using Google Tag Manager|
 | Automation | Node.js scripts + GitHub Actions (scheduled) |
 
 ## Setup
