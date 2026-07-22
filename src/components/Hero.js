@@ -149,17 +149,13 @@ const Hero = ({ heroData }) => {
   const certCarouselAutoplay = settings.certCarouselAutoplay ?? true;
 
   const hero = heroData || DEFAULT_HERO;
-  const imageUrl = hero.profileImageUrl || '/profile.jpg';
   const bio = hero.bio?.length ? hero.bio : DEFAULT_HERO.bio;
 
   return (
-    <section className="hero">
-      <div className="hero-row">
-        <div className="hero-left">
+    <>
+      <section className="hero">
+        <div className="hero-row">
           <div className="hero-bio">
-            <div className="hero-image">
-              <img src={imageUrl} alt={hero.name} className="hero-profile-image" />
-            </div>
             <div className="hero-bio-text">
               <div className="hero-header">
                 <h1>Hi, I'm <span className="highlight">{hero.name}</span></h1>
@@ -172,11 +168,11 @@ const Hero = ({ heroData }) => {
               </div>
             </div>
           </div>
-          <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
+          <VerticalScroll items={certItems} autoplay={certCarouselAutoplay} />
         </div>
-        <VerticalScroll items={certItems} autoplay={certCarouselAutoplay} />
-      </div>
-    </section>
+      </section>
+      <HorizontalScroll items={carouselItems} autoplay={companyCarouselAutoplay} />
+    </>
   );
 };
 

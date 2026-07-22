@@ -316,14 +316,9 @@ body::after {
 }
 
 .hero-row {
-  position: relative;
-}
-
-.hero-left {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 2.5rem;
-  margin-right: calc(280px + 2.5rem);
 }
 
 .hero-bio {
@@ -331,23 +326,6 @@ body::after {
   flex-direction: row;
   align-items: stretch;
   gap: 2.5rem;
-}
-
-.hero-image {
-  flex-shrink: 0;
-  align-self: flex-start;
-  width: clamp(200px, 30vw, 360px);
-  height: clamp(200px, 30vw, 360px);
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.hero-profile-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .hero-bio-text {
@@ -402,7 +380,9 @@ body::after {
 
 /* Horizontal Scroll Carousel */
 .carousel-viewport {
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   height: 140px;
   overflow: hidden;
   position: relative;
@@ -492,11 +472,10 @@ body::after {
 
 /* Vertical Certifications Carousel */
 .cert-carousel-viewport {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   width: 280px;
+  flex-shrink: 0;
+  height: 420px;
   overflow: hidden;
 }
 
@@ -948,14 +927,12 @@ footer {
     text-align: center;
   }
 
-  .hero-left {
-    margin-right: 0;
+  .hero-row {
+    flex-direction: column;
   }
 
   .cert-carousel-viewport {
-    position: static;
     width: 100%;
-    height: 280px;
   }
 
   .hero-header {
@@ -969,12 +946,6 @@ footer {
   .carousel-item {
     width: 220px;
     height: 165px;
-  }
-
-  .hero-image {
-    width: 200px;
-    height: 200px;
-    align-self: auto;
   }
 
   .page-section {
