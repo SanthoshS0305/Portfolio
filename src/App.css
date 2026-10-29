@@ -429,6 +429,26 @@ body::after {
   border-radius: 12px;
 }
 
+/* Reduced motion: static strip the user can swipe */
+.carousel-viewport--static {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-item.active {
+  outline: 2px solid var(--color-gold);
+  outline-offset: -2px;
+}
+
+/* Touch caption shown below the carousel */
+.carousel-caption {
+  background: rgba(8, 22, 22, 0.82);
+  border: 1px solid var(--color-white-10);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: -1.5rem;
+}
+
 /* Carousel Popup */
 .carousel-popup {
   z-index: 9999;
@@ -957,9 +977,13 @@ footer {
     font-size: 2rem;
   }
 
+  .carousel-viewport,
   .carousel-item {
-    width: 220px;
-    height: 165px;
+    height: 120px;
+  }
+
+  .carousel-item img {
+    max-width: 220px;
   }
 
   .hero-image {

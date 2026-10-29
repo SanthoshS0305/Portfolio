@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import { readClient, queries } from '../cms/sanityClient';
 import carouselFallback from '../data/carouselData.json';
 
@@ -52,51 +53,76 @@ const renderBioParagraph = (text) => {
 };
 
 const HorizontalScroll = ({ items }) => {
+  const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
+  const [inView, setInView] = useState(true);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const posRef = useRef(0);
   const rafRef = useRef(null);
   const popupRef = useRef(null);
 
-  const doubled = [...items, ...items];
-  const shouldAnimate = !isPaused && hoveredItem === null;
+  // Touch devices get tap-to-show captions instead of hover popups
+  const isTouch = useMediaQuery('(hover: none)');
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+
+  // Reduced motion: show a static, swipeable strip with no duplicates
+  const trackItems = reducedMotion ? items : [...items, ...items];
+  const shouldAnimate = !reducedMotion && inView && !isPaused && hoveredItem === null && activeItem === null;
+
+  // Stop the animation loop entirely while the carousel is off screen
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    io.observe(viewport);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    if (!shouldAnimate) {
+      if (reducedMotion) track.style.transform = '';
+      return;
+    }
     const speed = 0.5;
     const animate = () => {
-      if (shouldAnimate) {
-        posRef.current += speed;
-        const half = track.scrollWidth / 2;
-        if (posRef.current >= half) posRef.current = 0;
-        track.style.transform = `translateX(-${posRef.current}px)`;
-      }
+      posRef.current += speed;
+      const half = track.scrollWidth / 2;
+      if (posRef.current >= half) posRef.current = 0;
+      track.style.transform = `translateX(-${posRef.current}px)`;
       rafRef.current = requestAnimationFrame(animate);
     };
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [shouldAnimate]);
+  }, [shouldAnimate, reducedMotion]);
 
   const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
+
+  const mouseHandlers = isTouch ? {} : {
+    onMouseEnter: () => setIsPaused(true),
+    onMouseLeave: () => { setIsPaused(false); setHoveredItem(null); },
+    onMouseMove: handleMouseMove,
+  };
 
   return (
     <>
       <div
-        className="carousel-viewport"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => { setIsPaused(false); setHoveredItem(null); }}
-        onMouseMove={handleMouseMove}
+        ref={viewportRef}
+        className={`carousel-viewport${reducedMotion ? ' carousel-viewport--static' : ''}`}
+        {...mouseHandlers}
       >
         <div className="carousel-track" ref={trackRef}>
-          {doubled.map((img, i) => (
+          {trackItems.map((img, i) => (
             <div
-              className="carousel-item"
+              className={`carousel-item${activeItem === img ? ' active' : ''}`}
               key={i}
-              onMouseEnter={() => setHoveredItem(img)}
-              onMouseLeave={() => setHoveredItem(null)}
+              {...(isTouch
+                ? { onClick: () => setActiveItem((cur) => (cur === img ? null : img)) }
+                : { onMouseEnter: () => setHoveredItem(img), onMouseLeave: () => setHoveredItem(null) })}
             >
               <img src={img.src || img.srcUrl} alt={img.alt || img.title} />
             </div>
@@ -104,13 +130,20 @@ const HorizontalScroll = ({ items }) => {
         </div>
       </div>
 
-      {hoveredItem && (() => {
-        const POPUP_WIDTH = 420;
+      {isTouch && activeItem && (
+        <div className="carousel-caption" onClick={() => setActiveItem(null)}>
+          <h3 className="carousel-popup-title">{activeItem.title}</h3>
+          <p className="carousel-popup-description">{activeItem.description}</p>
+        </div>
+      )}
+
+      {!isTouch && hoveredItem && (() => {
+        const POPUP_WIDTH = 300; // keep in sync with .carousel-popup max-width
         const OFFSET = 16;
         const MARGIN = 8;
         const popupHeight = popupRef.current ? popupRef.current.offsetHeight : 400;
-        const left = Math.min(cursorPos.x + OFFSET, window.innerWidth - POPUP_WIDTH - MARGIN);
-        const top = Math.min(cursorPos.y + OFFSET, window.innerHeight - popupHeight - MARGIN);
+        const left = Math.max(MARGIN, Math.min(cursorPos.x + OFFSET, window.innerWidth - POPUP_WIDTH - MARGIN));
+        const top = Math.max(MARGIN, Math.min(cursorPos.y + OFFSET, window.innerHeight - popupHeight - MARGIN));
         return (
           <div ref={popupRef} className="carousel-popup"
             style={{ position: 'fixed', top, left, pointerEvents: 'none' }}>
