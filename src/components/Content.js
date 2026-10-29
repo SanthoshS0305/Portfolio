@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import { readClient, queries } from '../cms/sanityClient';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const fromSanity = (item) => ({
   id: item._id,
@@ -53,7 +55,8 @@ const Content = () => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const itemsPerPage = isMobile ? 2 : 3;
 
   useEffect(() => {
     let filtered = [...allContent];
@@ -82,6 +85,11 @@ const Content = () => {
     setFilteredContent(filtered);
     setCurrentPage(1);
   }, [allContent, searchTerm, filterPlatform, filterCategory, sortBy, sortOrder]);
+
+  useEffect(() => {
+    const newTotalPages = Math.ceil(filteredContent.length / itemsPerPage);
+    if (currentPage > newTotalPages && newTotalPages > 0) setCurrentPage(newTotalPages);
+  }, [itemsPerPage, filteredContent.length, currentPage]);
 
   const platforms = ['all', ...new Set(allContent.map((c) => c.platform).filter(Boolean))];
   const categories = ['all', ...new Set(allContent.map((c) => c.category).filter(Boolean))];
@@ -206,8 +214,10 @@ const Content = () => {
         <div className="pagination">
           <button className="pagination-btn" onClick={() => setCurrentPage((p) => p - 1)} disabled={currentPage === 1}>Previous</button>
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button key={page} className={`pagination-page ${currentPage === page ? 'active' : ''}`} onClick={() => setCurrentPage(page)}>{page}</button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number'
+                ? <button key={page} className={`pagination-page ${currentPage === page ? 'active' : ''}`} onClick={() => setCurrentPage(page)}>{page}</button>
+                : <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
             ))}
           </div>
           <button className="pagination-btn" onClick={() => setCurrentPage((p) => p + 1)} disabled={currentPage === totalPages}>Next</button>

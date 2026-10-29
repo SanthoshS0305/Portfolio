@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
+import { useMediaQuery } from '@mui/material';
 import projectFallback from '../data/projects.json';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const formatDate = (iso) => {
   if (!iso) return null;
@@ -78,7 +80,8 @@ const ProjectTiles = ({ onProjectClick }) => {
     tileElement.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
 
-  const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const itemsPerPage = isMobile ? 3 : 6;
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -187,14 +190,18 @@ const ProjectTiles = ({ onProjectClick }) => {
           </button>
 
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number' ? (
+                <button
+                  key={page}
+                  className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              ) : (
+                <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
+              )
             ))}
           </div>
 

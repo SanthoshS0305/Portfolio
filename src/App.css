@@ -514,8 +514,15 @@ body::after {
 
 .pagination .pagination-pages {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
   align-items: center;
+}
+
+.pagination-ellipsis {
+  color: var(--color-grey);
+  padding: 0 0.25rem;
 }
 
 .pagination .pagination-page {
@@ -970,10 +977,6 @@ footer {
     gap: 1.5rem;
   }
 
-  .project-tiles .project-tile:nth-child(n+4) {
-    display: none;
-  }
-
   .projects-stats {
     flex-direction: column;
     gap: 0.5rem;
@@ -1320,6 +1323,13 @@ footer {
   .writing-thumbnail {
     width: 100%;
     height: 160px;
+  }
+
+  .writing-item p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .writing-grid {
@@ -1932,11 +1942,6 @@ footer {
     gap: 1.5rem;
   }
 
-  /* Limit items on mobile */
-  .content-grid .content-item:nth-child(n+3),
-  .project-tiles .project-tile:nth-child(n+4) {
-    display: none;
-  }
   
   /* Controls and stats */
   .content-controls {

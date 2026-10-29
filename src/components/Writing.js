@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const Writing = () => {
   const selectStyle = {
@@ -197,6 +198,14 @@ const Writing = () => {
 
   const calcItemsPerPage = useCallback(() => {
     if (!subscribeRef.current) return;
+    // On mobile the subscribe panel stacks below the posts, so its height says nothing about fit
+    if (window.matchMedia(MOBILE_QUERY).matches) {
+      setItemsPerPage((prev) => {
+        if (prev !== 3) setCurrentPage(1);
+        return 3;
+      });
+      return;
+    }
     const subH = subscribeRef.current.offsetHeight;
     const item = document.querySelector('.writing-item');
     if (!subH || !item) return;
@@ -358,14 +367,18 @@ const Writing = () => {
             Previous
           </button>
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number' ? (
+                <button
+                  key={page}
+                  className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              ) : (
+                <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
+              )
             ))}
           </div>
           <button
