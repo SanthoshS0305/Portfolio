@@ -11,7 +11,8 @@ const DEFAULT_IMAGE = '/profile.jpg';
 const Header = ({ heroData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // Five inline links plus the name don't fit until ~900px
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const name = heroData?.name || DEFAULT_NAME;
   const profileImage = heroData?.profileImageUrl || DEFAULT_IMAGE;
