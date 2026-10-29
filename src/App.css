@@ -2049,6 +2049,15 @@ footer {
   }
 }
 
+/* On narrow portrait screens the 45vw glow boxes end before their gradients fade
+   out, leaving hard edges and a dark band down the middle; let them overlap */
+@media (max-width: 768px) {
+  body::after,
+  .App::before {
+    width: 100vw;
+  }
+}
+
 /* Mobile performance: the backgrounds behind these layers are near-solid, so the
    blurs are visually negligible but expensive to composite while scrolling */
 @media (max-width: 768px) {
