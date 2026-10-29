@@ -87,21 +87,23 @@ const Writing = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const xml = new DOMParser().parseFromString(await response.text(), 'application/xml');
 
-        if (data.status !== 'ok') {
-          throw new Error('Invalid feed: rss2json returned non-ok status');
+        if (xml.querySelector('parsererror')) {
+          throw new Error('Invalid feed: could not parse RSS XML');
         }
 
-        if (!data.items || data.items.length === 0) {
+        const items = parseRssItems(xml);
+
+        if (items.length === 0) {
           throw new Error('Invalid feed format or no items found');
         }
 
-        const formattedArticles = data.items.map(item => ({
+        const formattedArticles = items.map(item => ({
           title: item.title || '',
           description: formatDescription(item.description || item.content || ''),
           link: item.link || '',
-          thumbnail: item.enclosure?.link || item.thumbnail || '',
+          thumbnail: item.thumbnail || '',
           date: new Date(item.pubDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -379,8 +381,8 @@ const Writing = () => {
   );
 };
 
-const SUBSTACK_RSS_URL = "https://dashesnothyphens.substack.com/feed";
-const SUBSTACK_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_RSS_URL)}`;
+// Same-origin proxy to https://dashesnothyphens.substack.com/feed (see public/_redirects and src/setupProxy.js)
+const SUBSTACK_API_URL = '/substack-feed';
 
 const CACHE_KEY = 'substack_articles_cache';
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
@@ -415,6 +417,18 @@ const setCache = (data) => {
   } catch (err) {
     console.error('Error setting cache:', err);
   }
+};
+
+const parseRssItems = (xml) => {
+  const text = (item, tag) => item.getElementsByTagName(tag)[0]?.textContent || '';
+  return Array.from(xml.getElementsByTagName('item')).map((item) => ({
+    title: text(item, 'title'),
+    description: text(item, 'description'),
+    content: text(item, 'content:encoded'),
+    link: text(item, 'link'),
+    pubDate: text(item, 'pubDate'),
+    thumbnail: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || '',
+  }));
 };
 
 const formatDescription = (description) => {
