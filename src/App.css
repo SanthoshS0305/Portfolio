@@ -1420,9 +1420,6 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .writing-header h2 {
-    font-size: 2rem;
-  }
 
   .writing-stats {
     flex-direction: column;
@@ -2064,5 +2061,20 @@ footer {
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
     min-width: 36px;
+  }
+}
+
+/* Mobile section headings (kept last so they override the base sizes above) */
+@media (max-width: 768px) {
+  .projects-header h1,
+  .writing-header h2,
+  .content-header h1,
+  .about-header h1 {
+    font-size: 2rem;
+  }
+
+  .skills-section h2,
+  .contact-section h2 {
+    font-size: 1.75rem;
   }
 }
