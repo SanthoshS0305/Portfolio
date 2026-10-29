@@ -125,16 +125,6 @@ const Content = () => {
     if (hasTikTok) loadTikTokEmbed();
   }, [currentItems]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const selectStyle = {
-    padding: '8px 12px',
-    background: 'rgba(255,255,255,0.07)',
-    border: '1px solid rgba(247,247,247,0.2)',
-    color: '#F7F7F7',
-    borderRadius: '6px',
-    fontSize: '13px',
-    cursor: 'pointer',
-  };
-
   return (
     <section className="content-section">
       <div className="content-header">
@@ -148,21 +138,21 @@ const Content = () => {
           placeholder="Search…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ ...selectStyle, minWidth: '160px' }}
+          className="filter-control filter-control--search"
         />
-        <select style={selectStyle} value={filterPlatform} onChange={(e) => setFilterPlatform(e.target.value)}>
+        <select className="filter-control" value={filterPlatform} onChange={(e) => setFilterPlatform(e.target.value)}>
           {platforms.map((p) => <option key={p} value={p}>{p === 'all' ? 'All Platforms' : p}</option>)}
         </select>
-        <select style={selectStyle} value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+        <select className="filter-control" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           {categories.map((c) => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
         </select>
-        <select style={selectStyle} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <select className="filter-control" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="views">Most Viewed</option>
           <option value="likes">Most Liked</option>
           <option value="date">Date Added</option>
           <option value="title">Title</option>
         </select>
-        <select style={selectStyle} value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+        <select className="filter-control" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
           <option value="desc">Newest / Highest First</option>
           <option value="asc">Oldest / Lowest First</option>
         </select>
