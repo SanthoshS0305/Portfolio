@@ -1052,6 +1052,18 @@ footer {
   }
 }
 
+@media (max-width: 600px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .skills-section,
+  .contact-section {
+    padding: 1.25rem;
+  }
+}
+
 .about-header {
   margin-bottom: 2rem;
 }
