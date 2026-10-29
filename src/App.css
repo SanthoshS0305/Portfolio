@@ -1017,6 +1017,11 @@ footer {
     text-align: center;
   }
 
+  /* Long bio paragraphs read better left-aligned */
+  .hero-about {
+    text-align: left;
+  }
+
   .hero-header h1 {
     font-size: 2rem;
   }
