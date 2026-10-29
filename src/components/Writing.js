@@ -240,11 +240,11 @@ const Writing = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    document.querySelector('.writing-container').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('writing')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section className="page-section" id="writing">
+    <section className="writing">
       <div className="writing-container">
         <div className="writing-header">
           <h2>Writing</h2>

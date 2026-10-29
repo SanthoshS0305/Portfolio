@@ -126,7 +126,7 @@ const Content = () => {
   }, [currentItems]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <section className="content-section">
+    <section className="content">
       <div className="content-header">
         <h1>Content</h1>
         <p>Check out some of the social media content I've created!</p>
