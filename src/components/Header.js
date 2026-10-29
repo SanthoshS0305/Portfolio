@@ -11,7 +11,8 @@ const DEFAULT_IMAGE = '/profile.jpg';
 const Header = ({ heroData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // Five inline links plus the name don't fit until ~900px
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const name = heroData?.name || DEFAULT_NAME;
   const profileImage = heroData?.profileImageUrl || DEFAULT_IMAGE;
@@ -47,6 +48,9 @@ const Header = ({ heroData }) => {
     >
       <Toolbar sx={{
         justifyContent: 'space-between',
+        // Keep clear of the notch in landscape (needs viewport-fit=cover)
+        pl: { xs: 'max(16px, env(safe-area-inset-left))', sm: 'max(24px, env(safe-area-inset-left))' },
+        pr: { xs: 'max(16px, env(safe-area-inset-right))', sm: 'max(24px, env(safe-area-inset-right))' },
         '& .MuiTypography-root': { textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' }
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

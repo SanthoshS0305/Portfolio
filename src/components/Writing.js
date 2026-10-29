@@ -1,17 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const Writing = () => {
-  const selectStyle = {
-    padding: '8px 12px',
-    background: 'rgba(255,255,255,0.07)',
-    border: '1px solid rgba(247,247,247,0.2)',
-    color: '#F7F7F7',
-    borderRadius: '6px',
-    fontSize: '13px',
-    cursor: 'pointer',
-  };
-
   const [substackArticles, setSubstackArticles] = useState([]);
   const [sanityArticles, setSanityArticles] = useState([]);
   const [hiddenWritingUrls, setHiddenWritingUrls] = useState([]);
@@ -197,6 +188,14 @@ const Writing = () => {
 
   const calcItemsPerPage = useCallback(() => {
     if (!subscribeRef.current) return;
+    // On mobile the subscribe panel stacks below the posts, so its height says nothing about fit
+    if (window.matchMedia(MOBILE_QUERY).matches) {
+      setItemsPerPage((prev) => {
+        if (prev !== 3) setCurrentPage(1);
+        return 3;
+      });
+      return;
+    }
     const subH = subscribeRef.current.offsetHeight;
     const item = document.querySelector('.writing-item');
     if (!subH || !item) return;
@@ -241,11 +240,11 @@ const Writing = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    document.querySelector('.writing-container').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('writing')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section className="page-section" id="writing">
+    <section className="writing">
       <div className="writing-container">
         <div className="writing-header">
           <h2>Writing</h2>
@@ -259,11 +258,11 @@ const Writing = () => {
             placeholder="Search…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ ...selectStyle, minWidth: '160px', cursor: 'text' }}
+            className="filter-control filter-control--search"
           />
           <select
             aria-label="Filter by website"
-            style={selectStyle}
+            className="filter-control"
             value={filterWebsiteType}
             onChange={(e) => setFilterWebsiteType(e.target.value)}
           >
@@ -273,7 +272,7 @@ const Writing = () => {
           </select>
           <select
             aria-label="Sort order"
-            style={selectStyle}
+            className="filter-control"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
@@ -358,14 +357,18 @@ const Writing = () => {
             Previous
           </button>
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number' ? (
+                <button
+                  key={page}
+                  className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              ) : (
+                <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
+              )
             ))}
           </div>
           <button

@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import { readClient, queries } from '../cms/sanityClient';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const fromSanity = (item) => ({
   id: item._id,
@@ -53,7 +55,8 @@ const Content = () => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const itemsPerPage = isMobile ? 2 : 3;
 
   useEffect(() => {
     let filtered = [...allContent];
@@ -82,6 +85,11 @@ const Content = () => {
     setFilteredContent(filtered);
     setCurrentPage(1);
   }, [allContent, searchTerm, filterPlatform, filterCategory, sortBy, sortOrder]);
+
+  useEffect(() => {
+    const newTotalPages = Math.ceil(filteredContent.length / itemsPerPage);
+    if (currentPage > newTotalPages && newTotalPages > 0) setCurrentPage(newTotalPages);
+  }, [itemsPerPage, filteredContent.length, currentPage]);
 
   const platforms = ['all', ...new Set(allContent.map((c) => c.platform).filter(Boolean))];
   const categories = ['all', ...new Set(allContent.map((c) => c.category).filter(Boolean))];
@@ -117,18 +125,8 @@ const Content = () => {
     if (hasTikTok) loadTikTokEmbed();
   }, [currentItems]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const selectStyle = {
-    padding: '8px 12px',
-    background: 'rgba(255,255,255,0.07)',
-    border: '1px solid rgba(247,247,247,0.2)',
-    color: '#F7F7F7',
-    borderRadius: '6px',
-    fontSize: '13px',
-    cursor: 'pointer',
-  };
-
   return (
-    <section className="content-section">
+    <section className="content">
       <div className="content-header">
         <h1>Content</h1>
         <p>Check out some of the social media content I've created!</p>
@@ -140,21 +138,21 @@ const Content = () => {
           placeholder="Search…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ ...selectStyle, minWidth: '160px' }}
+          className="filter-control filter-control--search"
         />
-        <select style={selectStyle} value={filterPlatform} onChange={(e) => setFilterPlatform(e.target.value)}>
+        <select className="filter-control" value={filterPlatform} onChange={(e) => setFilterPlatform(e.target.value)}>
           {platforms.map((p) => <option key={p} value={p}>{p === 'all' ? 'All Platforms' : p}</option>)}
         </select>
-        <select style={selectStyle} value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+        <select className="filter-control" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           {categories.map((c) => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
         </select>
-        <select style={selectStyle} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <select className="filter-control" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="views">Most Viewed</option>
           <option value="likes">Most Liked</option>
           <option value="date">Date Added</option>
           <option value="title">Title</option>
         </select>
-        <select style={selectStyle} value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+        <select className="filter-control" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
           <option value="desc">Newest / Highest First</option>
           <option value="asc">Oldest / Lowest First</option>
         </select>
@@ -177,7 +175,7 @@ const Content = () => {
                 className="instagram-media"
                 data-instgrm-permalink={item.url}
                 data-instgrm-version="14"
-                style={{ background: '#FFF', border: 0, borderRadius: '3px', boxShadow: '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)', margin: '1px', maxWidth: '540px', minWidth: '326px', padding: 0, width: 'calc(100% - 2px)' }}
+                style={{ background: '#FFF', border: 0, borderRadius: '3px', boxShadow: '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)', margin: '1px', maxWidth: '540px', padding: 0, width: 'calc(100% - 2px)' }}
               />
             )}
             {item.platform === 'TikTok' && item.url && (
@@ -185,7 +183,7 @@ const Content = () => {
                 className="tiktok-embed"
                 cite={item.url}
                 data-video-id={item.url.split('/video/')[1]}
-                style={{ maxWidth: '605px', minWidth: '325px' }}
+                style={{ maxWidth: '605px' }}
               >
                 <section />
               </blockquote>
@@ -206,8 +204,10 @@ const Content = () => {
         <div className="pagination">
           <button className="pagination-btn" onClick={() => setCurrentPage((p) => p - 1)} disabled={currentPage === 1}>Previous</button>
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button key={page} className={`pagination-page ${currentPage === page ? 'active' : ''}`} onClick={() => setCurrentPage(page)}>{page}</button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number'
+                ? <button key={page} className={`pagination-page ${currentPage === page ? 'active' : ''}`} onClick={() => setCurrentPage(page)}>{page}</button>
+                : <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
             ))}
           </div>
           <button className="pagination-btn" onClick={() => setCurrentPage((p) => p + 1)} disabled={currentPage === totalPages}>Next</button>

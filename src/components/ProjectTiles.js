@@ -1,20 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { readClient, queries } from '../cms/sanityClient';
+import { useMediaQuery } from '@mui/material';
 import projectFallback from '../data/projects.json';
+import { MOBILE_QUERY, getPageList } from '../utils/pagination';
 
 const formatDate = (iso) => {
   if (!iso) return null;
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-};
-
-const selectStyle = {
-  padding: '8px 12px',
-  background: 'rgba(255,255,255,0.07)',
-  border: '1px solid rgba(247,247,247,0.2)',
-  color: '#F7F7F7',
-  borderRadius: '6px',
-  fontSize: '13px',
-  cursor: 'pointer',
 };
 
 const ProjectTiles = ({ onProjectClick }) => {
@@ -78,7 +70,8 @@ const ProjectTiles = ({ onProjectClick }) => {
     tileElement.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
 
-  const itemsPerPage = window.innerWidth <= 768 ? 3 : 6;
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const itemsPerPage = isMobile ? 3 : 6;
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -108,11 +101,11 @@ const ProjectTiles = ({ onProjectClick }) => {
           placeholder="Search…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ ...selectStyle, minWidth: '160px', cursor: 'text' }}
+          className="filter-control filter-control--search"
         />
         <select
           aria-label="Filter by tech"
-          style={selectStyle}
+          className="filter-control"
           value={filterTech}
           onChange={(e) => setFilterTech(e.target.value)}
         >
@@ -122,7 +115,7 @@ const ProjectTiles = ({ onProjectClick }) => {
         </select>
         <select
           aria-label="Sort order"
-          style={selectStyle}
+          className="filter-control"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
         >
@@ -187,14 +180,18 @@ const ProjectTiles = ({ onProjectClick }) => {
           </button>
 
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
+            {getPageList(currentPage, totalPages).map((page, i) => (
+              typeof page === 'number' ? (
+                <button
+                  key={page}
+                  className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              ) : (
+                <span key={`gap-${i}`} className="pagination-ellipsis">{page}</span>
+              )
             ))}
           </div>
 
